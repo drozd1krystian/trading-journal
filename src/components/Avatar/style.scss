@@ -1,0 +1,19 @@
+.user {
+  margin: 0 15px;
+  display: flex;
+  align-items: center;
+
+  .user-photo {
+    width: 25px;
+    height: 25px;
+
+    padding: 5px;
+    margin-right: 10px;
+
+    fill: var(--text);
+    border: 1px solid var(--text);
+    border-radius: 50%;
+
+    cursor: pointer;
+  }
+}

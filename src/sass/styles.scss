@@ -1,0 +1,23 @@
+html,
+body {
+  --button: #1072fb;
+  --text: #aab8b1;
+  --headers: #fff;
+
+  .light_theme {
+    --primary: #343a40;
+    --secondary: #3a444e;
+    background: var(--primary);
+  }
+
+  .dark_theme {
+    --primary: #343a40;
+    --secondary: #3a444e;
+    background: var(--primary);
+  }
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
