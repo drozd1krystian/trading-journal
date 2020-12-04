@@ -2,23 +2,9 @@
   background: var(--secondary);
   color: var(--headers);
 
-  padding: 10px 60px;
+  padding: 0 60px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  .side_menu {
-    display: flex;
-    align-items: center;
-
-    .side_menu-icon {
-      width: 25px;
-      height: 25px;
-      margin: 0 10px;
-      cursor: pointer;
-
-      fill: var(--text);
-    }
-  }
 }

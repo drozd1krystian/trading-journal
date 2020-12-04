@@ -1,0 +1,24 @@
+.side_menu {
+  .links {
+    display: flex;
+    align-items: center;
+    .link {
+      display: flex;
+      align-items: center;
+      position: relative;
+      height: 40px;
+      padding: 10px 0;
+      &:hover .list {
+        display: block;
+      }
+    }
+  }
+  .side_menu-icon {
+    width: 25px;
+    height: 25px;
+    margin: 0 10px;
+    cursor: pointer;
+
+    fill: var(--text);
+  }
+}
