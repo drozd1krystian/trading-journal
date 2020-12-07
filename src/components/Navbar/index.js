@@ -20,12 +20,10 @@ const Navbar = (props) => {
   ];
 
   return (
-    <nav className="side_menu">
+    <nav className="menu">
       <ul className="links">
         <li className="link">
-          <i className="link-icon">
-            <SettingsIcon className="side_menu-icon" />
-          </i>
+          <SettingsIcon className="link_icon-big" />
           <DropDownMenu list={settingsList} />
         </li>
         <li className="link">

@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.scss";
 
-const DropDownMenu = ({ list }) => {
+const DropDownMenu = ({ list = [] }) => {
   return (
     <ul className="list">
       {list.map((el, i) => (

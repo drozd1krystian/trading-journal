@@ -1,4 +1,4 @@
-.side_menu {
+.menu {
   .links {
     display: flex;
     align-items: center;
@@ -8,17 +8,31 @@
       position: relative;
       height: 40px;
       padding: 10px 0;
-      &:hover .list {
-        display: block;
+      cursor: pointer;
+      color: var(--text);
+      &:hover {
+        .list {
+          display: block;
+        }
+        color: var(--text-light);
+
+        .link_icon {
+          fill: var(--text-light);
+        }
+      }
+      .link_icon {
+        width: 15px;
+        height: 15px;
+        margin-right: 10px;
+
+        fill: var(--text);
+        transition: all 0.3s ease;
+      }
+      .link_icon-big {
+        @extend .link_icon;
+        width: 25px;
+        height: 25px;
       }
     }
-  }
-  .side_menu-icon {
-    width: 25px;
-    height: 25px;
-    margin: 0 10px;
-    cursor: pointer;
-
-    fill: var(--text);
   }
 }

@@ -2,8 +2,8 @@ html,
 body {
   --button: #1072fb;
   --text: #aab8b1;
+  --text-light: #eee;
   --headers: #fff;
-
   .light_theme {
     --primary: #343a40;
     --secondary: #3a444e;
@@ -14,7 +14,12 @@ body {
     --primary: #343a40;
     --secondary: #3a444e;
     --aluxury: #4d5764;
+    --primary-dark: #363f49;
     background: var(--primary);
+
+    .bg-dark {
+      background: var(--primary-dark);
+    }
   }
 }
 
@@ -41,4 +46,9 @@ a {
   @extend .btn;
   border: none;
   background: none;
+}
+
+.container {
+  max-width: 1600px;
+  padding: 0 60px;
 }

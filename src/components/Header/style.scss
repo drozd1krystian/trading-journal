@@ -1,9 +1,9 @@
 .header {
   background: var(--secondary);
   color: var(--headers);
+}
 
-  padding: 0 60px;
-
+.header-content {
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -1,11 +1,10 @@
 .list {
   background: var(--aluxury);
   position: absolute;
-  min-width: 130px;
+  min-width: 160px;
   transform: translateY(100%);
   right: 0;
   bottom: 0;
-  padding: 10px;
 
   display: none;
 
@@ -16,14 +15,11 @@
   transition: all 0.3s ease;
 
   .list-item {
-    padding: 5px 0;
+    padding: 10px 15px;
     text-align: center;
     color: var(--text);
-    a {
-      transition: all 0.3s ease;
-      &:hover {
-        color: var(--headers);
-      }
+    &:hover a {
+      color: var(--text-light);
     }
   }
 }
