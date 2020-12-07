@@ -1,0 +1,13 @@
+.page_title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page_content {
+  .page_cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+}

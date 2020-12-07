@@ -1,14 +1,14 @@
-import React from 'react'
-import './style.scss';
-import {ReactComponent as DefaultUser} from '../../assets/user.svg';
+import React from "react";
+import "./style.scss";
+import { ReactComponent as DefaultUser } from "../../assets/user.svg";
 
-const Avatar = ({data}) => {
+const Avatar = ({ data }) => {
   return (
     <div className="user">
-      <DefaultUser className="user-photo" />
-      <p className="user-name">{data.name}</p>
+      <DefaultUser className="user_photo" />
+      <p className="user_name">{data.name}</p>
     </div>
-  )
-}
+  );
+};
 
 export default Avatar;

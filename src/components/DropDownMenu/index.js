@@ -5,8 +5,10 @@ const DropDownMenu = ({ list = [] }) => {
   return (
     <ul className="list">
       {list.map((el, i) => (
-        <li className="list-item" key={i}>
-          <a href={el.link}>{el.title}</a>
+        <li className="list_item" key={i}>
+          <a className="list_link" href={el.link}>
+            {el.title}
+          </a>
         </li>
       ))}
     </ul>

@@ -1,0 +1,16 @@
+.card {
+  background: var(--primary-dark);
+  border-radius: 5px;
+  .card_body {
+    display: flex;
+
+    .card_col {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .card_text {
+      padding: 10px 0;
+    }
+  }
+}

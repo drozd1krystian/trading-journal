@@ -1,7 +1,7 @@
 html,
 body {
   --button: #1072fb;
-  --text: #aab8b1;
+  --text: #aab8c5;
   --text-light: #eee;
   --headers: #fff;
   .light_theme {
@@ -23,9 +23,20 @@ body {
   }
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--headers);
+  padding: 20px 0;
+}
+
 * {
   padding: 0;
   margin: 0;
+  color: var(--text);
 }
 
 ul {
