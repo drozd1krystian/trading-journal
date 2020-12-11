@@ -1,16 +1,16 @@
 import React from "react";
 import "./style.scss";
 
-const Card = (props) => {
+const Card = ({ title, balance, subValue }) => {
   return (
     <div className="card">
       <div className="card_body">
         <div className="card_col">
-          <p className="card_text">Balance</p>
+          <p className="card_text">{title}</p>
           <p className="card_text">
-            <strong>$0</strong>
+            <strong>${balance}</strong>
           </p>
-          <p className="card_text">on 2020/12/07</p>
+          <p className="card_text">{subValue}</p>
         </div>
         <div className="card_col">
           <h2>Chart</h2>

@@ -1,0 +1,10 @@
+.icon {
+  fill: var(--text);
+}
+
+.icon-small {
+  @extend .icon;
+  height: 15px;
+  width: 15px;
+  margin-right: 15px;
+}
