@@ -15,17 +15,3 @@
     display: flex;
   }
 }
-
-.input {
-  background: var(--primary-dark);
-  border-radius: 5px;
-  padding: 10px;
-  border: none;
-  outline: none;
-  color: var(--headers);
-
-  margin: 0 25px;
-  &::placeholder {
-    color: var(--text);
-  }
-}

@@ -7,7 +7,7 @@ body {
   --button: #1072fb;
   --text: #aab8c5;
   --text-light: #eee;
-  --headers: #fff;
+  --text-white: #fff;
   .light_theme {
     --primary: #343a40;
     --secondary: #3a444e;
@@ -33,7 +33,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: var(--headers);
+  color: var(--text-white);
   padding: 20px 0;
 }
 
@@ -52,16 +52,6 @@ a {
   text-decoration: none;
   color: var(--text);
   font-style: inherit;
-}
-
-.btn {
-  cursor: pointer;
-}
-
-.btn-unstyled {
-  @extend .btn;
-  border: none;
-  background: none;
 }
 
 .container {

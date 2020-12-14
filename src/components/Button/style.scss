@@ -1,0 +1,19 @@
+.btn {
+  border: none;
+  padding: 10px 20px;
+  background: var(--button);
+  color: var(--text-white);
+  border-radius: 5px;
+  margin: 0 10px;
+  cursor: pointer;
+  outline: none;
+  transition: 0.3s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.btn--unstyled {
+  background: none;
+}

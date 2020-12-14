@@ -1,5 +1,6 @@
 .calendar {
   z-index: 20;
+  min-width: 150px;
   position: relative;
   background: var(--primary-dark);
   border-radius: 5px;
@@ -25,7 +26,7 @@
   }
 
   .calendar_value {
-    color: var(--headers);
+    color: var(--text-white);
     padding: 10px;
   }
 }

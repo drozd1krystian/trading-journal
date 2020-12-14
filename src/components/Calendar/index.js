@@ -5,9 +5,7 @@ import Calendar from "react-calendar";
 import { ReactComponent as CalendarIcon } from "../../assets/calendar.svg";
 import useDetectOutsideClick from "../../hooks/useDetectOutsideClick";
 
-const CalendarInput = (props) => {
-  const [value, onChange] = useState(new Date());
-
+const CalendarInput = ({ value, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const inputRef = useRef(null);
 
