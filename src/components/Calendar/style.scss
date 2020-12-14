@@ -1,0 +1,31 @@
+.calendar {
+  z-index: 20;
+  position: relative;
+  background: var(--primary-dark);
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  .calendar_input {
+    position: absolute;
+    bottom: 0;
+    transform: translateY(102%);
+    min-width: 350px;
+    background: var(--primary-dark);
+    color: var(--text);
+    border: 1px solid var(--text);
+    border-radius: 5px;
+    opacity: 0;
+    visibility: hidden;
+  }
+  .calendar_input--open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .calendar_value {
+    color: var(--headers);
+    padding: 10px;
+  }
+}
