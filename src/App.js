@@ -1,3 +1,4 @@
+import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
 import DailyJournal from "./pages/DailyJournal";
@@ -11,6 +12,7 @@ function App() {
       <Menu />
       {/* <Dashboard /> */}
       <DailyJournal />
+      <Footer />
     </div>
   );
 }
