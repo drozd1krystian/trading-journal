@@ -19,14 +19,20 @@ const DailyJournal = (props) => {
 
   return (
     <MainLayout title="Daily Journal">
-      <div className="filters">
+      <section className="section">
         <p className="section_title">
           <CalendarIcon className="icon-small" />
           <span>Filter</span>
         </p>
-        <div className="filters_options">
+        <div className="section_content">
           <CalendarInput value={value} onChange={onChange} />
-          <Input value={search} onChange={(e) => setSearch(e.value)} />
+          <div className="col-3">
+            <Input
+              value={search}
+              placeholder="Search your journal"
+              onChange={(e) => setSearch(e.value)}
+            />
+          </div>
           <Button value="Filter" />
           <Button
             value="Clear"
@@ -34,7 +40,27 @@ const DailyJournal = (props) => {
             handler={handleFiltersClear}
           />
         </div>
-      </div>
+      </section>
+
+      <section className="section">
+        <p className="section_title">
+          <span>Add Post</span>
+        </p>
+        <form action="" className="form">
+          <div className="col-10">
+            <div className="row">
+              <Input label="Post Title" />
+            </div>
+          </div>
+          <label className="label">Comments</label>
+          <div className="col-10">
+            <CalendarInput value={value} onChange={onChange} />
+          </div>
+          <div className="col-3 mt-2">
+            <Button type="submit" value="Create" btnStyle="btn--submit" />
+          </div>
+        </form>
+      </section>
     </MainLayout>
   );
 };

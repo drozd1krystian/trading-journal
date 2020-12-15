@@ -1,14 +1,18 @@
 import React from "react";
 import "./style.scss";
 
-const Input = ({ label, handler, ...otherProps }) => {
+const Input = ({ label, handler, placeholder, ...otherProps }) => {
   return (
     <>
-      {label ? <label htmlFor="label" className="label"></label> : null}
+      {label ? (
+        <label htmlFor="label" className="label">
+          {label}
+        </label>
+      ) : null}
       <input
         type="text"
         className="input"
-        placeholder="Search your journal"
+        placeholder={placeholder}
         onChange={handler}
         {...otherProps}
       />

@@ -42,6 +42,7 @@ h6 {
   margin: 0;
   color: var(--text);
   font-family: "Nunito", sans-serif;
+  box-sizing: border-box;
 }
 
 ul {
@@ -57,4 +58,12 @@ a {
 .container {
   max-width: 1600px;
   padding: 0 60px;
+}
+
+.mt-1 {
+  margin-top: 20px;
+}
+
+.mt-2 {
+  margin-top: 20px;
 }

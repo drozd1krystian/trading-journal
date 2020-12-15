@@ -1,17 +1,21 @@
-.filters {
-  padding: 15px 30px;
+.section {
+  padding: 35px 30px;
   background: var(--secondary);
   border-radius: 5px;
+  margin-bottom: 35px;
 
   .section_title {
-    padding: 10px 15px;
+    padding: 10px;
     background: var(--aluxury);
     text-transform: uppercase;
     font-weight: 700;
     display: flex;
     margin-bottom: 20px;
   }
-  .filters_options {
+  .section_content {
     display: flex;
   }
+}
+
+.form {
 }
