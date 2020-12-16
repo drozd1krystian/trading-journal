@@ -45,14 +45,15 @@ h6 {
   box-sizing: border-box;
 }
 
-ul {
-  list-style: none;
-}
-
 a {
   text-decoration: none;
   color: var(--text);
   font-style: inherit;
+}
+
+ul,
+ol {
+  list-style-position: inside;
 }
 
 .container {
@@ -60,10 +61,50 @@ a {
   padding: 0 60px;
 }
 
+// Margins
+
 .mt-1 {
   margin-top: 20px;
 }
 
 .mt-2 {
   margin-top: 20px;
+}
+
+.mt-3 {
+  margin-top: 30px;
+}
+
+// Columns
+
+.col-3 {
+  max-width: 33.3%;
+  flex: 0.33%;
+  padding: 0 10px;
+}
+
+.col-10 {
+  flex: 0.83%;
+  max-width: 83.8%;
+}
+
+// Sections
+
+.section {
+  padding: 35px 30px;
+  background: var(--secondary);
+  border-radius: 5px;
+  margin-bottom: 35px;
+
+  .section_title {
+    padding: 10px;
+    background: var(--aluxury);
+    text-transform: uppercase;
+    font-weight: 700;
+    display: flex;
+    margin-bottom: 20px;
+  }
+  .section_content {
+    display: flex;
+  }
 }

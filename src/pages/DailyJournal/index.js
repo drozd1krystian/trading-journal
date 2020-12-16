@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
 
 // Layouts
@@ -7,7 +7,6 @@ import MainLayout from "../../layouts";
 // Icons
 import { ReactComponent as CalendarIcon } from "../../assets/calendar.svg";
 import { ReactComponent as AddIcon } from "../../assets/add.svg";
-import { ReactComponent as JournalIcon } from "../../assets/journal.svg";
 
 // Components
 import Input from "../../components/Input";
@@ -16,32 +15,52 @@ import CalendarInput from "../../components/Calendar";
 import "react-calendar/dist/Calendar.css";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import Journal from "../../components/Journal";
 
 const DailyJournal = (props) => {
   const [value, onChange] = useState(new Date());
   const [search, setSearch] = useState("");
-
-  const journal = [];
+  const [postTitle, setPostTitle] = useState("");
+  const [postComments, setPostComments] = useState("");
+  const [postDate, setPostDate] = useState(new Date());
+  const [journal, setJournal] = useState([]);
 
   const handleFiltersClear = () => {
     onChange(new Date());
     setSearch("");
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setJournal((prevState) => [
+      ...prevState,
+      { postComments, postTitle, postDate },
+    ]);
+
+    // Clear Form
+    setPostComments("");
+    setPostDate(new Date());
+    setPostTitle("");
+  };
+
+  const handleRemovePost = (id) => {
+    setJournal((prevState) => prevState.filter((el) => el === id));
+  };
+
   return (
     <MainLayout title="Daily Journal">
       <section className="section">
-        <p className="section_title">
+        <h4 className="section_title">
           <CalendarIcon className="icon-small" />
           <span>Filter</span>
-        </p>
+        </h4>
         <div className="section_content">
           <CalendarInput value={value} onChange={onChange} />
           <div className="col-3">
             <Input
               value={search}
               placeholder="Search your journal"
-              onChange={(e) => setSearch(e.value)}
+              handler={(e) => setSearch(e.target.value)}
             />
           </div>
           <Button value="Filter" />
@@ -54,41 +73,47 @@ const DailyJournal = (props) => {
       </section>
 
       <section className="section">
-        <p className="section_title">
+        <h4 className="section_title">
           <AddIcon className="icon-small" />
           <span>Add Post</span>
-        </p>
-        <form action="" className="form">
+        </h4>
+        <form className="form">
           <div className="col-10">
-            <div className="row">
-              <Input label="Post Title" />
-            </div>
+            <Input
+              label="Post Title"
+              value={postTitle}
+              name={postTitle}
+              handler={(e) => setPostTitle(e.target.value)}
+              required
+            />
           </div>
           <label className="label">Comments</label>
           <div className="col-10 ">
-            <ReactQuill className="quill" />
+            <ReactQuill
+              className="quill"
+              value={postComments}
+              onChange={setPostComments}
+            />
           </div>
           <div className="col-10 mt-2">
             <label className="label">Choose a date</label>
-            <CalendarInput value={value} onChange={onChange} />
+            <CalendarInput value={postDate} onChange={setPostDate} />
           </div>
           <div className="col-3 mt-2">
-            <Button type="submit" value="Create" btnStyle="btn--submit" />
+            <Button
+              type="submit"
+              value="Create"
+              btnStyle="btn--submit"
+              handler={(e) => handleSubmit(e)}
+            />
           </div>
         </form>
       </section>
-
-      <section className="section">
-        <p className="section_title">
-          <JournalIcon className="icon-small" />
-          <span>Trading Journal</span>
-        </p>
-        {journal.length === 0 ? (
-          <p>Your journal is empty. Add something!</p>
-        ) : (
-          <h1>Post 1</h1>
-        )}
-      </section>
+      <Journal
+        posts={journal}
+        title="Trading Journal"
+        removePost={handleRemovePost}
+      />
     </MainLayout>
   );
 };

@@ -1,25 +1,3 @@
-.section {
-  padding: 35px 30px;
-  background: var(--secondary);
-  border-radius: 5px;
-  margin-bottom: 35px;
-
-  .section_title {
-    padding: 10px;
-    background: var(--aluxury);
-    text-transform: uppercase;
-    font-weight: 700;
-    display: flex;
-    margin-bottom: 20px;
-  }
-  .section_content {
-    display: flex;
-  }
-}
-
-.form {
-}
-
 .quill {
   z-index: 150;
   position: relative;
