@@ -33,10 +33,10 @@ const Menu = (props) => {
             Reports
             <DropDownMenu list={reportsLinks} />
           </li>
-          <li className="link">
+          {/* <li className="link">
             <Import className="link_icon" />
             Import
-          </li>
+          </li> */}
         </ul>
       </div>
     </nav>

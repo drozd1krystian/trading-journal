@@ -21,7 +21,7 @@ const Navbar = (props) => {
 
   return (
     <nav className="menu">
-      <ul className="links">
+      <ul className="links list-unstyled">
         <li className="link">
           <SettingsIcon className="link_icon-big" />
           <DropDownMenu list={settingsList} />

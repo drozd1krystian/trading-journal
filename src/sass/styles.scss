@@ -56,9 +56,17 @@ ol {
   list-style-position: inside;
 }
 
+.list-unstyled {
+  list-style: none;
+}
+
 .container {
   max-width: 1600px;
   padding: 0 60px;
+
+  @media screen and (max-width: 1023px) {
+    padding: 0 20px;
+  }
 }
 
 // Margins
@@ -81,11 +89,25 @@ ol {
   max-width: 33.3%;
   flex: 0.33%;
   padding: 0 10px;
+
+  @media screen and (max-width: 767px) {
+    max-width: 100%;
+    padding: 0;
+    flex: unset;
+    width: 100%;
+    margin-bottom: 20px;
+  }
 }
 
 .col-10 {
   flex: 0.83%;
   max-width: 83.8%;
+
+  @media screen and (max-width: 767px) {
+    flex: 1 auto;
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 // Sections
@@ -106,5 +128,6 @@ ol {
   }
   .section_content {
     display: flex;
+    flex-wrap: wrap;
   }
 }
