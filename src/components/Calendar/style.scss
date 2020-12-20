@@ -20,6 +20,10 @@
     border-radius: 5px;
     opacity: 0;
     visibility: hidden;
+
+    @media screen and (max-width: 767px) {
+      min-width: auto;
+    }
   }
   .calendar_input--open {
     opacity: 1;

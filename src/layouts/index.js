@@ -1,14 +1,20 @@
 import React from "react";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import Menu from "../components/Menu";
 
 const MainLayout = (props) => {
   const { children, title } = props;
   return (
-    <div className="container">
-      <div className="page_title">
-        <h3>{title}</h3>
+    <>
+      <Header />
+      <Menu />
+      <div className="container">
+        <h3 className="page_title">{title}</h3>
+        <div className="content">{children}</div>
       </div>
-      <div className="content">{children}</div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

@@ -13,16 +13,14 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import CalendarInput from "../../components/Calendar";
 import "react-calendar/dist/Calendar.css";
-import ReactQuill from "react-quill";
+
 import "react-quill/dist/quill.snow.css";
 import Journal from "../../components/Journal";
+import PostForm from "../../components/PostForm";
 
 const DailyJournal = (props) => {
   const [value, onChange] = useState(new Date());
   const [search, setSearch] = useState("");
-  const [postTitle, setPostTitle] = useState("");
-  const [postComments, setPostComments] = useState("");
-  const [postDate, setPostDate] = useState(new Date());
   const [journal, setJournal] = useState([]);
 
   const handleFiltersClear = () => {
@@ -30,18 +28,11 @@ const DailyJournal = (props) => {
     setSearch("");
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const handleSubmit = (postTitle, postComments, postDate) => {
     setJournal((prevState) => [
       ...prevState,
-      { postComments, postTitle, postDate },
+      { postTitle, postComments, postDate },
     ]);
-
-    // Clear Form
-    setPostComments("");
-    setPostDate(new Date());
-    setPostTitle("");
   };
 
   const handleRemovePost = (id) => {
@@ -80,32 +71,7 @@ const DailyJournal = (props) => {
           <AddIcon className="icon-small" />
           <span>Add Post</span>
         </h4>
-        <form className="form" onSubmit={(e) => handleSubmit(e)}>
-          <div className="col-10">
-            <Input
-              label="Post Title"
-              value={postTitle}
-              name={postTitle}
-              handler={(e) => setPostTitle(e.target.value)}
-              required
-            />
-          </div>
-          <label className="label">Comments</label>
-          <div className="col-10 ">
-            <ReactQuill
-              className="quill"
-              value={postComments}
-              onChange={setPostComments}
-            />
-          </div>
-          <div className="col-10 mt-2">
-            <label className="label">Choose a date</label>
-            <CalendarInput value={postDate} onChange={setPostDate} />
-          </div>
-          <div className="col-3 mt-2">
-            <Button type="submit" value="Create" btnStyle="btn--submit" />
-          </div>
-        </form>
+        <PostForm handler={handleSubmit} />
       </section>
       <Journal
         posts={journal}
