@@ -96,7 +96,7 @@ ol {
 
 .col-3 {
   max-width: 33.3%;
-  flex: 0.33%;
+  flex: 0 0 33%;
   padding: 0 10px;
 
   @media screen and (max-width: 767px) {
@@ -108,8 +108,20 @@ ol {
   }
 }
 
+.col-5 {
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding: 0 12px;
+
+  @media screen and (max-width: 767px) {
+    flex: unset;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
 .col-10 {
-  flex: 0.83%;
+  flex: 0 0 83%;
   max-width: 83.8%;
 
   @media screen and (max-width: 767px) {
@@ -117,6 +129,14 @@ ol {
     width: 100%;
     max-width: 100%;
   }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -12px;
+  margin-right: -12px;
+  margin-bottom: 30px;
 }
 
 // Sections

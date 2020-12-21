@@ -1,5 +1,5 @@
 .calendar {
-  z-index: 20;
+  z-index: 151;
   min-width: 150px;
   position: relative;
   background: var(--primary-dark);
@@ -12,6 +12,7 @@
   .calendar_input {
     position: absolute;
     bottom: 0;
+    z-index: 12;
     transform: translateY(102%);
     min-width: 350px;
     background: var(--primary-dark);
@@ -25,6 +26,7 @@
       min-width: auto;
     }
   }
+
   .calendar_input--open {
     opacity: 1;
     visibility: visible;

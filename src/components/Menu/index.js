@@ -7,6 +7,7 @@ import { ReactComponent as Dashboard } from "../../assets/dashboard.svg";
 import { ReactComponent as Calendar } from "../../assets/calendar.svg";
 import { ReactComponent as Report } from "../../assets/blocks.svg";
 import { ReactComponent as Import } from "../../assets/import.svg";
+import { Link } from "react-router-dom";
 
 const journalLinks = [
   { link: "/journal", title: "Daily Journal" },
@@ -20,9 +21,10 @@ const Menu = (props) => {
     <nav className="menu menu-sub bg-dark">
       <div className="container">
         <ul className="links">
-          <li className="link">
+          <Link to="/" className="link">
             <Dashboard className="link_icon" /> Dashboard
-          </li>
+          </Link>
+
           <li className="link">
             <Calendar className="link_icon" />
             Journal

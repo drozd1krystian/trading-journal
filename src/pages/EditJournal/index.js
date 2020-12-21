@@ -25,6 +25,7 @@ const EditJournal = (props) => {
           postDate={new Date()}
         />
       </section>
+      <div className="space"></div>
     </MainLayout>
   );
 };

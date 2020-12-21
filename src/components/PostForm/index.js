@@ -3,7 +3,7 @@ import "./style.scss";
 import ReactQuill from "react-quill";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import CalendarInput from "../../components/Calendar";
+import CalendarInput from "../Calendar";
 
 const PostForm = ({ handler, title, comments, date }) => {
   const [postTitle, setPostTitle] = useState(title || "");

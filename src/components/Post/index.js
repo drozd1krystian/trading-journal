@@ -5,6 +5,7 @@ import parse from "html-react-parser";
 
 import { ReactComponent as EditIcon } from "../../assets/edit.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
+import { Link } from "react-router-dom";
 
 const Post = ({ title, comments, removePost, id }) => {
   return (
@@ -15,8 +16,9 @@ const Post = ({ title, comments, removePost, id }) => {
       <div className="message">{parse(comments)}</div>
 
       <div className="col-10 mt-3 controls">
-        {/* Link to edycji */}
-        <EditIcon className="icon-small icon-btn" />
+        <Link to={{ pathname: `/edit-journal/${id}` }}>
+          <EditIcon className="icon-small icon-btn" />
+        </Link>
         <DeleteIcon
           className="icon-small icon-btn"
           onClick={() => removePost(id)}

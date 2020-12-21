@@ -25,7 +25,7 @@ const CalendarInput = ({ value, onChange }) => {
         onChange={onChange}
         value={value}
         className={
-          isOpen ? "calendar_input calendar_input--open" : "calendar_input"
+          isOpen ? `calendar_input calendar_input--open` : "calendar_input"
         }
       />
     </div>

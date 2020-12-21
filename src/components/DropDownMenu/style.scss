@@ -15,11 +15,13 @@
 
   transition: all 0.3s ease;
 
-  .list_item {
+  .list_link {
+    display: inline-block;
     padding: 10px 15px;
     text-align: center;
+    width: 100%;
     color: var(--text);
-    &:hover a {
+    &:hover {
       color: var(--text-light);
     }
   }
