@@ -1,5 +1,8 @@
 .icon {
   fill: var(--text);
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
 }
 
 .icon-small {
@@ -11,4 +14,8 @@
 .icon-btn {
   fill: var(--button);
   cursor: pointer;
+}
+
+.icon-success {
+  fill: var(--success);
 }

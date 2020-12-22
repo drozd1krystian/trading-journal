@@ -13,7 +13,7 @@
     position: absolute;
     bottom: 0;
     z-index: 12;
-    transform: translateY(102%);
+    transform: translate(50%, 50%);
     min-width: 350px;
     background: var(--primary-dark);
     color: var(--text);
@@ -24,6 +24,9 @@
 
     @media screen and (max-width: 767px) {
       min-width: auto;
+      transform: translate(0, -102%);
+      top: 0;
+      bottom: unset;
     }
   }
 

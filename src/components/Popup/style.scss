@@ -1,0 +1,15 @@
+.popup {
+  position: fixed;
+  z-index: 200;
+  top: 10px;
+  right: 20px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  background: var(--primary);
+
+  .popup_message {
+    display: flex;
+    align-items: center;
+    color: var(--success);
+  }
+}

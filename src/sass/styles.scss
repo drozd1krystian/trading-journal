@@ -7,6 +7,8 @@
   --text: #aab8c5;
   --text-light: #eee;
   --text-white: #fff;
+  --success: #2ec08a;
+  --border: #47515d;
   .light_theme {
     --primary: #343a40;
     --secondary: #3a444e;
@@ -136,7 +138,10 @@ ol {
   flex-wrap: wrap;
   margin-left: -12px;
   margin-right: -12px;
-  margin-bottom: 30px;
+
+  @media screen and (max-width: 767px) {
+    margin: 0;
+  }
 }
 
 // Sections
@@ -147,6 +152,10 @@ ol {
   border-radius: 5px;
   margin-bottom: 35px;
 
+  @media screen and (max-width: 767px) {
+    padding: 35px 20px;
+  }
+
   .section_title {
     padding: 10px;
     background: var(--aluxury);
@@ -154,9 +163,5 @@ ol {
     font-weight: 700;
     display: flex;
     margin-bottom: 20px;
-  }
-  .section_content {
-    display: flex;
-    flex-wrap: wrap;
   }
 }
