@@ -3,6 +3,7 @@ import Dashboard from "./pages/Dashboard";
 import EditJournal from "./pages/EditJournal";
 import "./sass/styles.scss";
 import { Switch, Route } from "react-router-dom";
+import SignUp from "./pages/SignUp";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           path="/edit-journal/:id"
           render={() => <EditJournal />}
         ></Route>
+        <Route exact path="/signup" render={() => <SignUp />} />
       </Switch>
     </div>
   );
