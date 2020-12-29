@@ -25,13 +25,13 @@ const SignUp = (props) => {
 
         <form action="" className="mt-3" onSubmit={handleSubmit}>
           <div className="row">
-            <Input label="Your name" />
+            <Input label="Your name" type="text" required />
           </div>
           <div className="row ">
-            <Input label="Email" />
+            <Input label="Email" type="email" required />
           </div>
           <div className="row ">
-            <Input label="Password" />
+            <Input label="Password" type="password" required />
           </div>
           <div className="row row-center mt-2">
             <Button value="Sign Up" />
@@ -40,7 +40,10 @@ const SignUp = (props) => {
       </AuthLayout>
       <div className="container">
         <p className="text-center mt-2">
-          Already have an account? <Link to="/signin">Log in!</Link>
+          Already have an account?{" "}
+          <Link to="/signin" className="text-blue">
+            Log in!
+          </Link>
         </p>
       </div>
       <Footer />
