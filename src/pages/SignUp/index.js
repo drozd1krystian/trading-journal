@@ -5,6 +5,7 @@ import "./style.scss";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
+import Footer from "../../components/Footer";
 
 const SignUp = (props) => {
   const handleSubmit = () => {
@@ -37,9 +38,12 @@ const SignUp = (props) => {
           </div>
         </form>
       </AuthLayout>
-      <p className="text-center mt-2">
-        Already have an account? <Link to="/signin">Log in!</Link>
-      </p>
+      <div className="container">
+        <p className="text-center mt-2">
+          Already have an account? <Link to="/signin">Log in!</Link>
+        </p>
+      </div>
+      <Footer />
     </>
   );
 };

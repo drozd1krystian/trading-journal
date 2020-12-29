@@ -61,6 +61,8 @@ ol {
 .container {
   max-width: 1600px;
   padding: 0 60px;
+  position: relative;
+  margin: 0 auto;
 
   @media screen and (max-width: 1023px) {
     padding: 0 20px;
@@ -93,6 +95,10 @@ ol {
 
 .page_title {
   padding: 30px 0;
+}
+
+.content {
+  padding-bottom: 100px;
 }
 
 // Columns

@@ -12,8 +12,8 @@ const MainLayout = (props) => {
       <div className="container">
         <h3 className="page_title">{title}</h3>
         <div className="content">{children}</div>
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 };
