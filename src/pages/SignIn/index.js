@@ -37,7 +37,10 @@ const SignIn = (props) => {
       </AuthLayout>
       <div className="container">
         <p className="text-center mt-2">
-          Don't have an account? <Link to="/signup">Create one!</Link>
+          Don't have an account?{" "}
+          <Link to="/signup" className="text-blue">
+            Create one!
+          </Link>
         </p>
       </div>
       <Footer />

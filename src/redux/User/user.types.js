@@ -1,0 +1,4 @@
+export default userTypes = {
+  EMAIL_SIGN_IN_START: "EMAIL_SIGN_IN_START",
+  EMAIL_SIGN_IN_SUCCESS: "EMAIL_SIGN_IN_SUCCESS",
+};
