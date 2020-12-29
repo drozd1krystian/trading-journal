@@ -40,7 +40,10 @@ const SignUp = (props) => {
       </AuthLayout>
       <div className="container">
         <p className="text-center mt-2">
-          Already have an account? <Link to="/signin">Log in!</Link>
+          Already have an account?{" "}
+          <Link to="/signin" className="text-blue">
+            Log in!
+          </Link>
         </p>
       </div>
       <Footer />
