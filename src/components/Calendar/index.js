@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import "./style.scss";
 
 import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import { ReactComponent as CalendarIcon } from "../../assets/calendar.svg";
 import useDetectOutsideClick from "../../hooks/useDetectOutsideClick";
 

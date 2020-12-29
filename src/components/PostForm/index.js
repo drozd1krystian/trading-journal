@@ -4,6 +4,7 @@ import ReactQuill from "react-quill";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import CalendarInput from "../Calendar";
+import "react-quill/dist/quill.snow.css";
 
 const PostForm = ({ handler, title, comments, date }) => {
   const [postTitle, setPostTitle] = useState(title || "");

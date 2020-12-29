@@ -1,0 +1,17 @@
+.form_body {
+  padding: 20px 40px;
+  border-radius: 5px;
+
+  @media screen and (max-width: 767px) {
+    padding: 20px;
+  }
+}
+
+.form_logo {
+  padding: 40px 20px;
+  background: var(--button);
+  color: var(--text-light);
+  font-weight: 600;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}

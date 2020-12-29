@@ -9,6 +9,7 @@
   display: none;
   z-index: 10;
 
+  border: 1px solid var(--border);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   box-shadow: 0 1px 3px var(--primary);
@@ -21,8 +22,11 @@
     text-align: center;
     width: 100%;
     color: var(--text);
+
+    white-space: nowrap;
     &:hover {
       color: var(--text-light);
+      background: var(--secondary);
     }
   }
 }

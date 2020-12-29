@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.scss";
 
-import MainLayout from "../../layouts/index";
+import MainLayout from "../../layouts/main.js";
 import { ReactComponent as EditIcon } from "../../assets/edit.svg";
 import PostForm from "../../components/PostForm";
 
@@ -25,7 +25,6 @@ const EditJournal = (props) => {
           postDate={new Date()}
         />
       </section>
-      <div className="space"></div>
     </MainLayout>
   );
 };

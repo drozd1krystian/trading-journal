@@ -16,7 +16,7 @@ const Navbar = (props) => {
   ];
   const userList = [
     { link: "/user", title: "User Settings" },
-    { link: "/", title: "Logout" },
+    { link: "/signup", title: "Sign Up" },
   ];
 
   return (

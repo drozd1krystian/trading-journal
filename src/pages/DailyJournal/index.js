@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./style.scss";
 
 // Layouts
-import MainLayout from "../../layouts";
+import MainLayout from "../../layouts/main.js";
 
 // Icons
 import { ReactComponent as CalendarIcon } from "../../assets/calendar.svg";
@@ -12,9 +12,6 @@ import { ReactComponent as AddIcon } from "../../assets/add.svg";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import CalendarInput from "../../components/Calendar";
-import "react-calendar/dist/Calendar.css";
-
-import "react-quill/dist/quill.snow.css";
 import Journal from "../../components/Journal";
 import PostForm from "../../components/PostForm";
 import Popup from "../../components/Popup";
