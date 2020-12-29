@@ -4,6 +4,7 @@ import EditJournal from "./pages/EditJournal";
 import "./sass/styles.scss";
 import { Switch, Route } from "react-router-dom";
 import SignUp from "./pages/SignUp";
+import SignIn from "./pages/SignIn";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           render={() => <EditJournal />}
         ></Route>
         <Route exact path="/signup" render={() => <SignUp />} />
+        <Route exact path="/signin" render={() => <SignIn />} />
       </Switch>
     </div>
   );
