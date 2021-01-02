@@ -1,6 +1,6 @@
 import { takeLatest, put, call, all } from "redux-saga/effects";
 import userTypes from "./user.types";
-import { signInSuccess } from "./user.actions";
+import { signInSuccess, signOutSuccess } from "./user.actions";
 import { auth, handleUserProfile, getCurrentUser } from "../../firebase/utils";
 
 export function* getSnapshotFromUserAuth(user, additionalData = {}) {
@@ -62,10 +62,20 @@ export function* onSignUpUserStart() {
   yield takeLatest(userTypes.EMAIL_SIGN_UP_START, emailSignUp);
 }
 
+export function* signOut() {
+  yield put(signOutSuccess());
+}
+
+export function* onSignOutStart() {
+  console.log("elo");
+  yield takeLatest(userTypes.SIGN_OUT_START, signOut);
+}
+
 export default function* userSagas() {
   yield all([
     call(onEmailSignInStart),
     call(onCheckUserSession),
     call(onSignUpUserStart),
+    call(onSignOutStart),
   ]);
 }

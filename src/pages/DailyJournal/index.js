@@ -15,12 +15,20 @@ import CalendarInput from "../../components/Calendar";
 import Journal from "../../components/Journal";
 import PostForm from "../../components/PostForm";
 import Popup from "../../components/Popup";
+import { useDispatch, useSelector } from "react-redux";
+import { addPostStart } from "../../redux/Posts/posts.actions";
+
+const mapState = ({ posts, user }) => ({
+  posts: posts.posts,
+  user: user.currentUser,
+});
 
 const DailyJournal = (props) => {
   const [value, onChange] = useState(new Date());
   const [search, setSearch] = useState("");
-  const [journal, setJournal] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+  const { posts, user } = useSelector(mapState);
+  const dispatch = useDispatch();
 
   const handleFiltersClear = () => {
     onChange(new Date());
@@ -28,17 +36,13 @@ const DailyJournal = (props) => {
   };
 
   const handleSubmit = (postTitle, postComments, postDate) => {
-    setJournal((prevState) => [
-      ...prevState,
-      { postTitle, postComments, postDate },
-    ]);
+    const post = { postTitle, postComments, postDate };
+    dispatch(addPostStart(post));
     setShowPopup(true);
     setTimeout(() => setShowPopup(false), 2000);
   };
 
-  const handleRemovePost = (id) => {
-    setJournal((prevState) => prevState.filter((el) => el === id));
-  };
+  const handleRemovePost = (id) => {};
 
   return (
     <MainLayout title="Daily Journal">
@@ -77,7 +81,7 @@ const DailyJournal = (props) => {
         <PostForm handler={handleSubmit} />
       </section>
       <Journal
-        posts={journal}
+        posts={posts}
         title="Trading Journal"
         removePost={handleRemovePost}
       />

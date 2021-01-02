@@ -7,7 +7,7 @@ const DropDownMenu = ({ list = [] }) => {
     <ul className="list list-unstyled">
       {list.map((el, i) => (
         <li className="list_item" key={i}>
-          <Link to={el.link} className="list_link">
+          <Link to={el.link} className="list_link" onClick={el.action}>
             {el.title}
           </Link>
         </li>

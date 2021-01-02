@@ -34,3 +34,7 @@ export const handleUserProfile = async ({ userAuth, additionalData }) => {
 };
 
 export const getCurrentUser = () => firebase.auth().currentUser;
+
+export const addPostToDb = (post, uid) => {
+  firestore.collection("users").doc(uid).collection("posts").doc().set(post);
+};

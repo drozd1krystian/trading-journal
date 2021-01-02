@@ -4,10 +4,19 @@ import Avatar from "../Avatar";
 
 import { ReactComponent as SettingsIcon } from "../../assets/settings.svg";
 import DropDownMenu from "../DropDownMenu";
+import { useDispatch, useSelector } from "react-redux";
+import { signOutStart } from "../../redux/User/user.actions";
+
+const mapState = ({ user }) => ({
+  currentUser: user.currentUser,
+});
 
 const Navbar = (props) => {
-  const data = {
-    name: "User",
+  const { currentUser } = useSelector(mapState);
+  const dispatch = useDispatch();
+
+  const signOutUser = () => {
+    dispatch(signOutStart());
   };
 
   const settingsList = [
@@ -16,7 +25,7 @@ const Navbar = (props) => {
   ];
   const userList = [
     { link: "/user", title: "User Settings" },
-    { link: "/signup", title: "Sign Up" },
+    { link: "/signin", title: "Sign Out", action: signOutUser },
   ];
 
   return (
@@ -27,7 +36,7 @@ const Navbar = (props) => {
           <DropDownMenu list={settingsList} />
         </li>
         <li className="link">
-          <Avatar data={data} />
+          <Avatar data={currentUser} />
           <DropDownMenu list={userList} />
         </li>
       </ul>

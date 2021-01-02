@@ -18,3 +18,11 @@ export const emailSignUpStart = (userCredentials) => ({
   type: userTypes.EMAIL_SIGN_UP_START,
   payload: userCredentials,
 });
+
+export const signOutStart = () => ({
+  type: userTypes.SIGN_OUT_START,
+});
+
+export const signOutSuccess = () => ({
+  type: userTypes.SIGN_OUT_SUCCESS,
+});

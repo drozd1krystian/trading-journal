@@ -20,9 +20,6 @@ function App() {
   return (
     <div className="dark_theme" id="app">
       <Switch>
-        <Route exact path="/">
-          <Redirect to="/dashboard" />
-        </Route>
         <AuthRoute exact path="/dashboard" component={Dashboard} />
         <AuthRoute exact path="/journal" component={DailyJournal} />
         <AuthRoute exact path="/edit-journal/:id" component={EditJournal} />
