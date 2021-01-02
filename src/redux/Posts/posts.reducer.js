@@ -1,3 +1,4 @@
+import postsTypes from "./posts.types";
 import postTypes from "./posts.types";
 
 const INITIAL_STATE = {
@@ -10,6 +11,11 @@ const postReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         posts: [...state.posts, action.payload],
+      };
+    case postsTypes.FETCH_POSTS_SUCCESS:
+      return {
+        ...state,
+        posts: [...action.payload],
       };
     default:
       return {

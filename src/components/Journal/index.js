@@ -21,8 +21,8 @@ const Journal = ({ posts, title, removePost }) => {
           <Post
             title={el.postTitle}
             comments={el.postComments}
-            key={i}
-            id={i}
+            key={el.id}
+            id={el.id}
             removePost={removePost}
           />
         ))
