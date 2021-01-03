@@ -31,7 +31,7 @@ const DailyJournal = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (posts.length < 0) {
+    if (posts.length === 0) {
       dispatch(fetchPostsStart(user.id));
     }
   }, [dispatch, posts, user]);

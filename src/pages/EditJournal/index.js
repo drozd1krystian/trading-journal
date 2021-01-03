@@ -4,20 +4,25 @@ import "./style.scss";
 import MainLayout from "../../layouts/main.js";
 import { ReactComponent as EditIcon } from "../../assets/edit.svg";
 import PostForm from "../../components/PostForm";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import { updatePostStart } from "../../redux/Posts/posts.actions";
 
-const mapState = ({ posts, user }) => ({
+const mapState = ({ posts }) => ({
   posts: posts.posts,
-  user: user.currentUser,
 });
 
 const EditJournal = (props) => {
-  const { posts, user } = useSelector(mapState);
+  const { posts } = useSelector(mapState);
   const { id } = useParams();
-  const post = posts.filter((el) => el.id === id);
+  const post = posts.find((el) => el.id === id);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const handleSubmit = (postTitle, postComments, postDate) => {
-    // Edit post in DB
+    const newPost = { postTitle, postComments, postDate };
+    dispatch(updatePostStart({ post: newPost, doc: id }));
+    history.push("/journal");
   };
 
   return (

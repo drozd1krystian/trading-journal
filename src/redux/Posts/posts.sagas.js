@@ -1,6 +1,15 @@
 import { takeLatest, put, call, all } from "redux-saga/effects";
-import { addPostToDb, fetchPosts } from "../../firebase/utils";
-import { addPostSuccess, fetchPostsSuccess } from "./posts.actions";
+import {
+  addPostToDb,
+  editPost,
+  fetchPosts,
+  getUserId,
+} from "../../firebase/utils";
+import {
+  addPostSuccess,
+  fetchPostsSuccess,
+  updatePostSuccess,
+} from "./posts.actions";
 import postsTypes from "./posts.types";
 
 export function* addPost({ payload: { post, uid } }) {
@@ -29,6 +38,24 @@ export function* onFetchPostsStart() {
   yield takeLatest(postsTypes.FETCH_POSTS_START, getPosts);
 }
 
+export function* updatePost({ payload: { post, doc } }) {
+  try {
+    const { uid } = yield getUserId();
+    yield editPost(uid, doc, post);
+    yield put(updatePostSuccess({ post, doc }));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export function* onUpdatePostStart() {
+  yield takeLatest(postsTypes.UPDATE_POST_START, updatePost);
+}
+
 export default function* postsSagas() {
-  yield all([call(onAddPostStart), call(onFetchPostsStart)]);
+  yield all([
+    call(onAddPostStart),
+    call(onFetchPostsStart),
+    call(onUpdatePostStart),
+  ]);
 }
