@@ -61,7 +61,12 @@ const DailyJournal = (props) => {
         </h4>
         <div className="row">
           <div className="col-3">
-            <CalendarInput value={value} onChange={onChange} />
+            <CalendarInput
+              value={value}
+              onChange={onChange}
+              selectRange={true}
+              returnValue="range"
+            />
           </div>
           <div className="col-3">
             <Input

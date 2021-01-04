@@ -30,7 +30,7 @@ const EditJournal = (props) => {
       <section className="section">
         <h4 className="section_title">
           <EditIcon className="icon-small" />
-          <span>Edit Your Post {post.postTitle}</span>
+          <span>Edit Your Post - {post.postTitle}</span>
         </h4>
         <PostForm handler={handleSubmit} post={post} />
       </section>
