@@ -7,18 +7,21 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { checkUserSession } from "./redux/User/user.actions";
+import { checkUserSession, isLoading } from "./redux/User/user.actions";
 import AuthRoute from "./hoc/AuthRoute";
+import Loader from "./components/Loader";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(isLoading());
     dispatch(checkUserSession());
   }, [dispatch]);
 
   return (
     <div className="dark_theme" id="app">
+      <Loader />
       <Switch>
         <AuthRoute exact path="/dashboard" component={Dashboard} />
         <AuthRoute exact path="/journal" component={DailyJournal} />

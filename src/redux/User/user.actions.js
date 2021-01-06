@@ -10,6 +10,10 @@ export const signInSuccess = (user) => ({
   payload: user,
 });
 
+export const isLoading = () => ({
+  type: userTypes.IS_LOADING,
+});
+
 export const checkUserSession = (user) => ({
   type: userTypes.CHECK_USER_SESSION,
 });

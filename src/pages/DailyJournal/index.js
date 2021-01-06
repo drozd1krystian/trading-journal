@@ -17,6 +17,7 @@ import PostForm from "../../components/PostForm";
 import Popup from "../../components/Popup";
 import { useDispatch, useSelector } from "react-redux";
 import { addPostStart, fetchPostsStart } from "../../redux/Posts/posts.actions";
+import Loader from "../../components/Loader";
 
 const mapState = ({ posts, user }) => ({
   posts: posts.posts,

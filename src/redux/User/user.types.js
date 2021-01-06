@@ -6,6 +6,7 @@ const userTypes = {
   EMAIL_SIGN_UP_SUCCESS: "EMAIL_SIGN_UP_SUCCESS",
   SIGN_OUT_START: "SIGN_OUT_START",
   SIGN_OUT_SUCCESS: "SIGN_OUT_SUCCESS",
+  IS_LOADING: "IS_LOADING",
 };
 
 export default userTypes;

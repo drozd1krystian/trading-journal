@@ -2,6 +2,7 @@ import userTypes from "./user.types";
 
 const INITIAL_STATE = {
   currentUser: null,
+  isLoading: false,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -10,6 +11,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentUser: action.payload,
+        isLoading: false,
+      };
+    }
+    case userTypes.IS_LOADING: {
+      return {
+        isLoading: !state.isLoading,
       };
     }
     case userTypes.SIGN_OUT_SUCCESS: {

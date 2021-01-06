@@ -33,6 +33,7 @@ const CalendarInput = ({ value, onChange, ...otherProps }) => {
       <Calendar
         onChange={onChange}
         value={value}
+        maxDate={new Date()}
         {...otherProps}
         className={
           isOpen ? `calendar_input calendar_input--open` : "calendar_input"
