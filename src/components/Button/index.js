@@ -1,10 +1,11 @@
 import React from "react";
 import "./style.scss";
 
-const Button = ({ value, handler, btnStyle }) => {
+const Button = ({ handler, btnStyle, ...otherProps }) => {
+  const { children } = otherProps;
   return (
     <button className={`btn ` + btnStyle} onClick={handler}>
-      {value}
+      {children}
     </button>
   );
 };

@@ -8,16 +8,19 @@ import {
 import {
   addPostSuccess,
   fetchPostsSuccess,
+  postLoading,
+  postError,
   updatePostSuccess,
 } from "./posts.actions";
 import postsTypes from "./posts.types";
 
 export function* addPost({ payload: { post, uid } }) {
   try {
+    yield put(postLoading());
     yield addPostToDb(post, uid);
     yield put(addPostSuccess(post));
   } catch (err) {
-    console.log(err);
+    yield put(postError(err.message));
   }
 }
 
@@ -25,9 +28,9 @@ export function* onAddPostStart() {
   yield takeLatest(postsTypes.ADD_POST_START, addPost);
 }
 
-export function* getPosts({ payload: uid }) {
+export function* getPosts({ payload: { user, dateRange } }) {
   try {
-    const posts = yield fetchPosts(uid);
+    const posts = yield fetchPosts(user, dateRange);
     yield put(fetchPostsSuccess(posts));
   } catch (err) {
     console.log(err);
@@ -40,11 +43,12 @@ export function* onFetchPostsStart() {
 
 export function* updatePost({ payload: { post, doc } }) {
   try {
+    yield put(postLoading());
     const { uid } = yield getUserId();
     yield editPost(uid, doc, post);
     yield put(updatePostSuccess({ post, doc }));
   } catch (err) {
-    console.log(err);
+    yield put(postError(err.message));
   }
 }
 

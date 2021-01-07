@@ -28,6 +28,10 @@
       top: 0;
       bottom: unset;
     }
+    .react-calendar__tile:disabled,
+    .react-calendar__navigation button[disabled] {
+      background-color: var(--primary);
+    }
   }
 
   .calendar_input--open {

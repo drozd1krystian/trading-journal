@@ -7,11 +7,11 @@ import { ReactComponent as EditIcon } from "../../assets/edit.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
 import { Link } from "react-router-dom";
 
-const Post = ({ title, comments, removePost, id }) => {
+const Post = ({ title, comments, date, removePost, id }) => {
   return (
     <section className="section">
       <p className="section_title">
-        <span>{title}</span>
+        <span>{date + " - " + title}</span>
       </p>
       <div className="message">{parse(comments)}</div>
 

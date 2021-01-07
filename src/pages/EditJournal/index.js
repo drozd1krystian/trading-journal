@@ -7,13 +7,16 @@ import PostForm from "../../components/PostForm";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { updatePostStart } from "../../redux/Posts/posts.actions";
+import Button from "../../components/Button";
 
 const mapState = ({ posts }) => ({
   posts: posts.posts,
+  erros: posts.errors,
+  postLoading: posts.isLoading,
 });
 
 const EditJournal = (props) => {
-  const { posts } = useSelector(mapState);
+  const { posts, erros, isLoading } = useSelector(mapState);
   const { id } = useParams();
   const post = posts.find((el) => el.id === id);
   const dispatch = useDispatch();
@@ -22,8 +25,10 @@ const EditJournal = (props) => {
   const handleSubmit = (postTitle, postComments, postDate) => {
     const newPost = { postTitle, postComments, postDate };
     dispatch(updatePostStart({ post: newPost, doc: id }));
-    history.push("/journal");
+    if (!isLoading && erros.length === 0) history.push("/journal");
   };
+
+  const handleReturn = () => history.push("/journal");
 
   return (
     <MainLayout title="Edit Your Post">
@@ -32,7 +37,14 @@ const EditJournal = (props) => {
           <EditIcon className="icon-small" />
           <span>Edit Your Post - {post.postTitle}</span>
         </h4>
-        <PostForm handler={handleSubmit} post={post} />
+        <PostForm handler={handleSubmit} post={post}>
+          <Button type="submit" btnStyle="btn--submit">
+            Save Changes
+          </Button>
+          <Button btnStyle="btn--unstyled" handler={handleReturn}>
+            Back to journal
+          </Button>
+        </PostForm>
       </section>
     </MainLayout>
   );

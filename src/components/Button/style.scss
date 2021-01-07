@@ -1,12 +1,15 @@
 .btn {
   border: none;
   padding: 10px 20px;
+  margin: 0 12px;
   background: var(--button);
   color: var(--text-white);
   border-radius: 5px;
   cursor: pointer;
   outline: none;
   transition: 0.3s ease;
+  display: flex;
+  align-items: center;
 
   &:hover {
     opacity: 0.8;

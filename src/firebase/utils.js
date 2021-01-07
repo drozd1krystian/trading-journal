@@ -47,19 +47,25 @@ export const addPostToDb = (post, uid) => {
   firestore.collection("users").doc(uid).collection("posts").doc().set(post);
 };
 
-export const fetchPosts = async (uid) => {
+export const fetchPosts = async (uid, dateRange = []) => {
   const posts = [];
-  await firestore
-    .collection("users")
-    .doc(uid)
-    .collection("posts")
-    .get()
-    .then((docs) =>
-      docs.forEach((doc) => {
-        const data = doc.data();
-        posts.push({ ...data, id: doc.id, postDate: data.postDate.toDate() });
-      })
-    );
+  const [start, end] = dateRange;
+  let ref = firestore.collection("users").doc(uid).collection("posts");
+  if (start && end) {
+    if (start.getDate() === end.getDate())
+      ref = ref.where(
+        "postDate",
+        "<=",
+        new Date(new Date(start).setDate(new Date(start).getDate() + 1))
+      );
+    else ref = ref.where("postDate", ">=", start).where("postDate", "<=", end);
+  }
+  await ref.get().then((docs) =>
+    docs.forEach((doc) => {
+      const data = doc.data();
+      posts.push({ ...data, id: doc.id, postDate: data.postDate.toDate() });
+    })
+  );
   return posts;
 };
 

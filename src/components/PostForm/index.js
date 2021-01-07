@@ -1,27 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
 import PropTypes from "prop-types";
 
 import ReactQuill from "react-quill";
 import Input from "../../components/Input";
-import Button from "../../components/Button";
 import CalendarInput from "../Calendar";
 import "react-quill/dist/quill.snow.css";
+import { useSelector } from "react-redux";
 
-const PostForm = ({ handler, post }) => {
+const mapState = ({ posts }) => ({
+  isLoading: posts.isLoading,
+  errors: posts.errors,
+});
+
+const PostForm = ({ handler, post, ...otherProps }) => {
+  const { children } = otherProps;
+  const { isLoading, errors } = useSelector(mapState);
   const [postTitle, setPostTitle] = useState(post.postTitle);
   const [postComments, setPostComments] = useState(post.postComments);
   const [postDate, setPostDate] = useState(post.postDate);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     handler(postTitle, postComments, postDate);
-
-    // Clear Form
-    setPostComments("");
-    setPostDate(new Date());
-    setPostTitle("");
+    if (!isLoading && errors.length === 0) {
+      // Clear Form
+      setPostComments("");
+      setPostDate(new Date());
+      setPostTitle("");
+    }
   };
 
   return (
@@ -47,8 +54,17 @@ const PostForm = ({ handler, post }) => {
         <label className="label">Choose a date</label>
         <CalendarInput value={postDate} onChange={setPostDate} />
       </div>
-      <div className="col-3 mt-2">
-        <Button type="submit" value="Create" btnStyle="btn--submit" />
+      <div className="row mt-2">{children}</div>
+      <div className="loading">
+        <div
+          className={
+            isLoading
+              ? "loading_bar loading-success"
+              : errors.length > 0
+              ? "loading_bar loading-error"
+              : null
+          }
+        ></div>
       </div>
     </form>
   );

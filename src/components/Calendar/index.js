@@ -13,11 +13,14 @@ const CalendarInput = ({ value, onChange, ...otherProps }) => {
   useDetectOutsideClick(inputRef, setIsOpen);
 
   const transformDate = () => {
-    if (Array.isArray(value) && value.length > 1)
-      return (
-        value[0].toLocaleDateString() + " - " + value[1].toLocaleDateString()
-      );
-    else return value.toLocaleDateString();
+    if (Array.isArray(value) && value.length > 1) {
+      if (value[0].getDay() === value[1].getDay())
+        return value[0].toLocaleDateString();
+      else
+        return (
+          value[0].toLocaleDateString() + " - " + value[1].toLocaleDateString()
+        );
+    } else return value.toLocaleDateString();
   };
 
   useEffect(() => {

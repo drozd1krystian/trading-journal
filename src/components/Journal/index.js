@@ -21,6 +21,7 @@ const Journal = ({ posts, title, removePost }) => {
           <Post
             title={el.postTitle}
             comments={el.postComments}
+            date={el.postDate.toLocaleDateString()}
             key={el.id}
             id={el.id}
             removePost={removePost}
