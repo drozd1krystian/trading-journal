@@ -28,9 +28,9 @@ export function* onAddPostStart() {
   yield takeLatest(postsTypes.ADD_POST_START, addPost);
 }
 
-export function* getPosts({ payload: { user, dateRange } }) {
+export function* getPosts({ payload: { user, dateRange, search } }) {
   try {
-    const posts = yield fetchPosts(user, dateRange);
+    const posts = yield fetchPosts(user, dateRange, search);
     yield put(fetchPostsSuccess(posts));
   } catch (err) {
     console.log(err);

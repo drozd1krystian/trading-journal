@@ -42,7 +42,7 @@ const DailyJournal = (props) => {
   };
 
   const handleFilterSubmit = () =>
-    dispatch(fetchPostsStart({ user: user.id, dateRange: value }));
+    dispatch(fetchPostsStart({ user: user.id, dateRange: value, search }));
 
   const handleSubmit = (postTitle, postComments, postDate) => {
     const post = { postTitle, postComments, postDate };
