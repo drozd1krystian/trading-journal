@@ -6,7 +6,7 @@ const mapState = ({ user }) => ({
   isLoading: user.isLoading,
 });
 
-const Loader = ({ show, message }) => {
+const LoggingIn = ({ show, message }) => {
   const { isLoading } = useSelector(mapState);
   return (
     <>
@@ -24,4 +24,4 @@ const Loader = ({ show, message }) => {
   );
 };
 
-export default Loader;
+export default LoggingIn;

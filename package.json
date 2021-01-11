@@ -7,6 +7,7 @@
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.3.0",
     "firebase": "^8.2.1",
+    "framer-motion": "^3.2.0",
     "html-react-parser": "^1.0.0",
     "react": "^17.0.1",
     "react-calendar": "^3.2.1",

@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { checkUserSession, isLoading } from "./redux/User/user.actions";
 import AuthRoute from "./hoc/AuthRoute";
-import Loader from "./components/Loader";
+import LoggingIn from "./components/Loaders/LoggingIn";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,7 +21,7 @@ function App() {
 
   return (
     <div className="dark_theme" id="app">
-      <Loader />
+      <LoggingIn />
       <Switch>
         <AuthRoute exact path="/dashboard" component={Dashboard} />
         <AuthRoute exact path="/journal" component={DailyJournal} />

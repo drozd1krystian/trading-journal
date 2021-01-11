@@ -1,0 +1,15 @@
+.circle {
+  margin-left: 5px;
+  .circle_wrap {
+    display: flex;
+    height: 0.6rem;
+  }
+}
+
+.load_circle {
+  width: 0.3rem;
+  height: 0.3rem;
+  background: #fff;
+  border-radius: 50%;
+  margin-right: 1px;
+}
