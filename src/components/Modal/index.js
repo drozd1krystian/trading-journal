@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Button from "../Button";
 import BoucingBalls from "../Loaders/BoucingBalls";
 import Success from "../Loaders/Success";
+import { ReactComponent as CancelIcon } from "../../assets/cancel.svg";
 
 const Modal = ({ show, loading, done, confirm, cancel }) => {
   return (
@@ -18,21 +19,29 @@ const Modal = ({ show, loading, done, confirm, cancel }) => {
           <div className="modal">
             {!loading ? (
               <div className="modal_content">
-                <div className="col-12">
-                  <h3 className="text-center">
-                    Are you sure you want to delete this post?
-                  </h3>
+                <div className="modal_header">
+                  <h3>Delete Post</h3>
+                  <div className="modal_exit" onClick={cancel}>
+                    <CancelIcon className="icon-small" />
+                  </div>
                 </div>
-                <div className="row">
-                  <Button handler={cancel}>No</Button>
-                  <Button handler={confirm}>Yes</Button>
+                <div className="modal_body">
+                  Are you sure you want to delete this post?
+                </div>
+                <div className="modal_footer">
+                  <Button handler={cancel} btnStyle="btn--unstyled">
+                    Cancel
+                  </Button>
+                  <Button handler={confirm}>Delete Post</Button>
                 </div>
               </div>
             ) : (
               <div className="modal_content">
-                <span className="load_text">Deleting </span>
-                <div className="circle">
-                  {!done ? <BoucingBalls /> : <Success />}
+                <div className="modal_body">
+                  <span className="load_text">Deleting </span>
+                  <div className="circle">
+                    {!done ? <BoucingBalls /> : <Success />}
+                  </div>
                 </div>
               </div>
             )}
