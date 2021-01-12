@@ -7,6 +7,12 @@ import {
   deletePostInDb,
 } from "../../firebase/utils";
 import {
+  modalError,
+  clearModalState,
+  triggerDone,
+  triggerLoading,
+} from "../Modal/modal.actions";
+import {
   addPostSuccess,
   fetchPostsSuccess,
   postLoading,
@@ -61,10 +67,13 @@ export function* onUpdatePostStart() {
 export function* deletePost({ payload: id }) {
   try {
     const { uid } = yield getUserId();
+    yield put(triggerLoading());
     yield deletePostInDb(uid, id);
     yield put(deletePostSuccess(id));
+    yield put(triggerDone());
+    yield put(clearModalState());
   } catch (err) {
-    yield put(postError(err.message));
+    yield put(modalError(err.message));
   }
 }
 
@@ -77,5 +86,6 @@ export default function* postsSagas() {
     call(onAddPostStart),
     call(onFetchPostsStart),
     call(onUpdatePostStart),
+    call(onDeletePostStart),
   ]);
 }

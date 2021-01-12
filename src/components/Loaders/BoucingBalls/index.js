@@ -27,7 +27,7 @@ const BoucingBalls = () => {
 
   const loadingCircleTransition = {
     duration: 0.5,
-    yoyo: Infinity,
+    repeat: Infinity,
     ease: "easeInOut",
   };
 

@@ -5,34 +5,21 @@ import Post from "../Post";
 import { ReactComponent as JournalIcon } from "../../assets/journal.svg";
 import Modal from "../Modal";
 import { useDispatch } from "react-redux";
-import { deletePostSuccess } from "../../redux/Posts/posts.actions";
-import { deletePostInDb } from "../../firebase/utils";
+import { deletePostStart } from "../../redux/Posts/posts.actions";
+import { showModal } from "../../redux/Modal/modal.actions";
+import useModal from "../../hooks/useModal";
 
-const Journal = ({ user, posts, title }) => {
-  const [loading, isLoading] = useState(false);
-  const [show, setShow] = useState(false);
-  const [done, setDone] = useState(false);
+const Journal = ({ posts, title }) => {
   const [postId, setPostId] = useState(null);
   const dispatch = useDispatch();
+  const { show, loading, done, error } = useModal();
 
   const handleModal = (id) => {
-    setShow(true);
+    dispatch(showModal());
     setPostId(id);
   };
 
-  const handleRemove = async () => {
-    isLoading(true);
-    try {
-      await deletePostInDb(user.id, postId);
-      setDone(true);
-      dispatch(deletePostSuccess(postId));
-      setTimeout(() => isLoading(false), 1000);
-      setTimeout(() => setShow(false), 900);
-      setTimeout(() => setDone(false), 900);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const handleRemove = () => dispatch(deletePostStart(postId));
 
   return (
     <div className="journal_wrap">
@@ -41,7 +28,7 @@ const Journal = ({ user, posts, title }) => {
         loading={loading}
         confirm={handleRemove}
         done={done}
-        cancel={() => setShow(false)}
+        cancel={() => dispatch(showModal())}
       />
       {posts.length === 0 ? (
         <section className="section">
