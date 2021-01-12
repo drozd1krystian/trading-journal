@@ -38,3 +38,13 @@ export const postError = (message) => ({
 export const postLoading = () => ({
   type: postsTypes.POST_IS_LOADING,
 });
+
+export const deletePostStart = (id) => ({
+  type: postsTypes.DELETE_POST_START,
+  payload: id,
+});
+
+export const deletePostSuccess = (id) => ({
+  type: postsTypes.DELETE_POST_SUCCESS,
+  payload: id,
+});

@@ -46,6 +46,12 @@ const postReducer = (state = INITIAL_STATE, action) => {
         isLoading: !state.isLoading,
       };
     }
+    case postTypes.DELETE_POST_SUCCESS: {
+      return {
+        ...state,
+        posts: state.posts.filter((el) => el.id !== action.payload),
+      };
+    }
     default:
       return {
         ...state,

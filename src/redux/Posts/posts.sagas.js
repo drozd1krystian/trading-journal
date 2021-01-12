@@ -4,6 +4,7 @@ import {
   editPost,
   fetchPosts,
   getUserId,
+  deletePostInDb,
 } from "../../firebase/utils";
 import {
   addPostSuccess,
@@ -11,6 +12,7 @@ import {
   postLoading,
   postError,
   updatePostSuccess,
+  deletePostSuccess,
 } from "./posts.actions";
 import postsTypes from "./posts.types";
 
@@ -54,6 +56,20 @@ export function* updatePost({ payload: { post, doc } }) {
 
 export function* onUpdatePostStart() {
   yield takeLatest(postsTypes.UPDATE_POST_START, updatePost);
+}
+
+export function* deletePost({ payload: id }) {
+  try {
+    const { uid } = yield getUserId();
+    yield deletePostInDb(uid, id);
+    yield put(deletePostSuccess(id));
+  } catch (err) {
+    yield put(postError(err.message));
+  }
+}
+
+export function* onDeletePostStart() {
+  yield takeLatest(postsTypes.DELETE_POST_START, deletePost);
 }
 
 export default function* postsSagas() {
