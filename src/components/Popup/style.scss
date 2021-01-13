@@ -7,9 +7,13 @@
   border: 1px solid var(--border);
   background: var(--primary);
 
-  .popup_message {
+  .popup_content {
     display: flex;
     align-items: center;
     color: var(--success);
+  }
+
+  .popup_message {
+    margin-left: 10px;
   }
 }

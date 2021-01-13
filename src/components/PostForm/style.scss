@@ -29,37 +29,3 @@
 .form {
   position: relative;
 }
-
-.loading {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 5px;
-  transform: translateY(300%);
-  .loading_bar {
-    width: 0%;
-    height: 100%;
-    transition: all 0.3s ease;
-  }
-
-  .loading-success {
-    background: var(--success);
-    animation: fillIn 1s ease-in;
-    width: 100%;
-  }
-
-  .loading-error {
-    background: red;
-    width: 100%;
-  }
-
-  @keyframes fillIn {
-    from {
-      width: 0%;
-    }
-    to {
-      width: 100%;
-    }
-  }
-}

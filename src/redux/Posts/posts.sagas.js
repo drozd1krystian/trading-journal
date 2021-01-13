@@ -1,4 +1,4 @@
-import { takeLatest, put, call, all } from "redux-saga/effects";
+import { takeLatest, put, call, all, delay } from "redux-saga/effects";
 import {
   addPostToDb,
   editPost,
@@ -19,6 +19,7 @@ import {
   postError,
   updatePostSuccess,
   deletePostSuccess,
+  showPopup,
 } from "./posts.actions";
 import postsTypes from "./posts.types";
 
@@ -26,7 +27,11 @@ export function* addPost({ payload: { post, uid } }) {
   try {
     yield put(postLoading());
     yield addPostToDb(post, uid);
+    yield delay(1000);
     yield put(addPostSuccess(post));
+    yield put(showPopup());
+    yield delay(2000);
+    yield put(showPopup());
   } catch (err) {
     yield put(postError(err.message));
   }

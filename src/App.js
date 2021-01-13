@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { checkUserSession, isLoading } from "./redux/User/user.actions";
 import AuthRoute from "./hoc/AuthRoute";
 import LoggingIn from "./components/Loaders/LoggingIn";
+import LoadingScreen from "./components/Loaders/LoadingScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ function App() {
 
   return (
     <div className="dark_theme" id="app">
+      <LoadingScreen />
       <LoggingIn />
       <Switch>
         <AuthRoute exact path="/dashboard" component={Dashboard} />

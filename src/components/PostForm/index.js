@@ -15,7 +15,7 @@ const mapState = ({ posts }) => ({
 
 const PostForm = ({ handler, post, ...otherProps }) => {
   const { children } = otherProps;
-  const { isLoading, errors } = useSelector(mapState);
+  const {isLoading, errors } = useSelector(mapState);
   const [postTitle, setPostTitle] = useState(post.postTitle);
   const [postComments, setPostComments] = useState(post.postComments);
   const [postDate, setPostDate] = useState(post.postDate);
@@ -55,17 +55,6 @@ const PostForm = ({ handler, post, ...otherProps }) => {
         <CalendarInput value={postDate} onChange={setPostDate} />
       </div>
       <div className="row mt-2">{children}</div>
-      <div className="loading">
-        <div
-          className={
-            isLoading
-              ? "loading_bar loading-success"
-              : errors.length > 0
-              ? "loading_bar loading-error"
-              : null
-          }
-        ></div>
-      </div>
     </form>
   );
 };

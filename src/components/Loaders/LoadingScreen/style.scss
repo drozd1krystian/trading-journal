@@ -1,0 +1,83 @@
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  z-index: 2000000;
+
+  .loading_bar {
+    transition: 0.3s ease;
+    animation: loader 3s infinite ease;
+    width: 0%;
+    height: 100%;
+    background: var(--success);
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  &::after {
+    content: "";
+    width: 100%;
+    height: calc(100vh - 5px);
+    background: var(--primary);
+    opacity: 0.5;
+    z-index: 2000000000;
+    position: absolute;
+    top: 5px;
+    left: 0;
+  }
+}
+
+@keyframes loader {
+  0% {
+    width: 0;
+  }
+
+  20% {
+    width: 10%;
+  }
+
+  25% {
+    width: 24%;
+  }
+
+  43% {
+    width: 41%;
+  }
+
+  56% {
+    width: 50%;
+  }
+
+  66% {
+    left: 40%;
+    width: 70%;
+  }
+
+  71% {
+    left: 50%;
+  }
+
+  75% {
+    left: 50%;
+  }
+  80% {
+    left: 40%;
+  }
+  85% {
+    left: 35%;
+  }
+  90% {
+    left: 25%;
+  }
+  94% {
+    left: 20%;
+    width: 100%;
+  }
+
+  100% {
+    left: 0%;
+  }
+}

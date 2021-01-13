@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   posts: [],
   errors: [],
   isLoading: false,
+  showPopup: false,
 };
 
 const postReducer = (state = INITIAL_STATE, action) => {
@@ -46,6 +47,14 @@ const postReducer = (state = INITIAL_STATE, action) => {
         isLoading: !state.isLoading,
       };
     }
+
+    case postsTypes.SHOW_POPUP: {
+      return {
+        ...state,
+        showPopup: !state.showPopup,
+      };
+    }
+
     case postTypes.DELETE_POST_SUCCESS: {
       return {
         ...state,
