@@ -28,6 +28,7 @@ const Journal = ({ posts, title }) => {
         loading={loading}
         confirm={handleRemove}
         done={done}
+        error={error}
         cancel={() => dispatch(showModal())}
       />
       {posts.length === 0 ? (

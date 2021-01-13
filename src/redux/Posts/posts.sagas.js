@@ -73,7 +73,9 @@ export function* deletePost({ payload: id }) {
     yield put(triggerDone());
     yield put(clearModalState());
   } catch (err) {
-    yield put(modalError(err.message));
+    yield put(modalError());
+    yield put(triggerDone());
+    yield put(clearModalState());
   }
 }
 

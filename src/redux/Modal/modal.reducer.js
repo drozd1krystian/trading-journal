@@ -19,6 +19,7 @@ const modalReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: !state.loading,
+        error: false,
       };
     }
     case modalTypes.DONE: {
@@ -30,7 +31,7 @@ const modalReducer = (state = INITIAL_STATE, action) => {
     case modalTypes.MODAL_ERROR: {
       return {
         ...state,
-        error: action.payload,
+        error: !state.error,
       };
     }
     default:

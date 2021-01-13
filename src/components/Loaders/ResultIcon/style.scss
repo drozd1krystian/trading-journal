@@ -1,9 +1,13 @@
-.success_icon {
+.result_icon {
   fill: var(--success) !important;
   margin-right: 0 !important;
 }
 
-.success {
+.result_icon-red {
+  fill: red !important;
+}
+
+.modal_result {
   display: flex;
   align-items: flex-end;
 }
