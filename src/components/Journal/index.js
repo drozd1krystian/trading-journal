@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { deletePostStart } from "../../redux/Posts/posts.actions";
 import { showModal } from "../../redux/Modal/modal.actions";
 import useModal from "../../hooks/useModal";
+import { AnimatePresence } from "framer-motion";
 
 const Journal = ({ posts, title }) => {
   const [postId, setPostId] = useState(null);
@@ -40,9 +41,11 @@ const Journal = ({ posts, title }) => {
           <p>Your journal is empty. Add something!</p>
         </section>
       ) : (
-        posts.map((el, _) => (
-          <Post data={el} removePost={() => handleModal(el.id)} key={el.id} />
-        ))
+        <AnimatePresence>
+          {posts.map((el, _) => (
+            <Post data={el} removePost={() => handleModal(el.id)} key={el.id} />
+          ))}
+        </AnimatePresence>
       )}
     </div>
   );

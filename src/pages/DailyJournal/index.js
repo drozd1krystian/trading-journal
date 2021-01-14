@@ -20,14 +20,14 @@ import { addPostStart, fetchPostsStart } from "../../redux/Posts/posts.actions";
 
 const mapState = ({ posts, user }) => ({
   posts: posts.posts,
-  showPopup: posts.showPopup,
+  errors: posts.errors,
   user: user.currentUser,
 });
 
 const DailyJournal = (props) => {
   const [value, onChange] = useState([new Date(), new Date()]);
   const [search, setSearch] = useState("");
-  const { posts, user, showPopup } = useSelector(mapState);
+  const { posts, user, errors } = useSelector(mapState);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -53,7 +53,13 @@ const DailyJournal = (props) => {
 
   return (
     <MainLayout title="Daily Journal">
-      {showPopup ? <Popup message="Post added successfully!" /> : null}
+      <Popup
+        message={
+          errors.length > 0
+            ? "Something went wrong."
+            : "Post added successfully!"
+        }
+      />
       <section className="section">
         <h4 className="section_title">
           <CalendarIcon className="icon-small" />

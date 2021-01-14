@@ -10,10 +10,14 @@
   .popup_content {
     display: flex;
     align-items: center;
-    color: var(--success);
   }
 
   .popup_message {
     margin-left: 10px;
+    color: var(--success);
+  }
+
+  .popup_message-red {
+    color: red !important;
   }
 }
