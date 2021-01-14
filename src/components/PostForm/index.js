@@ -7,6 +7,7 @@ import Input from "../../components/Input";
 import CalendarInput from "../Calendar";
 import "react-quill/dist/quill.snow.css";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 const mapState = ({ posts }) => ({
   isLoading: posts.isLoading,
@@ -15,15 +16,17 @@ const mapState = ({ posts }) => ({
 
 const PostForm = ({ handler, post, ...otherProps }) => {
   const { children } = otherProps;
-  const {isLoading, errors } = useSelector(mapState);
+  const { isLoading, errors } = useSelector(mapState);
   const [postTitle, setPostTitle] = useState(post.postTitle);
   const [postComments, setPostComments] = useState(post.postComments);
   const [postDate, setPostDate] = useState(post.postDate);
+  const location = useLocation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     handler(postTitle, postComments, postDate);
     if (!isLoading && errors.length === 0) {
+      if (location.pathname.includes("edit-journal")) return;
       // Clear Form
       setPostComments("");
       setPostDate(new Date());
@@ -54,7 +57,7 @@ const PostForm = ({ handler, post, ...otherProps }) => {
         <label className="label">Choose a date</label>
         <CalendarInput value={postDate} onChange={setPostDate} />
       </div>
-      <div className="row mt-2">{children}</div>
+      <div className="row mt-2 ">{children}</div>
     </form>
   );
 };

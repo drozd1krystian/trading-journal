@@ -8,15 +8,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { updatePostStart } from "../../redux/Posts/posts.actions";
 import Button from "../../components/Button";
+import Popup from "../../components/Popup";
 
 const mapState = ({ posts }) => ({
   posts: posts.posts,
-  erros: posts.errors,
+  errors: posts.errors,
   postLoading: posts.isLoading,
 });
 
 const EditJournal = (props) => {
-  const { posts, erros, isLoading } = useSelector(mapState);
+  const { posts, errors, isLoading } = useSelector(mapState);
   const { id } = useParams();
   const post = posts.find((el) => el.id === id);
   const dispatch = useDispatch();
@@ -25,13 +26,19 @@ const EditJournal = (props) => {
   const handleSubmit = (postTitle, postComments, postDate) => {
     const newPost = { postTitle, postComments, postDate };
     dispatch(updatePostStart({ post: newPost, doc: id }));
-    if (!isLoading && erros.length === 0) history.push("/journal");
   };
 
   const handleReturn = () => history.push("/journal");
 
   return (
     <MainLayout title="Edit Your Post">
+      <Popup
+        message={
+          errors.length > 0
+            ? "Something went wrong."
+            : "Post edited successfully. You can go back to journal."
+        }
+      />
       <section className="section">
         <h4 className="section_title">
           <EditIcon className="icon-small" />

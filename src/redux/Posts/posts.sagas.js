@@ -59,7 +59,11 @@ export function* updatePost({ payload: { post, doc } }) {
     yield put(postLoading());
     const { uid } = yield getUserId();
     yield editPost(uid, doc, post);
+    yield delay(1000);
+    yield put(showPopup());
     yield put(updatePostSuccess({ post, doc }));
+    yield delay(3000);
+    yield put(showPopup());
   } catch (err) {
     yield put(postError(err.message));
   }
