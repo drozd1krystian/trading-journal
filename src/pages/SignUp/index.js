@@ -5,7 +5,6 @@ import "./style.scss";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { Link, useHistory } from "react-router-dom";
-import Footer from "../../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { emailSignUpStart } from "../../redux/User/user.actions";
 
@@ -31,8 +30,8 @@ const SignUp = (props) => {
   };
 
   return (
-    <>
-      <AuthLayout>
+    <AuthLayout>
+      <div className="form_body bg-dark">
         <div className="row row-center">
           <div className="col-8">
             <p className="text-center text-bold ">
@@ -67,10 +66,10 @@ const SignUp = (props) => {
             />
           </div>
           <div className="row row-center mt-2">
-            <Button value="Sign Up" />
+            <Button>Sign Up </Button>
           </div>
         </form>
-      </AuthLayout>
+      </div>
       <div className="container">
         <p className="text-center mt-2">
           Already have an account?{" "}
@@ -79,8 +78,7 @@ const SignUp = (props) => {
           </Link>
         </p>
       </div>
-      <Footer />
-    </>
+    </AuthLayout>
   );
 };
 
