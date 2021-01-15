@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./style.scss";
 
 // Layouts
@@ -16,10 +16,15 @@ import Journal from "../../components/Journal";
 import PostForm from "../../components/PostForm";
 import Popup from "../../components/Popup";
 import { useDispatch, useSelector } from "react-redux";
-import { addPostStart, fetchPostsStart } from "../../redux/Posts/posts.actions";
+import {
+  addPostStart,
+  fetchPostsStart,
+  postLoading,
+} from "../../redux/Posts/posts.actions";
 
 const mapState = ({ posts, user }) => ({
   posts: posts.posts,
+  loading: posts.isLoading,
   errors: posts.errors,
   user: user.currentUser,
 });
@@ -27,22 +32,26 @@ const mapState = ({ posts, user }) => ({
 const DailyJournal = (props) => {
   const [value, onChange] = useState([new Date(), new Date()]);
   const [search, setSearch] = useState("");
-  const { posts, user, errors } = useSelector(mapState);
+  const { posts, user, errors, loading } = useSelector(mapState);
   const dispatch = useDispatch();
+  const journalRef = useRef(null);
 
   useEffect(() => {
     if (posts.length === 0) {
       dispatch(fetchPostsStart({ user: user.id, dateRange: value }));
     }
-  }, [dispatch, user]);
+  }, []);
 
   const handleFiltersClear = () => {
     onChange([new Date(), new Date()]);
     setSearch("");
   };
 
-  const handleFilterSubmit = () =>
+  const handleFilterSubmit = () => {
+    dispatch(postLoading());
     dispatch(fetchPostsStart({ user: user.id, dateRange: value, search }));
+    if (!loading) journalRef.current.scrollIntoView({ behavior: "smooth" });
+  };
 
   const handleSubmit = (postTitle, postComments, postDate) => {
     const post = { postTitle, postComments, postDate };
@@ -103,6 +112,7 @@ const DailyJournal = (props) => {
         posts={posts}
         title="Trading Journal"
         removePost={handleRemovePost}
+        journalRef={journalRef}
       />
     </MainLayout>
   );

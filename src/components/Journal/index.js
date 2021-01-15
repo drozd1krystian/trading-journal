@@ -10,7 +10,7 @@ import { showModal } from "../../redux/Modal/modal.actions";
 import useModal from "../../hooks/useModal";
 import { AnimatePresence } from "framer-motion";
 
-const Journal = ({ posts, title }) => {
+const Journal = ({ posts, title, otherProps, journalRef }) => {
   const [postId, setPostId] = useState(null);
   const dispatch = useDispatch();
   const { show, loading, done, error } = useModal();
@@ -23,7 +23,7 @@ const Journal = ({ posts, title }) => {
   const handleRemove = () => dispatch(deletePostStart(postId));
 
   return (
-    <div className="journal_wrap">
+    <div className="journal_wrap" ref={journalRef}>
       <Modal
         show={show}
         loading={loading}
