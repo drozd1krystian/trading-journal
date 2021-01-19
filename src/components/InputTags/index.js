@@ -1,31 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.scss";
 
 import Button from "../Button";
 import { ReactComponent as RemoveIcon } from "../../assets/cancel.svg";
 import { motion, AnimatePresence } from "framer-motion";
 
-const InputTag = ({ defaultTags, onChange }) => {
+const InputTag = ({ defaultTags, onChange, label, limit = 10 }) => {
   const [tags, setTags] = useState(defaultTags ? defaultTags : []);
   const [value, setValue] = useState("");
 
   const handleRemoveTag = (tagId) => {
-    setTags((prev) => prev.filter((_, id) => id !== tagId));
-    onChange(tags);
+    const arr = tags.filter((_, id) => id !== tagId);
+    setTags(arr);
+    onChange(arr);
   };
 
   const changeHandler = (e) => {
+    if (tags.length === limit) return;
     setValue(e.target.value);
   };
+
+  useEffect(() => {
+    if (defaultTags.length === 0) setTags([]);
+  }, [defaultTags]);
+
   const handleInput = (e) => {
     e.preventDefault();
+    if (tags.length === limit) return;
 
     if (e.target.value !== "" && e.target.value !== ",") {
       if (e.key === ",") {
         const newTag = value.trim().split(",")[0];
+
         if (!tags.includes(newTag) && newTag !== "") {
           const arr = [...tags, newTag];
           setTags(arr);
+          onChange(arr);
         }
         setValue("");
       } else if (e.key === "Enter") {
@@ -34,24 +44,20 @@ const InputTag = ({ defaultTags, onChange }) => {
         if (!tags.includes(newTag) && newTag !== "") {
           const arr = [...tags, newTag];
           setTags(arr);
+          onChange(arr);
         }
-        onChange(tags);
         setValue("");
       }
-    }
-
-    if (e.key === "Backspace" && tags.length > 0) {
-      const copyOfTags = [...tags];
-      copyOfTags.pop();
-      setTags(copyOfTags);
     }
   };
 
   return (
-    <div className="input_tag mt-2">
-      <label htmlFor="tag" className="label">
-        Tags
-      </label>
+    <div className="input_tag">
+      {label ? (
+        <label htmlFor="tag" className="label">
+          {label}
+        </label>
+      ) : null}
 
       <ul className="tags input list-unstyled">
         <AnimatePresence>
@@ -78,7 +84,7 @@ const InputTag = ({ defaultTags, onChange }) => {
               type="text"
               name="tag"
               className="tag_input"
-              placeholder="Add tag"
+              placeholder={`Press enter to add tag (max ${limit})`}
               value={value}
               autoComplete="off"
               onKeyUp={handleInput}

@@ -25,13 +25,23 @@ const Post = ({ data, removePost, ...otherProps }) => {
       <div className="message">{parse(data.postComments)}</div>
 
       <div className="col-10 mt-3 controls">
-        <Link to={{ pathname: `/edit-journal/${data.id}` }}>
+        <Link
+          to={{ pathname: `/edit-journal/${data.id}` }}
+          className="icon-small"
+        >
           <EditIcon className="icon-small icon-btn" />
         </Link>
         <DeleteIcon
           className="icon-small icon-btn"
           onClick={() => removePost(data.id)}
         />
+        <ul className="post_tags list-unstyled tags">
+          {data.tags.map((el, id) => (
+            <li className="tag" key={id}>
+              <span className="tag_value">#{el}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </motion.section>
   );

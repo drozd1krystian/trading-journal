@@ -1,0 +1,11 @@
+.post_tags {
+  border-left: 2px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 5px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+}

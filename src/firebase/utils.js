@@ -43,11 +43,15 @@ export const getCurrentUser = () => {
 
 export const getUserId = () => auth.currentUser;
 
-export const addPostToDb = (post, uid) => {
-  firestore.collection("users").doc(uid).collection("posts").doc().set(post);
-};
+export const addPostToDb = async (post, uid) =>
+  firestore
+    .collection("users")
+    .doc(uid)
+    .collection("posts")
+    .add(post)
+    .then((docRef) => docRef);
 
-export const fetchPosts = async (uid, dateRange = [], search) => {
+export const fetchPosts = async (uid, dateRange = [], search = []) => {
   const posts = [];
   const [start, end] = dateRange;
   let ref = firestore.collection("users").doc(uid).collection("posts");
@@ -60,15 +64,13 @@ export const fetchPosts = async (uid, dateRange = [], search) => {
       );
     else ref = ref.where("postDate", ">=", start).where("postDate", "<=", end);
   }
-
+  if (search.length > 0) {
+    ref = ref.where("tags", "array-contains-any", search);
+  }
   await ref.get().then((docs) =>
     docs.forEach((doc) => {
       const data = doc.data();
-      if (search) {
-        if (data.postTitle.toLowerCase().includes(search.toLowerCase()))
-          posts.push({ ...data, id: doc.id, postDate: data.postDate.toDate() });
-      } else
-        posts.push({ ...data, id: doc.id, postDate: data.postDate.toDate() });
+      posts.push({ ...data, id: doc.id, postDate: data.postDate.toDate() });
     })
   );
   return posts;

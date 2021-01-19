@@ -8,7 +8,7 @@
 
   .loading_bar {
     transition: 0.3s ease;
-    animation: loader 3s infinite ease;
+    animation: loader 1s ease;
     width: 0%;
     height: 100%;
     background: var(--success);
@@ -52,32 +52,22 @@
   }
 
   66% {
-    left: 40%;
-    width: 70%;
+    width: 52%;
   }
 
   71% {
-    left: 50%;
+    width: 60%;
   }
 
   75% {
-    left: 50%;
+    width: 76%;
   }
-  80% {
-    left: 40%;
-  }
-  85% {
-    left: 35%;
-  }
-  90% {
-    left: 25%;
-  }
+
   94% {
-    left: 20%;
-    width: 100%;
+    width: 86%;
   }
 
   100% {
-    left: 0%;
+    width: 100%;
   }
 }

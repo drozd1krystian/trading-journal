@@ -23,8 +23,8 @@ const EditJournal = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleSubmit = (postTitle, postComments, postDate) => {
-    const newPost = { postTitle, postComments, postDate };
+  const handleSubmit = (postTitle, postComments, postDate, tags) => {
+    const newPost = { postTitle, postComments, postDate, tags };
     dispatch(updatePostStart({ post: newPost, doc: id }));
   };
 

@@ -24,17 +24,20 @@ const PostForm = ({ handler, post, ...otherProps }) => {
   const [tags, setTags] = useState(post.tags ? post.tags : []);
   const location = useLocation();
 
-  const handleChange = (tags) => setTags(tags);
+  const handleTagsChange = (tags) => {
+    setTags(tags);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handler(postTitle, postComments, postDate);
+    handler(postTitle, postComments, postDate, tags);
     if (!isLoading && errors.length === 0) {
       if (location.pathname.includes("edit-journal")) return;
       // Clear Form
       setPostComments("");
       setPostDate(new Date());
       setPostTitle("");
+      setTags([]);
     }
   };
 
@@ -57,14 +60,14 @@ const PostForm = ({ handler, post, ...otherProps }) => {
           onChange={setPostComments}
         />
       </div>
-      <div className="col-10">
-        <InputTag defaultTags={tags} onChange={handleChange} />
+      <div className="col-10 mt2">
+        <InputTag defaultTags={tags} onChange={handleTagsChange} label="Tags" />
       </div>
       <div className="col-10 mt-2">
         <label className="label">Choose a date</label>
         <CalendarInput value={postDate} onChange={setPostDate} />
       </div>
-      <div className="row mt-2 ">{children}</div>
+      <div className="row mt-2">{children}</div>
     </form>
   );
 };
@@ -74,6 +77,7 @@ PostForm.defaultProps = {
     postTitle: "",
     postComments: "",
     postDate: new Date(),
+    tags: [],
   },
 };
 
