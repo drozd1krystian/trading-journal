@@ -6,7 +6,6 @@ import DropDownMenu from "../DropDownMenu";
 import { ReactComponent as Dashboard } from "../../assets/dashboard.svg";
 import { ReactComponent as Calendar } from "../../assets/calendar.svg";
 import { ReactComponent as Report } from "../../assets/blocks.svg";
-import { ReactComponent as Import } from "../../assets/import.svg";
 import { Link } from "react-router-dom";
 
 const journalLinks = [
@@ -35,10 +34,6 @@ const Menu = (props) => {
             Reports
             <DropDownMenu list={reportsLinks} />
           </li>
-          {/* <li className="link">
-            <Import className="link_icon" />
-            Import
-          </li> */}
         </ul>
       </div>
     </nav>

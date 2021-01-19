@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./style.scss";
 import PropTypes from "prop-types";
 
@@ -8,6 +8,7 @@ import CalendarInput from "../Calendar";
 import "react-quill/dist/quill.snow.css";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import InputTag from "../InputTags";
 
 const mapState = ({ posts }) => ({
   isLoading: posts.isLoading,
@@ -20,7 +21,10 @@ const PostForm = ({ handler, post, ...otherProps }) => {
   const [postTitle, setPostTitle] = useState(post.postTitle);
   const [postComments, setPostComments] = useState(post.postComments);
   const [postDate, setPostDate] = useState(post.postDate);
+  const [tags, setTags] = useState(post.tags ? post.tags : []);
   const location = useLocation();
+
+  const handleChange = (tags) => setTags(tags);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,7 +39,7 @@ const PostForm = ({ handler, post, ...otherProps }) => {
   };
 
   return (
-    <form className="form" onSubmit={(e) => handleSubmit(e)}>
+    <form className="form" onSubmit={handleSubmit}>
       <div className="col-10">
         <Input
           label="Post Title"
@@ -52,6 +56,9 @@ const PostForm = ({ handler, post, ...otherProps }) => {
           value={postComments}
           onChange={setPostComments}
         />
+      </div>
+      <div className="col-10">
+        <InputTag defaultTags={tags} onChange={handleChange} />
       </div>
       <div className="col-10 mt-2">
         <label className="label">Choose a date</label>
