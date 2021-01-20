@@ -1,0 +1,30 @@
+.table_wrapper {
+  overflow-x: auto;
+  width: 100%;
+  display: block;
+}
+
+.table {
+  clear: both;
+  margin: 5px 0;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  thead,
+  tbody,
+  tr {
+    text-align: left;
+    width: 100%;
+  }
+
+  td,
+  th {
+    padding: 0.5rem;
+  }
+  th {
+    padding-right: 20px;
+  }
+
+  tbody tr:nth-child(odd) {
+    background: var(--primary-dark);
+  }
+}

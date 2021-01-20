@@ -13,7 +13,7 @@ import LoggingIn from "./components/Loaders/LoggingIn";
 import LoadingScreen from "./components/Loaders/LoadingScreen";
 import { AnimatePresence } from "framer-motion";
 import Popup from "./components/Popup";
-import TradeJournal from "./pages/TradeJournal";
+import MyTrades from "./pages/TradeJournal";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ function App() {
           <AuthRoute exact path="/dashboard" component={Dashboard} />
           <AuthRoute exact path="/journal" component={DailyJournal} />
           <AuthRoute exact path="/edit-journal/:id" component={EditJournal} />
-          <AuthRoute exact path="/journal-trades" component={TradeJournal} />
+          <AuthRoute exact path="/mytrades" component={MyTrades} />
 
           <Route exact path="/signup" render={() => <SignUp />} />
           <Route exact path="/signin" render={() => <SignIn />} />

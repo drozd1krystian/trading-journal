@@ -3,8 +3,8 @@ import "./style.scss";
 import { ReactComponent as ArrowDown } from "../../assets/arrow-down.svg";
 import useDetectOutsideClick from "../../hooks/useDetectOutsideClick";
 
-const Select = ({ list, handler }) => {
-  const [selected, setSelected] = useState("Type");
+const Select = ({ list, handler, defaultPick }) => {
+  const [selected, setSelected] = useState(defaultPick || "");
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef(null);
   const optionsRef = useRef(null);

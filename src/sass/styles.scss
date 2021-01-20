@@ -109,8 +109,22 @@ ol {
 // Columns
 
 .col-1 {
-  max-width: 15%;
-  flex: 0 0 15%;
+  max-width: 12%;
+  flex: 0 0 12%;
+  padding: 0 10px;
+
+  @media screen and (max-width: 767px) {
+    max-width: 100%;
+    padding: 0;
+    flex: unset;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+.col-2 {
+  max-width: 20%;
+  flex: 0 0 20%;
   padding: 0 10px;
 
   @media screen and (max-width: 767px) {
@@ -178,6 +192,7 @@ ol {
 .col-12 {
   flex: 0 0 100%;
   max-width: 100%;
+  padding: 0 12px;
 }
 
 // Row
