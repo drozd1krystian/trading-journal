@@ -13,7 +13,6 @@ import Button from "../../components/Button";
 import CalendarInput from "../../components/Calendar";
 import Journal from "../../components/Journal";
 import PostForm from "../../components/PostForm";
-import Popup from "../../components/Popup";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addPostStart,
@@ -25,14 +24,13 @@ import InputTag from "../../components/InputTags";
 const mapState = ({ posts, user }) => ({
   posts: posts.posts,
   loading: posts.isLoading,
-  errors: posts.errors,
   user: user.currentUser,
 });
 
 const DailyJournal = (props) => {
   const [value, onChange] = useState([new Date(), new Date()]);
   const [tags, setTags] = useState([]);
-  const { posts, user, errors, loading } = useSelector(mapState);
+  const { posts, user, loading } = useSelector(mapState);
   const dispatch = useDispatch();
   const journalRef = useRef(null);
 

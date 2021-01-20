@@ -108,6 +108,20 @@ ol {
 
 // Columns
 
+.col-1 {
+  max-width: 15%;
+  flex: 0 0 15%;
+  padding: 0 10px;
+
+  @media screen and (max-width: 767px) {
+    max-width: 100%;
+    padding: 0;
+    flex: unset;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
 .col-3 {
   max-width: 33.3%;
   flex: 0 0 33%;

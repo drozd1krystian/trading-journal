@@ -1,0 +1,60 @@
+.select {
+  max-width: 110px;
+  width: 100%;
+  padding: 20px 5px 20px 20px;
+  text-align: left;
+  position: relative;
+  z-index: 1000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+
+  &_wrapper {
+    position: relative;
+    display: flex;
+    width: 100%;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &_icon {
+    height: 15px;
+    width: 15px;
+    display: inline-block;
+    position: relative;
+    fill: var(--text-light);
+  }
+  &_list {
+    background: var(--primary-dark);
+    color: var(--text-light);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    position: absolute;
+    left: 0;
+    top: 48px;
+    padding: 10px 15px;
+    list-style: none;
+
+    .list_item {
+      padding: 5px 0;
+      transition: all 0.3s ease;
+      &:hover {
+        color: var(--button);
+      }
+      &--active {
+        color: var(--button);
+      }
+    }
+  }
+
+  &_list--open {
+    visibility: visible;
+    opacity: 1;
+  }
+}

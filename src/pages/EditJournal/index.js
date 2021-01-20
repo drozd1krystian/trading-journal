@@ -8,16 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { updatePostStart } from "../../redux/Posts/posts.actions";
 import Button from "../../components/Button";
-import Popup from "../../components/Popup";
 
 const mapState = ({ posts }) => ({
   posts: posts.posts,
-  errors: posts.errors,
-  postLoading: posts.isLoading,
 });
 
 const EditJournal = (props) => {
-  const { posts, errors, isLoading } = useSelector(mapState);
+  const { posts } = useSelector(mapState);
   const { id } = useParams();
   const post = posts.find((el) => el.id === id);
   const dispatch = useDispatch();
