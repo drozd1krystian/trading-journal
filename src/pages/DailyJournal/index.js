@@ -9,7 +9,6 @@ import { ReactComponent as CalendarIcon } from "../../assets/calendar.svg";
 import { ReactComponent as AddIcon } from "../../assets/add.svg";
 
 // Components
-import Input from "../../components/Input";
 import Button from "../../components/Button";
 import CalendarInput from "../../components/Calendar";
 import Journal from "../../components/Journal";
@@ -65,13 +64,6 @@ const DailyJournal = (props) => {
 
   return (
     <MainLayout title="Daily Journal">
-      <Popup
-        message={
-          errors.length > 0
-            ? "Something went wrong."
-            : "Post added successfully!"
-        }
-      />
       <section className="section">
         <h4 className="section_title">
           <CalendarIcon className="icon-small" />
@@ -87,11 +79,6 @@ const DailyJournal = (props) => {
             />
           </div>
           <div className="col-3">
-            {/* <Input
-              value={search}
-              placeholder="Search your journal by tags"
-              handler={(e) => setSearch(e.target.value)}
-            /> */}
             <InputTag
               defaultTags={tags}
               onChange={handleSearchInput}

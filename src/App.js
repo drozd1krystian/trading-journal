@@ -12,6 +12,7 @@ import AuthRoute from "./hoc/AuthRoute";
 import LoggingIn from "./components/Loaders/LoggingIn";
 import LoadingScreen from "./components/Loaders/LoadingScreen";
 import { AnimatePresence } from "framer-motion";
+import Popup from "./components/Popup";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function App() {
     <div className="app" id="app">
       <LoadingScreen />
       <LoggingIn />
+      <Popup />
       <AnimatePresence>
         <Switch location={location}>
           <AuthRoute exact path="/dashboard" component={Dashboard} />

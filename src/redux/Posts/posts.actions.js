@@ -39,8 +39,9 @@ export const postLoading = () => ({
   type: postsTypes.POST_IS_LOADING,
 });
 
-export const showPopup = () => ({
+export const showPopup = (message) => ({
   type: postsTypes.SHOW_POPUP,
+  payload: message,
 });
 
 export const deletePostStart = (id) => ({

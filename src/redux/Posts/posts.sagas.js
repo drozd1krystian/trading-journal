@@ -34,9 +34,9 @@ export function* addPost({ payload: { post, uid } }) {
         ...post,
       })
     );
-    yield put(showPopup());
+    yield put(showPopup("Post added successfully"));
     yield delay(2000);
-    yield put(showPopup());
+    yield put(showPopup(""));
   } catch (err) {
     yield put(postError(err.message));
   }
@@ -65,10 +65,12 @@ export function* updatePost({ payload: { post, doc } }) {
     const { uid } = yield getUserId();
     yield editPost(uid, doc, post);
     yield delay(1000);
-    yield put(showPopup());
+    yield put(
+      showPopup("Post edited successfully. You can go back to journal.")
+    );
     yield put(updatePostSuccess({ post, doc }));
     yield delay(3000);
-    yield put(showPopup());
+    yield put(showPopup(""));
   } catch (err) {
     yield put(postError(err.message));
   }
