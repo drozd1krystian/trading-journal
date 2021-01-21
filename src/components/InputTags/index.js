@@ -5,7 +5,7 @@ import Button from "../Button";
 import { ReactComponent as RemoveIcon } from "../../assets/cancel.svg";
 import { motion, AnimatePresence } from "framer-motion";
 
-const InputTag = ({ defaultTags, onChange, label, limit = 10 }) => {
+const InputTag = ({ defaultTags, onChange, label, limit = 10, error }) => {
   const [tags, setTags] = useState(defaultTags ? defaultTags : []);
   const [value, setValue] = useState("");
 
@@ -95,6 +95,9 @@ const InputTag = ({ defaultTags, onChange, label, limit = 10 }) => {
           </motion.li>
         </AnimatePresence>
       </ul>
+      {error ? (
+        <span className="tag_error mt-1">Please add at least one tag.</span>
+      ) : null}
     </div>
   );
 };

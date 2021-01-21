@@ -6,10 +6,15 @@ import Input from "../../components/Input";
 import InputTags from "../../components/InputTags";
 import CalendarInput from "../../components/Calendar";
 import Button from "../../components/Button";
+import { useDispatch } from "react-redux";
+import { addTradeStart } from "../../redux/Trades/trades.actions";
 
 const AddTrade = () => {
   const [value, onChange] = useState(new Date());
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState({
+    arr: [],
+    error: false,
+  });
   const [side, setSide] = useState("Buy");
   const [symbol, setSymbol] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -20,13 +25,24 @@ const AddTrade = () => {
   const [imgUrl, setImgUrl] = useState("");
   const [notes, setNotes] = useState("");
 
-  const handleTagsChange = (newTags) => setTags(newTags);
+  const dispatch = useDispatch();
+
+  const handleTagsChange = (newTags) =>
+    setTags((prev) => ({ ...prev, arr: [...newTags], error: false }));
+
+  const validateNumber = (value, fn) => {
+    isNaN(value) || value < 0 ? fn(0) : fn(value);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (tags.arr.length === 0) {
+      setTags((prev) => ({ ...prev, error: true }));
+      return;
+    }
     const trade = {
       value,
-      tags,
+      tags: tags.arr,
       side,
       symbol,
       quantity,
@@ -38,6 +54,7 @@ const AddTrade = () => {
       notes,
     };
     console.log(trade);
+    dispatch(addTradeStart(trade));
   };
 
   return (
@@ -94,7 +111,7 @@ const AddTrade = () => {
             <div className="col-10">
               <Input
                 label="Quanitity *:"
-                handler={(e) => setQuantity(e.target.value)}
+                handler={(e) => validateNumber(e.target.value, setQuantity)}
                 required
               />
             </div>
@@ -106,21 +123,21 @@ const AddTrade = () => {
             <div className="col-10">
               <Input
                 label="Entry Price *:"
-                handler={(e) => setEntryPrice(e.target.value)}
+                handler={(e) => validateNumber(e.target.value, setEntryPrice)}
                 required
               />
             </div>
             <div className="col-10">
               <Input
                 label="Exit Price *:"
-                handler={(e) => setExitPrice(e.target.value)}
+                handler={(e) => validateNumber(e.target.value, setExitPrice)}
                 required
               />
             </div>
             <div className="col-10">
               <Input
                 label="Stop Loss:"
-                handler={(e) => setStopLoss(e.target.value)}
+                handler={(e) => validateNumber(e.target.value, setStopLoss)}
               />
             </div>
             <div className="col-10">
@@ -132,7 +149,7 @@ const AddTrade = () => {
             <div className="col-10">
               <Input
                 label="Comission: "
-                handler={(e) => setCommision(e.target.value)}
+                handler={(e) => validateNumber(e.target.value, setCommision)}
               />
             </div>
             <div className="col-10">
@@ -146,7 +163,11 @@ const AddTrade = () => {
             </div>
             <div className="col-10">
               <label className="label">Tags (add at least one) *:</label>
-              <InputTags defaultTags={tags} onChange={handleTagsChange} />
+              <InputTags
+                defaultTags={tags.arr}
+                onChange={handleTagsChange}
+                error={tags.error}
+              />
             </div>
             <div className="row mt-2">
               <Button type="submit">Save</Button>
