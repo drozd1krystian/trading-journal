@@ -1,0 +1,24 @@
+.add_form {
+  padding: 0 12px;
+  font-size: 0.9rem;
+  .label {
+    font-weight: bold;
+  }
+}
+
+.text_area {
+  resize: vertical;
+  height: auto;
+  min-height: 50px;
+}
+
+.radio {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  cursor: pointer;
+  .radio_label {
+    margin-left: 5px;
+    cursor: pointer;
+  }
+}
