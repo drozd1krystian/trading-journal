@@ -8,10 +8,14 @@
     .card_col {
       flex: 1;
       padding: 20px;
+      position: relative;
     }
 
     .card_text {
       padding: 10px 0;
+      &:first-child {
+        padding: 0;
+      }
     }
   }
 }

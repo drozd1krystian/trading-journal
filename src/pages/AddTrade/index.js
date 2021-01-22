@@ -21,7 +21,7 @@ const AddTrade = () => {
   const [entryPrice, setEntryPrice] = useState("");
   const [exitPrice, setExitPrice] = useState("");
   const [stopLoss, setStopLoss] = useState("");
-  const [commission, setCommision] = useState("");
+  const [net, setNet] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [notes, setNotes] = useState("");
 
@@ -49,12 +49,17 @@ const AddTrade = () => {
       entryPrice,
       exitPrice,
       stopLoss,
-      commission,
+      net,
       imgUrl,
       notes,
     };
-    console.log(trade);
     dispatch(addTradeStart(trade));
+
+    // Update Current Account Balance
+
+    // Update Array for Balance Chart
+
+    // Update Pair Gain
   };
 
   return (
@@ -148,8 +153,9 @@ const AddTrade = () => {
             </div>
             <div className="col-10">
               <Input
-                label="Comission: "
-                handler={(e) => validateNumber(e.target.value, setCommision)}
+                label="Profit/Loss *:"
+                handler={(e) => validateNumber(e.target.value, setNet)}
+                required
               />
             </div>
             <div className="col-10">

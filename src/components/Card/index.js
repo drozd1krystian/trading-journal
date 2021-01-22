@@ -1,7 +1,9 @@
 import React from "react";
 import "./style.scss";
 
-const Card = ({ title, balance, subValue }) => {
+const Card = ({ title, balance, subValue, ...otherProps }) => {
+  const { children } = otherProps;
+
   return (
     <div className="card">
       <div className="card_body">
@@ -12,9 +14,7 @@ const Card = ({ title, balance, subValue }) => {
           </p>
           <p className="card_text">{subValue}</p>
         </div>
-        <div className="card_col">
-          <h2>Chart</h2>
-        </div>
+        <div className="card_col">{children}</div>
       </div>
     </div>
   );

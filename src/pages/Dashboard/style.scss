@@ -1,1 +1,19 @@
+.balance {
+  padding: 0 12px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--primary-dark);
+  margin: 0 12px;
 
+  .chart {
+    height: 300px;
+    width: 100%;
+    padding: 10px 0;
+
+    .arrow_box {
+      padding: 10px;
+    }
+  }
+}

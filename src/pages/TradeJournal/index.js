@@ -89,9 +89,9 @@ const MyTrades = (props) => {
                 <th className="table_header">Side</th>
                 <th className="table_header">Qty</th>
                 <th className="table_header">Price</th>
+                <th className="table_header">Net</th>
                 <th className="table_header">Commision</th>
                 <th className="table_header">Fees</th>
-                <th className="table_header">RR</th>
                 <th className="table_header">Notes</th>
                 <th className="table_header">Tags</th>
                 <th className="table_header">Pct %</th>
