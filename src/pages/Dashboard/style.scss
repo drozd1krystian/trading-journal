@@ -7,8 +7,12 @@
   background: var(--primary-dark);
   margin: 0 12px;
 
+  &_header {
+    color: var(--text);
+    padding: 15px 10px 0;
+  }
   .chart {
-    height: 300px;
+    height: 400px;
     width: 100%;
     padding: 10px 0;
 

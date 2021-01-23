@@ -200,6 +200,7 @@ ol {
   flex-wrap: wrap;
   margin-left: -12px;
   margin-right: -12px;
+  width: 100%;
 
   @media screen and (max-width: 767px) {
     margin: 0;
@@ -209,7 +210,9 @@ ol {
 .row-center {
   justify-content: center;
 }
-
+.row-align-center {
+  align-items: center;
+}
 // Sections
 
 .section {
