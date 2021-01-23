@@ -6,7 +6,7 @@ import Input from "../../components/Input";
 import InputTags from "../../components/InputTags";
 import CalendarInput from "../../components/Calendar";
 import Button from "../../components/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addTradeStart } from "../../redux/Trades/trades.actions";
 
 const AddTrade = () => {
@@ -24,7 +24,6 @@ const AddTrade = () => {
   const [net, setNet] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [notes, setNotes] = useState("");
-
   const dispatch = useDispatch();
 
   const handleTagsChange = (newTags) =>
@@ -41,7 +40,7 @@ const AddTrade = () => {
       return;
     }
     const trade = {
-      value,
+      date: value,
       tags: tags.arr,
       side,
       symbol,
@@ -53,13 +52,26 @@ const AddTrade = () => {
       imgUrl,
       notes,
     };
-    dispatch(addTradeStart(trade));
 
-    // Update Current Account Balance
+    // const formattedDate = `${value.getFullYear()}-${
+    //   value.getMonth() + 1
+    // }-${value.getDate()}`;
+    // const dateIndex = balance.dates.findIndex((date) => date === formattedDate);
+    // let balanceCopy = { ...balance };
+    // if (dateIndex !== -1) balanceCopy.dates[dateIndex] += net;
+    // balanceCopy = {
+    //   ...balanceCopy,
+    //   dates: [...balanceCopy.dates, formattedDate],
+    //   values: [...balanceCopy.values, net],
+    // };
 
-    // Update Array for Balance Chart
+    dispatch(addTradeStart({ trade }));
 
-    // Update Pair Gain
+    // Update Balance Array
+    // {dates: [], values: []}
+    // Need to update daily values
+
+    // In dashboard filter for daily trades, monthly trades and this year trades and build chart on top of this
   };
 
   return (

@@ -5,18 +5,44 @@ import "./style.scss";
 import Chart from "react-apexcharts";
 
 import { series } from "./data";
+import { useSelector } from "react-redux";
+
+const mapState = ({ user, trades }) => ({
+  initialBalance: user.currentUser.initialBalance,
+  balance: trades.balance,
+});
 
 const Dashboard = (props) => {
   const lastTradeDate = "on 2020-12-08";
-  const [chartData, setChartData] = useState([]);
-  const [balance, setBalance] = useState([]);
+  const { initialBalance, balance } = useSelector(mapState);
+  const dailyPln = {
+    values: [
+      0,
+      0,
+      balance.values[balance.values.length - 2] -
+        balance.values[balance.values.length - 1],
+    ],
+  };
+
+  // To do:
+  // Calculate monthly gain
+  // Calculate yearly gain
+
+  // useEffect(() => {
+  //   const monthlyPln = balance.dates.forEach((el) => {
+  //     const today = new Date();
+  //     const firstDay = `${today.getFullYear()}-${today.getMonth() + 1}-1`;
+  //     const firstDayIndex = balance.dates.findIndex((date) => date >= firstDay);
+  //     const monthArr = balance.values
+  //       .slice(firstDayIndex)
+  //       .reduce((acc, val) => acc + val);
+  //     console.log(monthArr - initialBalance);
+  //   });
+  // }, []);
 
   const data = {
     options: {
       colors: ["#00E396"],
-      stroke: {
-        curve: "smooth",
-      },
       chart: {
         id: "basic-bar",
         toolbar: {
@@ -36,12 +62,16 @@ const Dashboard = (props) => {
         axisTicks: {
           show: false,
         },
+        tooltip: {
+          enabled: false,
+        },
       },
       fill: {
         colors: ["#40BC90"],
       },
       stroke: {
         width: [1],
+        curve: "smooth",
       },
       dataLabels: {
         enabled: false,
@@ -55,7 +85,7 @@ const Dashboard = (props) => {
     series: [
       {
         name: "Balance",
-        data: [30, 40, 45, 50, 49, 60, 70, 91],
+        data: dailyPln.values,
       },
     ],
   };
@@ -86,7 +116,7 @@ const Dashboard = (props) => {
       annotations: {
         yaxis: [
           {
-            y: 7000,
+            y: initialBalance,
             borderColor: "#00E396",
             label: {
               borderColor: "#00E396",
@@ -94,7 +124,7 @@ const Dashboard = (props) => {
                 color: "#fff",
                 background: "#00E396",
               },
-              text: `Initial Balance: ${7000}`,
+              text: `Initial Balance: ${initialBalance}`,
             },
           },
         ],
@@ -103,14 +133,14 @@ const Dashboard = (props) => {
         show: true,
         borderColor: "#47515d",
       },
-      labels: series.monthDataSeries1.dates,
+      labels: balance.dates,
       xaxis: {
         type: "datetime",
         labels: {
           show: true,
           rotate: 0,
           trim: false,
-          tickPlacement: "on",
+          tickPlacement: "between",
           style: {
             colors: "#aab8c5",
             fontSize: "12px",
@@ -122,7 +152,7 @@ const Dashboard = (props) => {
         },
       },
       yaxis: {
-        type: "datetime",
+        type: "numeric",
         title: {
           text: "$",
           style: {
@@ -141,26 +171,39 @@ const Dashboard = (props) => {
           },
         },
       },
+      y: {
+        formatter: undefined,
+        title: {
+          formatter: (value) => `${value}`,
+        },
+      },
     },
 
     series: [
       {
         name: "Balance",
-        data: series.monthDataSeries1.prices,
+        data: balance.values,
       },
       {
         name: "Daily Pln",
-        data: series.monthDataSeries2.prices,
+        data: dailyPln.values,
       },
     ],
   };
+
+  const barChartSeries = [
+    {
+      name: "Balance",
+      data: balance.values,
+    },
+  ];
 
   return (
     <MainLayout title="Dashboard">
       <div className="row">
         <div className="col-5 ">
           <Card title="Balance" balance={0} subValue={lastTradeDate}>
-            <Chart options={data.options} series={data.series} type="bar" />
+            <Chart options={data.options} series={barChartSeries} type="bar" />
           </Card>
         </div>
         <div className="col-5 ">

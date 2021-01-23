@@ -1,11 +1,20 @@
 import tradesTypes from "./trades.types";
 
-export const addTradeStart = (trade) => ({
+export const addTradeStart = (data) => ({
   type: tradesTypes.ADD_TRADE_START,
-  payload: trade,
+  payload: data,
 });
 
-export const addTradeSuccess = (trade) => ({
+export const addTradeSuccess = (data) => ({
   type: tradesTypes.ADD_TRADE_SUCCESS,
-  payload: trade,
+  payload: data,
+});
+
+export const fetchBalanceStart = () => ({
+  type: tradesTypes.FETCH_BALANCE_START,
+});
+
+export const fetchBalanceSuccess = (balance) => ({
+  type: tradesTypes.FETCH_BALANCE_SUCCESS,
+  payload: balance,
 });

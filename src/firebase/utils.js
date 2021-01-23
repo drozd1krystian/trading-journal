@@ -94,3 +94,27 @@ export const addTradeToDb = (uid, trade) =>
     .collection("trades")
     .add(trade)
     .then((docRef) => docRef);
+
+export const updateUserBalance = (uid, balance) => {
+  console.log(balance);
+  firestore.collection("users").doc(uid).update({
+    balance,
+  });
+};
+
+export const fetchBalanceFromDb = async (uid) => {
+  const balance = [];
+  await firestore
+    .collection("users")
+    .doc(uid)
+    .collection("balance")
+    .get()
+    .then((docs) =>
+      docs.forEach((doc) => {
+        const dates = doc.data().chart_data.dates;
+        const values = doc.data().chart_data.values;
+        return balance.push({ id: doc.id, dates, values });
+      })
+    );
+  return balance[0];
+};

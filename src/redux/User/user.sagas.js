@@ -3,6 +3,7 @@ import userTypes from "./user.types";
 import { isLoading, signInSuccess, signOutSuccess } from "./user.actions";
 import { auth, handleUserProfile, getCurrentUser } from "../../firebase/utils";
 import firebase from "firebase/app";
+import { fetchBalanceStart } from "../Trades/trades.actions";
 
 export function* getSnapshotFromUserAuth(user, additionalData = {}) {
   try {
@@ -46,6 +47,7 @@ export function* isUserAuthenticated() {
       return;
     }
     yield getSnapshotFromUserAuth(userAuth);
+    yield put(fetchBalanceStart());
   } catch (err) {
     // console.log(err)
   }
