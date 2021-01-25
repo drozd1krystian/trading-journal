@@ -15,30 +15,68 @@ const mapState = ({ user, trades }) => ({
 const Dashboard = (props) => {
   const lastTradeDate = "on 2020-12-08";
   const { initialBalance, balance } = useSelector(mapState);
-  const dailyPln = {
-    values: [
-      0,
-      0,
-      balance.values[balance.values.length - 2] -
-        balance.values[balance.values.length - 1],
-    ],
-  };
+  const [dailySeries, setDailySeries] = useState([
+    {
+      name: "Daily Pln",
+      data: [0, 0],
+    },
+  ]);
+  const [monthlySeries, setMonthlySeries] = useState([
+    {
+      name: "Monthly Pln",
+      data: [0, 0],
+    },
+  ]);
+
+  const [yearlySeries, setYearlySeries] = useState([
+    {
+      name: "Yearly Pln",
+      data: [0, 0],
+    },
+  ]);
 
   // To do:
   // Calculate monthly gain
   // Calculate yearly gain
 
-  // useEffect(() => {
-  //   const monthlyPln = balance.dates.forEach((el) => {
-  //     const today = new Date();
-  //     const firstDay = `${today.getFullYear()}-${today.getMonth() + 1}-1`;
-  //     const firstDayIndex = balance.dates.findIndex((date) => date >= firstDay);
-  //     const monthArr = balance.values
-  //       .slice(firstDayIndex)
-  //       .reduce((acc, val) => acc + val);
-  //     console.log(monthArr - initialBalance);
-  //   });
-  // }, []);
+  useEffect(() => {
+    setDailySeries((prev) => {
+      const arr = Array(balance.balance.length - 1).fill(0);
+      arr.push(balance.values[balance.values.length - 1]);
+      return [
+        {
+          ...prev[0],
+          data: [...arr],
+        },
+      ];
+    });
+
+    const today = new Date();
+    const firstDay = `${today.getFullYear()}-${today.getMonth() + 1}-1`;
+    const firstDayIndex = balance.dates.findIndex((date) => date >= firstDay);
+    const monthlyPln = balance.values
+      .slice(firstDayIndex)
+      .reduce((acc, val) => parseFloat(acc) + parseFloat(val));
+    setMonthlySeries((prev) => [
+      {
+        ...prev[0],
+        data: [0, 0, monthlyPln],
+      },
+    ]);
+
+    const thisYear = `${today.getFullYear()}-1-1`;
+    const firstYearTrade = balance.dates.findIndex((date) => date >= thisYear);
+    const yearlyPln = balance.values
+      .slice(firstYearTrade)
+      .reduce((acc, val) => parseFloat(acc) + parseFloat(val));
+
+    setYearlySeries((prev) => [
+      {
+        ...prev[0],
+        data: [0, 0, yearlyPln],
+      },
+    ]);
+  }, []);
 
   const data = {
     options: {
@@ -82,12 +120,6 @@ const Dashboard = (props) => {
         },
       },
     },
-    series: [
-      {
-        name: "Balance",
-        data: dailyPln.values,
-      },
-    ],
   };
 
   const lineChart = {
@@ -182,19 +214,16 @@ const Dashboard = (props) => {
     series: [
       {
         name: "Balance",
-        data: balance.values,
+        data: balance.balance,
       },
-      {
-        name: "Daily Pln",
-        data: dailyPln.values,
-      },
+      dailySeries[0],
     ],
   };
 
   const barChartSeries = [
     {
       name: "Balance",
-      data: balance.values,
+      data: balance.balance,
     },
   ];
 
@@ -208,17 +237,17 @@ const Dashboard = (props) => {
         </div>
         <div className="col-5 ">
           <Card title="Last Day Pnl" balance={0} subValue="0%">
-            <Chart options={data.options} series={data.series} type="line" />
+            <Chart options={data.options} series={dailySeries} type="line" />
           </Card>
         </div>
         <div className="col-5 ">
           <Card title="Pnl This Month" balance={0} subValue="0%">
-            <Chart options={data.options} series={data.series} type="line" />
+            <Chart options={data.options} series={monthlySeries} type="line" />
           </Card>
         </div>
         <div className="col-5">
           <Card title="Pnl This Year" balance={0} subValue="0%">
-            <Chart options={data.options} series={data.series} type="line" />
+            <Chart options={data.options} series={yearlySeries} type="line" />
           </Card>
         </div>
       </div>
@@ -229,8 +258,6 @@ const Dashboard = (props) => {
             <Chart
               options={lineChart.options}
               series={lineChart.series}
-              labels={lineChart.labels}
-              xaxis={lineChart.xaxis}
               type="area"
               width="100%"
               height="100%"

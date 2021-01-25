@@ -46,8 +46,8 @@ export function* isUserAuthenticated() {
       yield put(isLoading());
       return;
     }
-    yield getSnapshotFromUserAuth(userAuth);
     yield put(fetchBalanceStart());
+    yield getSnapshotFromUserAuth(userAuth);
   } catch (err) {
     // console.log(err)
   }

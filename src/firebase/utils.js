@@ -113,7 +113,12 @@ export const fetchBalanceFromDb = async (uid) => {
       docs.forEach((doc) => {
         const dates = doc.data().chart_data.dates;
         const values = doc.data().chart_data.values;
-        return balance.push({ id: doc.id, dates, values });
+        return balance.push({
+          id: doc.id,
+          dates,
+          values,
+          ...doc.data().chart_data,
+        });
       })
     );
   return balance[0];

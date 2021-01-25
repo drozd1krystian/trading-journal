@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   balance: {
     dates: [],
     values: [],
+    balance: [],
   },
 };
 
