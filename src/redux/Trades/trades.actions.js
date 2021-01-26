@@ -18,3 +18,8 @@ export const fetchBalanceSuccess = (balance) => ({
   type: tradesTypes.FETCH_BALANCE_SUCCESS,
   payload: balance,
 });
+
+export const updateBalanceStart = (balance) => ({
+  type: tradesTypes.UPDATE_BALANCE_START,
+  payload: balance,
+});

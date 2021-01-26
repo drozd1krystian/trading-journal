@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
 import MainLayout from "../../layouts/main";
 import { ReactComponent as ExportIcon } from "../../assets/export.svg";
@@ -7,7 +7,14 @@ import InputTags from "../../components/InputTags";
 import CalendarInput from "../../components/Calendar";
 import Button from "../../components/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { addTradeStart } from "../../redux/Trades/trades.actions";
+import {
+  addTradeStart,
+  updateBalanceStart,
+} from "../../redux/Trades/trades.actions";
+
+const mapState = ({ trades }) => ({
+  balance: trades.balance,
+});
 
 const AddTrade = () => {
   const [value, onChange] = useState(new Date());
@@ -24,6 +31,7 @@ const AddTrade = () => {
   const [net, setNet] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [notes, setNotes] = useState("");
+  const { balance } = useSelector(mapState);
   const dispatch = useDispatch();
 
   const handleTagsChange = (newTags) =>
@@ -31,6 +39,10 @@ const AddTrade = () => {
 
   const validateNumber = (value, fn) => {
     isNaN(value) || value < 0 ? fn(0) : fn(value);
+  };
+
+  const validateProfit = (value, fn) => {
+    isNaN(value) ? fn(0) : fn(value);
   };
 
   const handleSubmit = (e) => {
@@ -52,27 +64,12 @@ const AddTrade = () => {
       imgUrl,
       notes,
     };
-
-    // const formattedDate = `${value.getFullYear()}-${
-    //   value.getMonth() + 1
-    // }-${value.getDate()}`;
-    // const dateIndex = balance.dates.findIndex((date) => date === formattedDate);
-    // let balanceCopy = { ...balance };
-    // if (dateIndex !== -1) balanceCopy.dates[dateIndex] += net;
-    // balanceCopy = {
-    //   ...balanceCopy,
-    //   dates: [...balanceCopy.dates, formattedDate],
-    //   values: [...balanceCopy.values, net],
-    // };
-
-    dispatch(addTradeStart({ trade }));
-
-    // Update Balance Array
-    // {dates: [], values: []}
-    // Need to update daily values
-
-    // In dashboard filter for daily trades, monthly trades and this year trades and build chart on top of this
+    dispatch(addTradeStart({ trade, balance }));
   };
+
+  useEffect(() => {
+    dispatch(updateBalanceStart(balance));
+  }, [balance]);
 
   return (
     <MainLayout title="Add Trade">
@@ -166,7 +163,7 @@ const AddTrade = () => {
             <div className="col-10">
               <Input
                 label="Profit/Loss *:"
-                handler={(e) => validateNumber(e.target.value, setNet)}
+                handler={(e) => validateProfit(e.target.value, setNet)}
                 required
               />
             </div>

@@ -15,6 +15,18 @@ const mapState = ({ user, trades }) => ({
 const Dashboard = (props) => {
   const lastTradeDate = "on 2020-12-08";
   const { initialBalance, balance } = useSelector(mapState);
+  const [dailyPln, setDailyPln] = useState({
+    gain: 0,
+    percentage: 0,
+  });
+  const [monthlyGain, setMonthlyGain] = useState({
+    gain: 0,
+    percentage: 0,
+  });
+  const [yearlyGain, setYearlyGain] = useState({
+    gain: 0,
+    percentage: 0,
+  });
   const [dailySeries, setDailySeries] = useState([
     {
       name: "Daily Pln",
@@ -51,24 +63,44 @@ const Dashboard = (props) => {
       ];
     });
 
+    setDailyPln((prev) => ({
+      ...prev,
+      gain: balance.values[balance.values.length - 1],
+      percentage: (
+        (balance.values[balance.values.length - 1] /
+          balance.balance[balance.balance.length - 2]) *
+        100
+      ).toFixed(2),
+    }));
+
     const today = new Date();
     const firstDay = `${today.getFullYear()}-${today.getMonth() + 1}-1`;
     const firstDayIndex = balance.dates.findIndex((date) => date >= firstDay);
-    const monthlyPln = balance.values
-      .slice(firstDayIndex)
-      .reduce((acc, val) => parseFloat(acc) + parseFloat(val));
+    const monthlyPln =
+      balance.balance[balance.balance.length - 1] -
+      balance.balance[firstDayIndex];
     setMonthlySeries((prev) => [
       {
         ...prev[0],
         data: [0, 0, monthlyPln],
       },
     ]);
+    setMonthlyGain((prev) => ({
+      ...prev,
+      gain: monthlyPln,
+      percentage: (
+        (balance.balance[balance.balance.length - 1] /
+          balance.balance[firstDayIndex]) *
+          100 -
+        100
+      ).toFixed(2),
+    }));
 
     const thisYear = `${today.getFullYear()}-1-1`;
     const firstYearTrade = balance.dates.findIndex((date) => date >= thisYear);
-    const yearlyPln = balance.values
-      .slice(firstYearTrade)
-      .reduce((acc, val) => parseFloat(acc) + parseFloat(val));
+    const yearlyPln =
+      balance.balance[balance.balance.length - 1] -
+      balance.balance[firstYearTrade];
 
     setYearlySeries((prev) => [
       {
@@ -76,6 +108,16 @@ const Dashboard = (props) => {
         data: [0, 0, yearlyPln],
       },
     ]);
+    setYearlyGain((prev) => ({
+      ...prev,
+      gain: yearlyPln,
+      percentage: (
+        (balance.balance[balance.balance.length - 1] /
+          balance.balance[firstYearTrade]) *
+          100 -
+        100
+      ).toFixed(2),
+    }));
   }, []);
 
   const data = {
@@ -91,6 +133,20 @@ const Dashboard = (props) => {
         show: false,
       },
       xaxis: {
+        labels: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        tooltip: {
+          enabled: false,
+        },
+      },
+      yaxis: {
         labels: {
           show: false,
         },
@@ -231,22 +287,38 @@ const Dashboard = (props) => {
     <MainLayout title="Dashboard">
       <div className="row">
         <div className="col-5 ">
-          <Card title="Balance" balance={0} subValue={lastTradeDate}>
+          <Card
+            title="Balance"
+            balance={balance.balance[balance.balance.length - 1]}
+            subValue={balance.dates[balance.dates.length - 1]}
+          >
             <Chart options={data.options} series={barChartSeries} type="bar" />
           </Card>
         </div>
         <div className="col-5 ">
-          <Card title="Last Day Pnl" balance={0} subValue="0%">
+          <Card
+            title="Last Day Pnl"
+            balance={dailyPln.gain}
+            subValue={`${dailyPln.percentage}%`}
+          >
             <Chart options={data.options} series={dailySeries} type="line" />
           </Card>
         </div>
         <div className="col-5 ">
-          <Card title="Pnl This Month" balance={0} subValue="0%">
+          <Card
+            title="Pnl This Month"
+            balance={monthlyGain.gain}
+            subValue={`${monthlyGain.percentage}%`}
+          >
             <Chart options={data.options} series={monthlySeries} type="line" />
           </Card>
         </div>
         <div className="col-5">
-          <Card title="Pnl This Year" balance={0} subValue="0%">
+          <Card
+            title="Pnl This Year"
+            balance={yearlyGain.gain}
+            subValue={`${yearlyGain.percentage}%`}
+          >
             <Chart options={data.options} series={yearlySeries} type="line" />
           </Card>
         </div>

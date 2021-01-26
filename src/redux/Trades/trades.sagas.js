@@ -4,6 +4,7 @@ import {
   addTradeToDb,
   fetchBalanceFromDb,
   getUserId,
+  updateUserBalance,
 } from "../../firebase/utils";
 import { addTradeSuccess, fetchBalanceSuccess } from "./trades.actions";
 
@@ -17,8 +18,6 @@ export function* addTrade({ payload: { trade, balance } }) {
         ...trade,
       })
     );
-    // yield updateUserBalance(uid, balance);
-    // yield put(updateBalanceSuccess(balance));
   } catch (err) {
     console.log(err.message);
   }
@@ -42,6 +41,23 @@ export function* onFetchBalanceStart() {
   yield takeLatest(tradesTypes.FETCH_BALANCE_START, fetchBalance);
 }
 
+export function* updateBalance({ payload: balance }) {
+  try {
+    const { uid } = yield getUserId();
+    yield updateUserBalance(uid, balance);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export function* onUpdateBalanceStart() {
+  yield takeLatest(tradesTypes.UPDATE_BALANCE_START, updateBalance);
+}
+
 export default function* tradesSagas() {
-  yield all([call(onAddTradeStart), call(onFetchBalanceStart)]);
+  yield all([
+    call(onAddTradeStart),
+    call(onFetchBalanceStart),
+    call(onUpdateBalanceStart),
+  ]);
 }
