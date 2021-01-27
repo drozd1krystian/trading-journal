@@ -3,18 +3,16 @@ import Card from "../../components/Card";
 import MainLayout from "../../layouts/main";
 import "./style.scss";
 import Chart from "react-apexcharts";
-
-import { series } from "./data";
 import { useSelector } from "react-redux";
 
 const mapState = ({ user, trades }) => ({
   initialBalance: user.currentUser.initialBalance,
   balance: trades.balance,
+  pairs: trades.pairs,
 });
 
 const Dashboard = (props) => {
-  const lastTradeDate = "on 2020-12-08";
-  const { initialBalance, balance } = useSelector(mapState);
+  const { initialBalance, balance, pairs } = useSelector(mapState);
   const [dailyPln, setDailyPln] = useState({
     gain: 0,
     percentage: 0,
@@ -39,17 +37,12 @@ const Dashboard = (props) => {
       data: [0, 0],
     },
   ]);
-
   const [yearlySeries, setYearlySeries] = useState([
     {
       name: "Yearly Pln",
       data: [0, 0],
     },
   ]);
-
-  // To do:
-  // Calculate monthly gain
-  // Calculate yearly gain
 
   useEffect(() => {
     setDailySeries((prev) => {
@@ -283,6 +276,25 @@ const Dashboard = (props) => {
     },
   ];
 
+  const [topPairs, setTopPairs] = useState([]);
+  const [bottomPairs, setBottomPairs] = useState([]);
+
+  useEffect(() => {
+    const top = [];
+    const bottom = [];
+
+    const sortable = Object.entries(pairs)
+      .sort(([, a], [, b]) => a.gain - b.gain)
+      .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+
+    for (let pair in sortable) {
+      if (sortable[pair].gain > 0) top.push({ pair, ...sortable[pair] });
+      if (sortable[pair].gain < 0) bottom.push({ pair, ...sortable[pair] });
+    }
+    setTopPairs(top.slice(0, 3));
+    setBottomPairs(bottom.slice(0, 3));
+  }, [pairs]);
+
   return (
     <MainLayout title="Dashboard">
       <div className="row">
@@ -295,7 +307,7 @@ const Dashboard = (props) => {
             <Chart options={data.options} series={barChartSeries} type="bar" />
           </Card>
         </div>
-        <div className="col-5 ">
+        <div className="col-5">
           <Card
             title="Last Day Pnl"
             balance={dailyPln.gain}
@@ -323,7 +335,7 @@ const Dashboard = (props) => {
           </Card>
         </div>
       </div>
-      <div className="row ">
+      <div className="row">
         <div className="balance">
           <h4 className="balance_header">PLN EVOLUTION FOR ACCOUNT</h4>
           <div className="chart">
@@ -334,6 +346,56 @@ const Dashboard = (props) => {
               width="100%"
               height="100%"
             />
+          </div>
+        </div>
+      </div>
+      <div className="row mt-2">
+        <div className="ticket">
+          <div className="ticket_body">
+            <h4 className="ticket_header">TOP PERFORMING INSTRUMENTS</h4>
+            <table className="table">
+              <thead>
+                <tr className="table_row" role="row">
+                  <th className="table_header">Symbol</th>
+                  <th className="table_header">$</th>
+                  <th className="table_header">Quanitity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {topPairs.map((el) => (
+                  <tr className="table_row" key={el.pair}>
+                    <td className="table_cell">{el.pair}</td>
+                    <td className="table_cell">{el.gain}</td>
+                    <td className="table_cell">{el.quanitity}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div className="row mt-2">
+        <div className="ticket">
+          <div className="ticket_body">
+            <h4 className="ticket_header">BOTTOM PERFORMING INSTRUMENTS</h4>
+            <table className="table">
+              <thead>
+                <tr className="table_row" role="row">
+                  <th className="table_header">Symbol</th>
+                  <th className="table_header">$</th>
+                  <th className="table_header">Quanitity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bottomPairs.map((el) => (
+                  <tr className="table_row" key={el.pair}>
+                    <td className="table_cell">{el.pair}</td>
+                    <td className="table_cell">{el.gain}</td>
+                    <td className="table_cell">{el.quanitity}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

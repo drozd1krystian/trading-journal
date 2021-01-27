@@ -21,3 +21,19 @@
     }
   }
 }
+
+.ticket {
+  padding: 0 12px;
+  width: 100%;
+  &_body {
+    background: var(--primary-dark);
+    padding: 0 20px 20px;
+    .ticket_header {
+      color: var(--text);
+    }
+    .table {
+      width: 100%;
+      border-top: 1px solid var(--border);
+    }
+  }
+}

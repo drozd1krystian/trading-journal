@@ -7,6 +7,32 @@ const INITIAL_STATE = {
     values: [],
     balance: [],
   },
+  pairs: {
+    EURUSD: {
+      gain: 5000,
+      quanitity: 10000,
+    },
+    GBUPSD: {
+      gain: -1000,
+      quanitity: 1000,
+    },
+    AUDUSD: {
+      gain: -500,
+      quanitity: 1000,
+    },
+    GBPJPY: {
+      gain: 7000,
+      quanitity: 100000,
+    },
+    GBPAUD: {
+      gain: 3000,
+      quanitity: 100,
+    },
+    GBPCAD: {
+      gain: -100,
+      quanitity: 1,
+    },
+  },
 };
 
 const tradesReducer = (state = INITIAL_STATE, action) => {
@@ -37,6 +63,13 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
               return el;
             }),
           },
+          pairs: {
+            ...state.pairs,
+            [trade.symbol]: {
+              ...state.pairs[trade.symbol],
+              gain: (state.pairs[trade.symbol].gain += parseFloat(trade.net)),
+            },
+          },
         };
       } else {
         return {
@@ -45,9 +78,16 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
             ...balance,
             dates: [...balance.dates, formattedDate],
             values: [...balance.values, trade.net],
-            balance: [...balance.balance, lastBalance + trade.net],
+            balance: [
+              ...balance.balance,
+              parseFloat(lastBalance) + parseFloat(trade.net),
+            ],
           },
           trades: [...state.trades, action.payload],
+          pairs: {
+            ...state.pairs,
+            [trade.symbol]: (state.pairs[trade.symbol] += trade.net),
+          },
         };
       }
     }

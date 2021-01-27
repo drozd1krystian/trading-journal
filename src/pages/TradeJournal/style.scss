@@ -18,13 +18,13 @@
 
   td,
   th {
-    padding: 0.5rem;
+    padding: 1rem 0.5rem;
   }
   th {
     padding-right: 20px;
   }
 
   tbody tr:nth-child(odd) {
-    background: var(--primary-dark);
+    background: var(--secondary);
   }
 }
