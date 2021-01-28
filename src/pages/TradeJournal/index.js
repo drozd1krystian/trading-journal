@@ -11,6 +11,7 @@ import Select from "../../components/Select";
 import Input from "../../components/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTradesStart } from "../../redux/Trades/trades.actions";
+import Note from "../../components/Note";
 
 const list = ["Type", "Forex", "Crypto"];
 
@@ -23,6 +24,9 @@ const MyTrades = (props) => {
   const [tags, setTags] = useState([]);
   const [type, setType] = useState("type");
   const [direction, setDirection] = useState("");
+  const [showTags, setShowTags] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
+
   const { trades } = useSelector(mapState);
   const dispatch = useDispatch();
 
@@ -120,15 +124,38 @@ const MyTrades = (props) => {
                   <td className="table_cell">{trade.quantity}</td>
                   <td className="table_cell">${trade.entryPrice}</td>
                   <td className="table_cell">${trade.stopLoss || ""}</td>
-                  <td className="table_cell">{trade.notes || ""}</td>
-                  <td className="table_cell trade_tags">
-                    {trade.tags?.map((el) => (
-                      <div className="tag_wrap">
+                  <td
+                    className="table_cell pointer"
+                    onClick={() => setShowNotes(!showNotes)}
+                  >
+                    <Note
+                      title="Notes"
+                      show={showNotes}
+                      handler={() => setShowNotes(!showNotes)}
+                    >
+                      {trade.notes}
+                    </Note>
+                    {trade.notes.length > 20
+                      ? `${trade.notes.split("").splice(0, 20).join("")}...`
+                      : trade.notes}
+                  </td>
+                  <td
+                    className="table_cell trade_tags pointer"
+                    onClick={() => setShowTags(!showTags)}
+                  >
+                    <Note
+                      title="Tags"
+                      show={showTags}
+                      handler={() => setShowTags(!showTags)}
+                    >
+                      {trade.tags?.map((el) => (
                         <span className="tag" key={el}>
                           #{el}
                         </span>
-                      </div>
-                    ))}
+                      ))}
+                    </Note>
+                    <span className="tag">#{trade.tags[0]}</span>
+                    <span className="tag">#{trade.tags[1]}</span>
                   </td>
                   <td
                     className={

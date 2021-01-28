@@ -2,6 +2,8 @@
   overflow-x: auto;
   width: 100%;
   display: block;
+  position: relative;
+  min-height: 200px;
 }
 
 .table {
@@ -20,6 +22,7 @@
   td,
   th {
     padding: 1rem 0.5rem;
+    position: relative;
   }
   th {
     padding-right: 20px;
@@ -38,20 +41,22 @@
   color: red;
 }
 
-.tag_wrap {
-  margin-bottom: 10px;
-}
 .tag {
   background: var(--button);
   padding: 5px 10px;
   color: var(--text-light);
   border-radius: 2px;
   font-size: 0.7rem;
+  margin: 0 5px 5px 0;
 }
 
 .trade_tags {
   display: flex;
   flex-direction: column;
   max-height: 70px;
-  overflow: hidden;
+  position: relative;
+}
+
+.pointer {
+  cursor: pointer;
 }

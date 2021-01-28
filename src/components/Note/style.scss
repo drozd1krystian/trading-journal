@@ -1,0 +1,37 @@
+.note {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-110%, -20%);
+
+  .note_header {
+    background: var(--text-light);
+    color: var(--primary-dark);
+    padding: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  .note_body {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 250px;
+    background: var(--text);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: var(--primary-dark);
+    min-height: 50px;
+    position: relative;
+    .arrow {
+      position: absolute;
+      width: 0;
+      height: 0;
+      right: 0;
+      top: 50%;
+      transform: translate(90%, -50%);
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 10px solid var(--text);
+    }
+  }
+}
