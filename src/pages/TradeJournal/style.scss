@@ -9,6 +9,7 @@
   margin: 5px 0;
   border-collapse: collapse;
   font-size: 0.9rem;
+  width: 100%;
   thead,
   tbody,
   tr {
@@ -27,4 +28,30 @@
   tbody tr:nth-child(odd) {
     background: var(--secondary);
   }
+}
+
+.text-green {
+  color: var(--success);
+}
+
+.text-red {
+  color: red;
+}
+
+.tag_wrap {
+  margin-bottom: 10px;
+}
+.tag {
+  background: var(--button);
+  padding: 5px 10px;
+  color: var(--text-light);
+  border-radius: 2px;
+  font-size: 0.7rem;
+}
+
+.trade_tags {
+  display: flex;
+  flex-direction: column;
+  max-height: 70px;
+  overflow: hidden;
 }

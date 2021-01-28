@@ -118,8 +118,11 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
         };
       }
     }
-    case tradesTypes.UPDATE_PAIRS: {
-      return {};
+    case tradesTypes.FETCH_TRADES_SUCCESS: {
+      return {
+        ...state,
+        trades: [...action.payload],
+      };
     }
     case tradesTypes.FETCH_BALANCE_SUCCESS: {
       return {

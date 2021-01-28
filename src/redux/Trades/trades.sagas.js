@@ -3,10 +3,16 @@ import tradesTypes from "../Trades/trades.types";
 import {
   addTradeToDb,
   fetchBalanceFromDb,
+  fetchTradesFromDb,
+  getCurrentUser,
   getUserId,
   updateUserBalance,
 } from "../../firebase/utils";
-import { addTradeSuccess, fetchBalanceSuccess } from "./trades.actions";
+import {
+  addTradeSuccess,
+  fetchBalanceSuccess,
+  fetchTradesSuccess,
+} from "./trades.actions";
 import { isLoading } from "../User/user.actions";
 import { postError, postLoading, showPopup } from "../Posts/posts.actions";
 
@@ -62,10 +68,26 @@ export function* onUpdateBalanceStart() {
   yield takeLatest(tradesTypes.UPDATE_BALANCE_START, updateBalance);
 }
 
+export function* fetchTrades() {
+  try {
+    const { uid } = yield getUserId();
+
+    const trades = yield fetchTradesFromDb(uid);
+    yield put(fetchTradesSuccess(trades));
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
+export function* onFetchTradesStart() {
+  yield takeLatest(tradesTypes.FETCH_TRADES_START, fetchTrades);
+}
+
 export default function* tradesSagas() {
   yield all([
     call(onAddTradeStart),
     call(onFetchBalanceStart),
     call(onUpdateBalanceStart),
+    call(onFetchTradesStart),
   ]);
 }

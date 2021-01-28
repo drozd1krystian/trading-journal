@@ -134,3 +134,22 @@ export const fetchBalanceFromDb = async (uid) => {
     );
   return balance[0];
 };
+
+export const fetchTradesFromDb = async (uid) => {
+  const trades = [];
+  await firestore
+    .collection("users")
+    .doc(uid)
+    .collection("trades")
+    .get()
+    .then((docs) =>
+      docs.forEach((doc) =>
+        trades.push({
+          id: doc.id,
+          ...doc.data(),
+          date: doc.data().date.toDate(),
+        })
+      )
+    );
+  return trades;
+};

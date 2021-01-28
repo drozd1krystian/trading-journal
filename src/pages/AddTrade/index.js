@@ -35,7 +35,7 @@ const AddTrade = () => {
   const dispatch = useDispatch();
 
   const handleTagsChange = (newTags) =>
-    setTags((prev) => ({ ...prev, arr: [...newTags], error: false }));
+    setTags((prev) => ({ ...prev, arr: [...newTags].sort(), error: false }));
 
   const validateNumber = (value) => {
     return isNaN(value) || value < 0 ? 0 : value;
