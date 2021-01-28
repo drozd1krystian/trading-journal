@@ -11,7 +11,7 @@ const mapState = ({ user, trades }) => ({
   user: user.currentUser,
   initialBalance: user.currentUser.initialBalance,
   balance: trades.balance,
-  pairs: trades.pairs,
+  pairs: trades.balance.pairs,
 });
 
 const Dashboard = (props) => {
@@ -430,8 +430,8 @@ const Dashboard = (props) => {
           <h4 className="section_title">
             <span>Dashboard</span>
           </h4>
+          <h3 className="text-grey">Hi {user.name}!</h3>
           <p>
-            <h3 className="text-grey">Hi {user.name}!</h3>
             To get started, please add at least <strong>one</strong> trade to
             populate your dashboard.
           </p>
