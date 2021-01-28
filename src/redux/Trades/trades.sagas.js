@@ -68,11 +68,11 @@ export function* onUpdateBalanceStart() {
   yield takeLatest(tradesTypes.UPDATE_BALANCE_START, updateBalance);
 }
 
-export function* fetchTrades() {
+export function* fetchTrades({ payload: filters }) {
   try {
     const { uid } = yield getUserId();
 
-    const trades = yield fetchTradesFromDb(uid);
+    const trades = yield fetchTradesFromDb(uid, filters);
     yield put(fetchTradesSuccess(trades));
   } catch (err) {
     console.log(err.message);

@@ -24,11 +24,17 @@ export const updateBalanceStart = (balance) => ({
   payload: balance,
 });
 
-export const fetchTradesStart = () => ({
+export const fetchTradesStart = (filters) => ({
   type: tradesTypes.FETCH_TRADES_START,
+  payload: filters,
 });
 
 export const fetchTradesSuccess = (trades) => ({
   type: tradesTypes.FETCH_TRADES_SUCCESS,
   payload: trades,
+});
+
+export const filterTrades = (filters) => ({
+  type: tradesTypes.FILTER_TRADES,
+  payload: filters,
 });

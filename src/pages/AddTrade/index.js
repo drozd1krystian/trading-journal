@@ -11,6 +11,7 @@ import {
   addTradeStart,
   updateBalanceStart,
 } from "../../redux/Trades/trades.actions";
+import Select from "../../components/Select";
 
 const mapState = ({ trades }) => ({
   balance: trades.balance,
@@ -24,6 +25,10 @@ const AddTrade = () => {
   });
   const [side, setSide] = useState("Buy");
   const [symbol, setSymbol] = useState("");
+  const [type, setType] = useState({
+    value: "",
+    error: false,
+  });
   const [quantity, setQuantity] = useState("");
   const [entryPrice, setEntryPrice] = useState("");
   const [exitPrice, setExitPrice] = useState("");
@@ -36,6 +41,9 @@ const AddTrade = () => {
 
   const handleTagsChange = (newTags) =>
     setTags((prev) => ({ ...prev, arr: [...newTags].sort(), error: false }));
+
+  const onTypeChange = (newType) =>
+    setType((prev) => ({ ...prev, value: newType, error: false }));
 
   const validateNumber = (value) => {
     return isNaN(value) || value < 0 ? 0 : value;
@@ -51,6 +59,11 @@ const AddTrade = () => {
       setTags((prev) => ({ ...prev, error: true }));
       return;
     }
+
+    if (type.value == "") {
+      setType((prev) => ({ ...prev, error: true }));
+      return;
+    }
     const trade = {
       date: value,
       tags: tags.arr,
@@ -63,6 +76,7 @@ const AddTrade = () => {
       net: validateProfit(net),
       imgUrl,
       notes,
+      type,
     };
     dispatch(addTradeStart({ trade }));
     setSide("Buy");
@@ -138,6 +152,10 @@ const AddTrade = () => {
               />
             </div>
             <div className="col-10">
+              <label className="label">Type *:</label>
+              <Select list={["Forex", "Crypto"]} handler={onTypeChange} />
+            </div>
+            <div className="col-10">
               <Input
                 label="Quanitity *:"
                 handler={(e) => setQuantity(e.target.value)}
@@ -206,6 +224,9 @@ const AddTrade = () => {
                 error={tags.error}
               />
             </div>
+            {type.error ? (
+              <p className="text-red mt-1">Please pick trade type!</p>
+            ) : null}
             <div className="row mt-2">
               <Button type="submit">Save</Button>
             </div>

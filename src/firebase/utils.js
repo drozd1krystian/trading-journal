@@ -137,19 +137,33 @@ export const fetchBalanceFromDb = async (uid) => {
 
 export const fetchTradesFromDb = async (uid) => {
   const trades = [];
-  await firestore
-    .collection("users")
-    .doc(uid)
-    .collection("trades")
-    .get()
-    .then((docs) =>
-      docs.forEach((doc) =>
-        trades.push({
-          id: doc.id,
-          ...doc.data(),
-          date: doc.data().date.toDate(),
-        })
-      )
-    );
+  let tradesRef = firestore.collection("users").doc(uid).collection("trades");
+  // if (tags.length > 0)
+  //   tradesRef = tradesRef.where("tags", "array-contains-any", tags);
+  // if (start && end) {
+  //   if (start.getDate() === end.getDate())
+  //     tradesRef = tradesRef.where(
+  //       "date",
+  //       "<=",
+  //       new Date(new Date(start).setDate(new Date(start).getDate() + 1))
+  //     );
+  //   else
+  //     tradesRef = tradesRef.where("date", ">=", start).where("date", "<=", end);
+  // }
+
+  // if (type !== "type") tradesRef = tradesRef.where("type", "==", type);
+  // if (side !== "" && side !== "side")
+  //   tradesRef = tradesRef.where("side", "==", side);
+  // if (symbol.length) tradesRef = tradesRef.where("symbol", "==", symbol);
+
+  await tradesRef.get().then((docs) =>
+    docs.forEach((doc) =>
+      trades.push({
+        id: doc.id,
+        ...doc.data(),
+        date: doc.data().date.toDate(),
+      })
+    )
+  );
   return trades;
 };

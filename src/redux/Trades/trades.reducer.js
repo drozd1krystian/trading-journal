@@ -2,6 +2,7 @@ import tradesTypes from "./trades.types";
 
 const INITIAL_STATE = {
   trades: [],
+  filteredTrades: [],
   balance: {
     dates: [],
     values: [],
@@ -82,6 +83,8 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
                 quanitity: parseFloat(trade.quantity),
               },
             },
+            trades: [...state.trades, action.payload],
+            filteredTrades: [...state.trades, action.payload],
           },
         };
       } else {
@@ -115,6 +118,7 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
             },
           },
           trades: [...state.trades, action.payload],
+          filteredTrades: [...state.trades, action.payload],
         };
       }
     }
@@ -122,6 +126,32 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         trades: [...action.payload],
+        filteredTrades: [...action.payload],
+      };
+    }
+
+    case tradesTypes.FILTER_TRADES: {
+      const {
+        tags,
+        date: [start, end],
+        type,
+        side,
+        symbol,
+      } = action.payload;
+      const date = new Date();
+      console.log(action.payload);
+      date.setDate(start.getDate() - 1);
+      return {
+        ...state,
+        filteredTrades: state.trades.filter((el) => {
+          if (tags.length > 0 && !el.tags.some((r) => tags.indexOf(r) >= 0))
+            return false;
+          if (el.date < date || el.date > end) return false;
+          if (type && el.type !== type) return false;
+          if (side && el.side !== side) return false;
+          if (symbol && el.symbol !== symbol) return false;
+          return true;
+        }),
       };
     }
     case tradesTypes.FETCH_BALANCE_SUCCESS: {

@@ -10,6 +10,8 @@ const tradesTypes = {
 
   FETCH_TRADES_START: "FETCH_TRADES_START",
   FETCH_TRADES_SUCCESS: "FETCH_TRADES_SUCCESS",
+
+  FILTER_TRADES: "FILTER_TRADES",
 };
 
 export default tradesTypes;

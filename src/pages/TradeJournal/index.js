@@ -10,32 +10,45 @@ import InputTag from "../../components/InputTags";
 import Select from "../../components/Select";
 import Input from "../../components/Input";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTradesStart } from "../../redux/Trades/trades.actions";
+import {
+  fetchTradesStart,
+  filterTrades,
+} from "../../redux/Trades/trades.actions";
 import Note from "../../components/Note";
 
 const list = ["Type", "Forex", "Crypto"];
 
 const mapState = ({ trades }) => ({
-  trades: trades.trades,
+  trades: trades.filteredTrades,
 });
 
 const MyTrades = (props) => {
   const [value, onChange] = useState([new Date(), new Date()]);
   const [tags, setTags] = useState([]);
-  const [type, setType] = useState("type");
-  const [direction, setDirection] = useState("");
+  const [type, setType] = useState("");
+  const [symbol, setSymbol] = useState("");
+  const [side, setSide] = useState("");
   const [showTags, setShowTags] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
-
   const { trades } = useSelector(mapState);
   const dispatch = useDispatch();
 
   const onTypeChange = (newType) => setType(newType);
-  const onDirectionChange = (newDirection) => setDirection(newDirection);
+  const onSideChange = (newSide) => setSide(newSide);
 
   const handleTagsInput = (arr) => setTags(arr);
 
-  const handleFilterSubmit = () => {};
+  const handleFilterSubmit = () => {
+    const filters = {
+      date: value,
+      tags,
+      type: type === "Type" ? "" : type,
+      side: side === "Side" ? "" : side,
+      symbol,
+    };
+    // dispatch(fetchTradesStart(filters));
+    dispatch(filterTrades(filters));
+  };
 
   const handleFiltersClear = () => {
     onChange([new Date(), new Date()]);
@@ -43,8 +56,15 @@ const MyTrades = (props) => {
   };
 
   useEffect(() => {
-    if (trades.length === 0) dispatch(fetchTradesStart());
-  }, [trades.length]);
+    const filters = {
+      date: value,
+      tags,
+      type,
+      side,
+      symbol,
+    };
+    if (trades.length === 0) dispatch(fetchTradesStart(filters));
+  }, []);
 
   return (
     <MainLayout title="Trades">
@@ -62,7 +82,7 @@ const MyTrades = (props) => {
               returnValue="range"
             />
           </div>
-          <div className="col-2">
+          <div className="col-3">
             <InputTag
               defaultTags={tags}
               onChange={handleTagsInput}
@@ -77,12 +97,16 @@ const MyTrades = (props) => {
           <div className="col-1">
             <Select
               list={["Side", "Buy", "Sell"]}
-              handler={onDirectionChange}
+              handler={onSideChange}
               defaultPick="Side"
             />
           </div>
           <div className="col-2">
-            <Input placeholder="Symbol (eg. GBPUSD)" />
+            <Input
+              placeholder="Eg. GBPUSD"
+              handler={(e) => setSymbol(e.target.value.toUpperCase())}
+              value={symbol}
+            />
           </div>
           <div className="col-2 mt-2 row">
             <Button handler={handleFilterSubmit}>Filter </Button>
@@ -103,6 +127,7 @@ const MyTrades = (props) => {
               <tr className="table_row" role="row">
                 <th className="table_header">Date</th>
                 <th className="table_header">Symbol</th>
+                <th className="table_header">Type</th>
                 <th className="table_header">Side</th>
                 <th className="table_header">Qty</th>
                 <th className="table_header">Entry Price</th>
@@ -120,6 +145,7 @@ const MyTrades = (props) => {
                     {trade.date.toLocaleDateString()}
                   </td>
                   <td className="table_cell">{trade.symbol}</td>
+                  <td className="table_cell">{trade.type}</td>
                   <td className="table_cell">{trade.side}</td>
                   <td className="table_cell">{trade.quantity}</td>
                   <td className="table_cell">${trade.entryPrice}</td>
@@ -150,7 +176,7 @@ const MyTrades = (props) => {
                     >
                       {trade.tags?.map((el) => (
                         <span className="tag" key={el}>
-                          #{el}
+                          {el}
                         </span>
                       ))}
                     </Note>
