@@ -7,9 +7,12 @@ import {
   updateUserBalance,
 } from "../../firebase/utils";
 import { addTradeSuccess, fetchBalanceSuccess } from "./trades.actions";
+import { isLoading } from "../User/user.actions";
+import { postError, postLoading, showPopup } from "../Posts/posts.actions";
 
-export function* addTrade({ payload: { trade, balance } }) {
+export function* addTrade({ payload: { trade } }) {
   try {
+    yield put(postLoading());
     const { uid } = yield getUserId();
     const docRef = yield addTradeToDb(uid, trade);
     yield put(
@@ -18,7 +21,12 @@ export function* addTrade({ payload: { trade, balance } }) {
         ...trade,
       })
     );
+    yield put(postLoading());
+    yield put(showPopup("Trade added successfully"));
+    yield delay(2000);
+    yield put(showPopup(""));
   } catch (err) {
+    yield put(postError(err.message));
     console.log(err.message);
   }
 }

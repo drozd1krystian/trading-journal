@@ -37,12 +37,12 @@ const AddTrade = () => {
   const handleTagsChange = (newTags) =>
     setTags((prev) => ({ ...prev, arr: [...newTags], error: false }));
 
-  const validateNumber = (value, fn) => {
-    isNaN(value) || value < 0 ? fn(0) : fn(value);
+  const validateNumber = (value) => {
+    return isNaN(value) || value < 0 ? 0 : value;
   };
 
-  const validateProfit = (value, fn) => {
-    isNaN(value) ? fn(0) : fn(value);
+  const validateProfit = (value) => {
+    return isNaN(value) ? 0 : value;
   };
 
   const handleSubmit = (e) => {
@@ -56,15 +56,29 @@ const AddTrade = () => {
       tags: tags.arr,
       side,
       symbol,
-      quantity,
-      entryPrice,
-      exitPrice,
-      stopLoss,
-      net,
+      quantity: validateNumber(quantity),
+      entryPrice: validateNumber(entryPrice),
+      exitPrice: validateNumber(exitPrice),
+      stopLoss: validateNumber(stopLoss),
+      net: validateProfit(net),
       imgUrl,
       notes,
     };
-    dispatch(addTradeStart({ trade, balance }));
+    dispatch(addTradeStart({ trade }));
+    setSide("Buy");
+    setStopLoss("");
+    setSymbol("");
+    setTags({
+      arr: [],
+      error: false,
+    });
+    setQuantity("");
+    setEntryPrice("");
+    setImgUrl("");
+    setExitPrice("");
+    setStopLoss("");
+    setNotes("");
+    setNet("");
   };
 
   useEffect(() => {
@@ -120,13 +134,15 @@ const AddTrade = () => {
                 placeholder="Eg. EURUSD"
                 handler={(e) => setSymbol(e.target.value)}
                 required
+                value={symbol}
               />
             </div>
             <div className="col-10">
               <Input
                 label="Quanitity *:"
-                handler={(e) => validateNumber(e.target.value, setQuantity)}
+                handler={(e) => setQuantity(e.target.value)}
                 required
+                value={quantity}
               />
             </div>
             <div className="col-10">
@@ -137,34 +153,39 @@ const AddTrade = () => {
             <div className="col-10">
               <Input
                 label="Entry Price *:"
-                handler={(e) => validateNumber(e.target.value, setEntryPrice)}
+                handler={(e) => setEntryPrice(e.target.value)}
                 required
+                value={entryPrice}
               />
             </div>
             <div className="col-10">
               <Input
                 label="Exit Price *:"
-                handler={(e) => validateNumber(e.target.value, setExitPrice)}
+                handler={(e) => setExitPrice(e.target.value)}
                 required
+                value={exitPrice}
               />
             </div>
             <div className="col-10">
               <Input
                 label="Stop Loss:"
-                handler={(e) => validateNumber(e.target.value, setStopLoss)}
+                handler={(e) => setStopLoss(e.target.value)}
+                value={stopLoss}
               />
             </div>
             <div className="col-10">
               <Input
                 label="Image Url:"
                 handler={(e) => setImgUrl(e.target.value)}
+                value={imgUrl}
               />
             </div>
             <div className="col-10">
               <Input
                 label="Profit/Loss *:"
-                handler={(e) => validateProfit(e.target.value, setNet)}
+                handler={(e) => setNet(e.target.value)}
                 required
+                value={net}
               />
             </div>
             <div className="col-10">
@@ -174,6 +195,7 @@ const AddTrade = () => {
                 rows="5"
                 className="input text_area"
                 onChange={(e) => setNotes(e.target.value)}
+                value={notes}
               />
             </div>
             <div className="col-10">
