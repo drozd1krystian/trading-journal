@@ -73,27 +73,16 @@ const Dashboard = (props) => {
       const today = new Date();
       const firstDay = `${today.getFullYear()}-${today.getMonth() + 1}-1`;
       const firstDayIndex = balance.dates.findIndex((date) => date >= firstDay);
-      let monthlyPln = 0;
-      let monthlyPercentage = 0;
-      if (firstDayIndex === balance.balance.length - 1) {
-        monthlyPln =
-          balance.balance[firstDayIndex] -
-          balance.balance[balance.balance.length - 2];
+      const monthlyPln =
+        balance.balance[balance.balance.length - 1] -
+        balance.balance[firstDayIndex - 1];
 
-        monthlyPercentage = (
-          (monthlyPln / balance.balance[balance.balance.length - 2]) * 100 -
-          100
-        ).toFixed(2);
-      } else {
-        monthlyPercentage =
-          balance.balance[balance.balance.length - 1] -
-          balance.balance[firstDayIndex];
-
-        monthlyPercentage = (
-          (balance.balance[balance.balance.length - 1] / monthlyPln) * 100 -
-          100
-        ).toFixed(2);
-      }
+      const monthlyPercentage = (
+        (balance.balance[balance.balance.length - 1] /
+          balance.balance[firstDayIndex - 1]) *
+          100 -
+        100
+      ).toFixed(2);
 
       setMonthlySeries((prev) => [
         {
@@ -111,27 +100,18 @@ const Dashboard = (props) => {
       const firstYearTrade = balance.dates.findIndex(
         (date) => date >= thisYear
       );
-      let yearlyPln = 0;
-      let yearlyPercentage = 0;
-      if (firstYearTrade === balance.balance.length - 1) {
-        yearlyPln =
-          balance.balance[firstYearTrade] -
-          balance.balance[balance.balance.length - 2];
 
-        yearlyPercentage = (
-          (yearlyPln / balance.balance[balance.balance.length - 2]) * 100 -
-          100
-        ).toFixed(2);
-      } else {
-        yearlyPln =
-          balance.balance[balance.balance.length - 1] -
-          balance.balance[firstYearTrade];
+      const yearlyPln =
+        balance.balance[balance.balance.length - 1] -
+        balance.balance[firstYearTrade - 1];
 
-        yearlyPercentage = (
-          (balance.balance[balance.balance.length - 1] / yearlyPln) * 100 -
-          100
-        ).toFixed(2);
-      }
+      const yearlyPercentage = (
+        (balance.balance[balance.balance.length - 1] /
+          balance.balance[firstYearTrade - 1]) *
+          100 -
+        100
+      ).toFixed(2);
+      //}
 
       setYearlySeries((prev) => [
         {
