@@ -6,13 +6,15 @@ const INITIAL_STATE = {
     dates: [],
     values: [],
     balance: [],
+    wins: 0,
+    loses: 0,
   },
   pairs: {
     EURUSD: {
       gain: 5000,
       quanitity: 10000,
     },
-    GBUPSD: {
+    GBPUSD: {
       gain: -1000,
       quanitity: 1000,
     },
@@ -62,12 +64,23 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
                 return parseFloat(el) + parseFloat(trade.net);
               return el;
             }),
+            wins:
+              trade.net > 0
+                ? parseInt(state.balance.wins) + 1
+                : state.balance.wins,
+            loses:
+              trade.net < 0
+                ? parseInt(state.balance.loses) + 1
+                : state.balance.loses,
           },
           pairs: {
             ...state.pairs,
             [trade.symbol]: {
               ...state.pairs[trade.symbol],
-              gain: (state.pairs[trade.symbol].gain += parseFloat(trade.net)),
+              gain:
+                parseFloat(state.pairs[trade.symbol]?.gain) ||
+                0 + parseFloat(trade.net),
+              quanitity: parseFloat(trade.quantity),
             },
           },
         };
@@ -82,14 +95,31 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
               ...balance.balance,
               parseFloat(lastBalance) + parseFloat(trade.net),
             ],
+            wins:
+              trade.net > 0
+                ? parseInt(state.balance.wins) + 1
+                : state.balance.wins,
+            loses:
+              trade.net < 0
+                ? parseInt(state.balance.loses) + 1
+                : state.balance.loses,
           },
           trades: [...state.trades, action.payload],
           pairs: {
             ...state.pairs,
-            [trade.symbol]: (state.pairs[trade.symbol] += trade.net),
+            [trade.symbol]: {
+              ...state.pairs[trade.symbol],
+              gain:
+                parseFloat(state.pairs[trade.symbol]?.gain) ||
+                0 + parseFloat(trade.net),
+              quanitity: parseFloat(trade.quantity),
+            },
           },
         };
       }
+    }
+    case tradesTypes.UPDATE_PAIRS: {
+      return {};
     }
     case tradesTypes.FETCH_BALANCE_SUCCESS: {
       return {

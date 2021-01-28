@@ -4,15 +4,18 @@ import MainLayout from "../../layouts/main";
 import "./style.scss";
 import Chart from "react-apexcharts";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import Button from "../../components/Button";
 
 const mapState = ({ user, trades }) => ({
+  user: user.currentUser,
   initialBalance: user.currentUser.initialBalance,
   balance: trades.balance,
   pairs: trades.pairs,
 });
 
 const Dashboard = (props) => {
-  const { initialBalance, balance, pairs } = useSelector(mapState);
+  const { initialBalance, balance, pairs, user } = useSelector(mapState);
   const [dailyPln, setDailyPln] = useState({
     gain: 0,
     percentage: 0,
@@ -45,72 +48,76 @@ const Dashboard = (props) => {
   ]);
 
   useEffect(() => {
-    setDailySeries((prev) => {
-      const arr = Array(balance.balance.length - 1).fill(0);
-      arr.push(balance.values[balance.values.length - 1]);
-      return [
+    if (balance.balance.length > 1) {
+      setDailySeries((prev) => {
+        const arr = Array(balance.balance.length - 1).fill(0);
+        arr.push(balance.values[balance.values.length - 1]);
+        return [
+          {
+            ...prev[0],
+            data: [...arr],
+          },
+        ];
+      });
+
+      setDailyPln((prev) => ({
+        ...prev,
+        gain: balance.values[balance.values.length - 1],
+        percentage: (
+          (balance.values[balance.values.length - 1] /
+            balance.balance[balance.balance.length - 2]) *
+          100
+        ).toFixed(2),
+      }));
+
+      const today = new Date();
+      const firstDay = `${today.getFullYear()}-${today.getMonth() + 1}-1`;
+      const firstDayIndex = balance.dates.findIndex((date) => date >= firstDay);
+      const monthlyPln =
+        balance.balance[balance.balance.length - 1] -
+        balance.balance[firstDayIndex];
+      setMonthlySeries((prev) => [
         {
           ...prev[0],
-          data: [...arr],
+          data: [0, 0, monthlyPln],
         },
-      ];
-    });
+      ]);
+      setMonthlyGain((prev) => ({
+        ...prev,
+        gain: monthlyPln,
+        percentage: (
+          (balance.balance[balance.balance.length - 1] /
+            balance.balance[firstDayIndex]) *
+            100 -
+          100
+        ).toFixed(2),
+      }));
 
-    setDailyPln((prev) => ({
-      ...prev,
-      gain: balance.values[balance.values.length - 1],
-      percentage: (
-        (balance.values[balance.values.length - 1] /
-          balance.balance[balance.balance.length - 2]) *
-        100
-      ).toFixed(2),
-    }));
+      const thisYear = `${today.getFullYear()}-1-1`;
+      const firstYearTrade = balance.dates.findIndex(
+        (date) => date >= thisYear
+      );
+      const yearlyPln =
+        balance.balance[balance.balance.length - 1] -
+        balance.balance[firstYearTrade];
 
-    const today = new Date();
-    const firstDay = `${today.getFullYear()}-${today.getMonth() + 1}-1`;
-    const firstDayIndex = balance.dates.findIndex((date) => date >= firstDay);
-    const monthlyPln =
-      balance.balance[balance.balance.length - 1] -
-      balance.balance[firstDayIndex];
-    setMonthlySeries((prev) => [
-      {
-        ...prev[0],
-        data: [0, 0, monthlyPln],
-      },
-    ]);
-    setMonthlyGain((prev) => ({
-      ...prev,
-      gain: monthlyPln,
-      percentage: (
-        (balance.balance[balance.balance.length - 1] /
-          balance.balance[firstDayIndex]) *
-          100 -
-        100
-      ).toFixed(2),
-    }));
-
-    const thisYear = `${today.getFullYear()}-1-1`;
-    const firstYearTrade = balance.dates.findIndex((date) => date >= thisYear);
-    const yearlyPln =
-      balance.balance[balance.balance.length - 1] -
-      balance.balance[firstYearTrade];
-
-    setYearlySeries((prev) => [
-      {
-        ...prev[0],
-        data: [0, 0, yearlyPln],
-      },
-    ]);
-    setYearlyGain((prev) => ({
-      ...prev,
-      gain: yearlyPln,
-      percentage: (
-        (balance.balance[balance.balance.length - 1] /
-          balance.balance[firstYearTrade]) *
-          100 -
-        100
-      ).toFixed(2),
-    }));
+      setYearlySeries((prev) => [
+        {
+          ...prev[0],
+          data: [0, 0, yearlyPln],
+        },
+      ]);
+      setYearlyGain((prev) => ({
+        ...prev,
+        gain: yearlyPln,
+        percentage: (
+          (balance.balance[balance.balance.length - 1] /
+            balance.balance[firstYearTrade]) *
+            100 -
+          100
+        ).toFixed(2),
+      }));
+    }
   }, []);
 
   const data = {
@@ -297,108 +304,144 @@ const Dashboard = (props) => {
 
   return (
     <MainLayout title="Dashboard">
-      <div className="row">
-        <div className="col-5 ">
-          <Card
-            title="Balance"
-            balance={balance.balance[balance.balance.length - 1]}
-            subValue={balance.dates[balance.dates.length - 1]}
-          >
-            <Chart options={data.options} series={barChartSeries} type="bar" />
-          </Card>
-        </div>
-        <div className="col-5">
-          <Card
-            title="Last Day Pnl"
-            balance={dailyPln.gain}
-            subValue={`${dailyPln.percentage}%`}
-          >
-            <Chart options={data.options} series={dailySeries} type="line" />
-          </Card>
-        </div>
-        <div className="col-5 ">
-          <Card
-            title="Pnl This Month"
-            balance={monthlyGain.gain}
-            subValue={`${monthlyGain.percentage}%`}
-          >
-            <Chart options={data.options} series={monthlySeries} type="line" />
-          </Card>
-        </div>
-        <div className="col-5">
-          <Card
-            title="Pnl This Year"
-            balance={yearlyGain.gain}
-            subValue={`${yearlyGain.percentage}%`}
-          >
-            <Chart options={data.options} series={yearlySeries} type="line" />
-          </Card>
-        </div>
-      </div>
-      <div className="row">
-        <div className="balance">
-          <h4 className="balance_header">PLN EVOLUTION FOR ACCOUNT</h4>
-          <div className="chart">
-            <Chart
-              options={lineChart.options}
-              series={lineChart.series}
-              type="area"
-              width="100%"
-              height="100%"
-            />
+      {balance.balance.length > 1 ? (
+        <>
+          <div className="row">
+            <div className="col-5 ">
+              <Card
+                title="Balance"
+                balance={balance.balance[balance.balance.length - 1]}
+                subValue={balance.dates[balance.dates.length - 1]}
+              >
+                <Chart
+                  options={data.options}
+                  series={barChartSeries}
+                  type="bar"
+                />
+              </Card>
+            </div>
+            <div className="col-5">
+              <Card
+                title="Last Day Pnl"
+                balance={dailyPln.gain}
+                subValue={`${dailyPln.percentage}%`}
+              >
+                <Chart
+                  options={data.options}
+                  series={dailySeries}
+                  type="line"
+                />
+              </Card>
+            </div>
+            <div className="col-5 ">
+              <Card
+                title="Pnl This Month"
+                balance={monthlyGain.gain}
+                subValue={`${monthlyGain.percentage}%`}
+              >
+                <Chart
+                  options={data.options}
+                  series={monthlySeries}
+                  type="line"
+                />
+              </Card>
+            </div>
+            <div className="col-5">
+              <Card
+                title="Pnl This Year"
+                balance={yearlyGain.gain}
+                subValue={`${yearlyGain.percentage}%`}
+              >
+                <Chart
+                  options={data.options}
+                  series={yearlySeries}
+                  type="line"
+                />
+              </Card>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="row mt-2">
-        <div className="ticket">
-          <div className="ticket_body">
-            <h4 className="ticket_header">TOP PERFORMING INSTRUMENTS</h4>
-            <table className="table">
-              <thead>
-                <tr className="table_row" role="row">
-                  <th className="table_header">Symbol</th>
-                  <th className="table_header">$</th>
-                  <th className="table_header">Quanitity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {topPairs.map((el) => (
-                  <tr className="table_row" key={el.pair}>
-                    <td className="table_cell">{el.pair}</td>
-                    <td className="table_cell">{el.gain}</td>
-                    <td className="table_cell">{el.quanitity}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="row">
+            <div className="balance">
+              <h4 className="balance_header">PLN EVOLUTION FOR ACCOUNT</h4>
+              <div className="chart">
+                <Chart
+                  options={lineChart.options}
+                  series={lineChart.series}
+                  type="area"
+                  width="100%"
+                  height="100%"
+                />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="row mt-2">
-        <div className="ticket">
-          <div className="ticket_body">
-            <h4 className="ticket_header">BOTTOM PERFORMING INSTRUMENTS</h4>
-            <table className="table">
-              <thead>
-                <tr className="table_row" role="row">
-                  <th className="table_header">Symbol</th>
-                  <th className="table_header">$</th>
-                  <th className="table_header">Quanitity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bottomPairs.map((el) => (
-                  <tr className="table_row" key={el.pair}>
-                    <td className="table_cell">{el.pair}</td>
-                    <td className="table_cell">{el.gain}</td>
-                    <td className="table_cell">{el.quanitity}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="row mt-2">
+            <div className="ticket">
+              <div className="ticket_body">
+                <h4 className="ticket_header">TOP PERFORMING INSTRUMENTS</h4>
+                <table className="table">
+                  <thead>
+                    <tr className="table_row" role="row">
+                      <th className="table_header">Symbol</th>
+                      <th className="table_header">$</th>
+                      <th className="table_header">Quanitity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {topPairs.map((el) => (
+                      <tr className="table_row" key={el.pair}>
+                        <td className="table_cell">{el.pair}</td>
+                        <td className="table_cell">{el.gain}</td>
+                        <td className="table_cell">{el.quanitity}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+          <div className="row mt-2">
+            <div className="ticket">
+              <div className="ticket_body">
+                <h4 className="ticket_header">BOTTOM PERFORMING INSTRUMENTS</h4>
+                <table className="table">
+                  <thead>
+                    <tr className="table_row" role="row">
+                      <th className="table_header">Symbol</th>
+                      <th className="table_header">$</th>
+                      <th className="table_header">Quanitity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {bottomPairs.map((el) => (
+                      <tr className="table_row" key={el.pair}>
+                        <td className="table_cell">{el.pair}</td>
+                        <td className="table_cell">{el.gain}</td>
+                        <td className="table_cell">{el.quanitity}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <section className="section">
+          <h4 className="section_title">
+            <span>Dashboard</span>
+          </h4>
+          <p>
+            <h3 className="text-grey">Hi {user.name}!</h3>
+            To get started, please add at least <strong>one</strong> trade to
+            populate your dashboard.
+          </p>
+          <div className="row mt-2">
+            <Link to="/import">
+              <Button>Import Trades</Button>
+            </Link>
+          </div>
+        </section>
+      )}
     </MainLayout>
   );
 };
