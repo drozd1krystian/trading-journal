@@ -38,6 +38,16 @@ const INITIAL_STATE = {
   },
 };
 
+const newBalance = (values, initialBalance) => {
+  const arr = [initialBalance];
+  values.forEach((el, i) => {
+    if (i === 0) return;
+    const newBalance = parseFloat(arr[i - 1]) + parseFloat(el);
+    arr.push(newBalance);
+  });
+  return arr;
+};
+
 const tradesReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case tradesTypes.ADD_TRADE_SUCCESS: {
@@ -49,78 +59,82 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
       const dateIndex = balance.dates.findIndex(
         (date) => date === formattedDate
       );
+      let middleIndex = -1;
+      if (dateIndex === -1)
+        middleIndex = balance.dates.findIndex((date) => formattedDate < date);
       let lastBalance = balance.balance[balance.balance.length - 1];
-      if (dateIndex !== -1) {
-        return {
-          ...state,
-          balance: {
-            ...balance,
-            values: balance.values.map((el, i) => {
-              if (i === dateIndex)
-                return parseFloat(el) + parseFloat(trade.net);
-              return el;
-            }),
-            balance: balance.balance.map((el, i) => {
-              if (i === dateIndex)
-                return parseFloat(el) + parseFloat(trade.net);
-              return el;
-            }),
-            wins:
-              trade.net > 0
-                ? parseInt(state.balance.wins) + 1
-                : state.balance.wins,
-            loses:
-              trade.net < 0
-                ? parseInt(state.balance.loses) + 1
-                : state.balance.loses,
-            pairs: {
-              ...state.balance.pairs,
-              [trade.symbol]: {
-                ...state.balance.pairs[trade.symbol],
-                gain:
-                  parseFloat(state.balance.pairs[trade.symbol]?.gain) ||
-                  0 + parseFloat(trade.net),
-                quanitity: parseFloat(trade.quantity),
-              },
+      return {
+        ...state,
+        balance: {
+          ...balance,
+          values:
+            dateIndex !== -1
+              ? balance.values.map((el, i) => {
+                  if (i === dateIndex)
+                    return parseFloat(el) + parseFloat(trade.net);
+                  return el;
+                })
+              : middleIndex === -1
+              ? [...balance.values, trade.net]
+              : [
+                  ...balance.values.slice(0, middleIndex),
+                  trade.net,
+                  ...balance.values.slice(middleIndex),
+                ],
+          balance:
+            dateIndex !== -1
+              ? balance.balance.map((el, i) => {
+                  if (i === dateIndex)
+                    return parseFloat(el) + parseFloat(trade.net);
+                  return el;
+                })
+              : middleIndex === -1
+              ? [
+                  ...balance.balance,
+                  parseFloat(lastBalance) + parseFloat(trade.net),
+                ]
+              : newBalance(
+                  [
+                    ...balance.values.slice(0, middleIndex),
+                    trade.net,
+                    ...balance.values.slice(middleIndex),
+                  ],
+                  balance.balance[0]
+                ),
+          dates:
+            dateIndex !== -1
+              ? [...balance.dates]
+              : middleIndex === -1
+              ? [...balance.dates, formattedDate]
+              : [
+                  ...balance.dates.slice(0, middleIndex),
+                  formattedDate,
+                  ...balance.dates.slice(middleIndex),
+                ],
+          wins:
+            trade.net > 0
+              ? parseInt(state.balance.wins) + 1
+              : state.balance.wins,
+          loses:
+            trade.net < 0
+              ? parseInt(state.balance.loses) + 1
+              : state.balance.loses,
+          pairs: {
+            ...state.pairs,
+            [trade.symbol]: {
+              ...state.pairs[trade.symbol],
+              gain:
+                parseFloat(state.pairs[trade.symbol]?.gain) ||
+                0 + parseFloat(trade.net),
+              quanitity:
+                parseFloat(state.pairs[trade.symbol]?.quanitity) ||
+                0 + parseFloat(trade.quantity),
             },
-            trades: [...state.trades, action.payload],
-            filteredTrades: [...state.trades, action.payload],
           },
-        };
-      } else {
-        return {
-          ...state,
-          balance: {
-            ...balance,
-            dates: [...balance.dates, formattedDate],
-            values: [...balance.values, trade.net],
-            balance: [
-              ...balance.balance,
-              parseFloat(lastBalance) + parseFloat(trade.net),
-            ],
-            wins:
-              trade.net > 0
-                ? parseInt(state.balance.wins) + 1
-                : state.balance.wins,
-            loses:
-              trade.net < 0
-                ? parseInt(state.balance.loses) + 1
-                : state.balance.loses,
-            pairs: {
-              ...state.balance.pairs,
-              [trade.symbol]: {
-                ...state.balance.pairs[trade.symbol],
-                gain:
-                  parseFloat(state.balance.pairs[trade.symbol]?.gain) ||
-                  0 + parseFloat(trade.net),
-                quanitity: parseFloat(trade.quantity),
-              },
-            },
-          },
-          trades: [...state.trades, action.payload],
-          filteredTrades: [...state.trades, action.payload],
-        };
-      }
+        },
+        trades: [...state.trades, action.payload],
+        filteredTrades: [...state.trades, action.payload],
+      };
     }
     case tradesTypes.FETCH_TRADES_SUCCESS: {
       return {

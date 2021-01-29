@@ -4,6 +4,7 @@
   display: block;
   position: relative;
   min-height: 200px;
+  padding-bottom: 5rem;
 }
 
 .table {
@@ -31,24 +32,4 @@
   tbody tr:nth-child(odd) {
     background: var(--secondary);
   }
-}
-
-.trade_tags {
-  display: flex;
-  flex-direction: column;
-  max-height: 70px;
-  position: relative;
-
-  .tag {
-    background: var(--button);
-    padding: 5px 10px;
-    color: var(--text-light);
-    border-radius: 2px;
-    font-size: 0.7rem;
-    margin: 0 5px 5px 0;
-  }
-}
-
-.pointer {
-  cursor: pointer;
 }

@@ -16,11 +16,12 @@
     display: flex;
     flex-wrap: wrap;
     max-width: 250px;
+    min-width: 200px;
+    min-height: 50px;
     background: var(--text);
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     color: var(--primary-dark);
-    min-height: 50px;
     position: relative;
     .arrow {
       position: absolute;

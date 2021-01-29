@@ -103,7 +103,7 @@ const AddTrade = () => {
     <MainLayout title="Add Trade">
       <section className="section">
         <h4 className="section_title">
-          <ExportIcon className="ic on-small" />
+          <ExportIcon className="icon-small" />
           <span>Manual Entry</span>
         </h4>
         <p>
@@ -146,7 +146,7 @@ const AddTrade = () => {
               <Input
                 label="Symbol *:"
                 placeholder="Eg. EURUSD"
-                handler={(e) => setSymbol(e.target.value)}
+                handler={(e) => setSymbol(e.target.value.toUpperCase())}
                 required
                 value={symbol}
               />
