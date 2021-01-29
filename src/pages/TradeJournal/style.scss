@@ -30,6 +30,38 @@
   }
 
   tbody tr:nth-child(odd) {
-    background: var(--secondary);
+    background: var(--primary-dark);
   }
+
+  th {
+    .arrows {
+      position: relative;
+      margin-left: 5px;
+      &::before {
+        content: "\2193";
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      &::after {
+        content: "\2191";
+        position: absolute;
+        left: 5px;
+        top: 0;
+      }
+    }
+    button {
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.ascending::after,
+.descending::before {
+  color: var(--button);
 }

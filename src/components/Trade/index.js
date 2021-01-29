@@ -49,6 +49,7 @@ const Trade = ({ trade, handler, ...otherProps }) => {
         {trade.tags.slice(0, 2).map((el) => (
           <span className="tag">{el}</span>
         ))}
+        {trade.tags.length > 2 ? <span>...</span> : null}
       </td>
       <td
         className={

@@ -3,6 +3,7 @@ import CalendarInput from "../../components/Calendar";
 import MainLayout from "../../layouts/main";
 import "./style.scss";
 import { ReactComponent as CalendarIcon } from "../../assets/calendar.svg";
+import { ReactComponent as TradeIcon } from "../../assets/trade.svg";
 import Button from "../../components/Button";
 import InputTag from "../../components/InputTags";
 import Select from "../../components/Select";
@@ -18,6 +19,7 @@ import Trade from "../../components/Trade";
 import Modal from "../../components/Modal";
 import { showModal } from "../../redux/Modal/modal.actions";
 import useModal from "../../hooks/useModal";
+import useSortableData from "../../hooks/useSortableData";
 
 const list = ["Type", "Forex", "Crypto"];
 
@@ -34,14 +36,13 @@ const MyTrades = (props) => {
   const [side, setSide] = useState("");
   const [trade, setTrade] = useState(null);
   const { trades, balance } = useSelector(mapState);
+  const { items, requestSort, sortConfig } = useSortableData(trades);
   const { show, loading, done, error } = useModal();
   const dispatch = useDispatch();
 
   const onTypeChange = (newType) => setType(newType);
   const onSideChange = (newSide) => setSide(newSide);
-
   const handleTagsInput = (arr) => setTags(arr);
-
   const handleFilterSubmit = () => {
     const filters = {
       date: value,
@@ -52,7 +53,6 @@ const MyTrades = (props) => {
     };
     dispatch(filterTrades(filters));
   };
-
   const handleFiltersClear = () => {
     onChange([new Date(), new Date()]);
     setTags([]);
@@ -60,14 +60,11 @@ const MyTrades = (props) => {
     setSymbol("");
     setSide("");
   };
-
   const handleTradeRemove = () => dispatch(removeTradeStart(trade));
-
   const handleModal = (trade) => {
     dispatch(showModal());
     setTrade(trade);
   };
-
   useEffect(() => {
     const filters = {
       date: value,
@@ -79,9 +76,18 @@ const MyTrades = (props) => {
     if (trades.length === 0) dispatch(fetchTradesStart(filters));
   }, []);
 
-  useEffect(() => {
-    dispatch(updateBalanceStart(balance));
-  }, [balance]);
+  // useEffect(() => {
+  //   dispatch(updateBalanceStart(balance));
+  // }, [balance]);
+
+  const getClassNamesFor = (name) => {
+    if (!sortConfig) {
+      return "arrows";
+    }
+    return sortConfig.key === name
+      ? `${sortConfig.direction} arrows`
+      : "arrows";
+  };
 
   return (
     <MainLayout title="Trades">
@@ -144,27 +150,83 @@ const MyTrades = (props) => {
 
       <section className="section">
         <h4 className="section_title">
-          <span>Your Trades</span>
+          <span>
+            <TradeIcon className="icon-small" /> Your Trades
+          </span>
         </h4>
         <div className="table_wrapper">
           <table className="table">
             <thead>
               <tr className="table_row" role="row">
-                <th className="table_header">Date</th>
-                <th className="table_header">Symbol</th>
-                <th className="table_header">Type</th>
-                <th className="table_header">Side</th>
-                <th className="table_header">Qty</th>
-                <th className="table_header">Entry Price</th>
-                <th className="table_header">Stop Loss</th>
+                <th
+                  className="table_header"
+                  onClick={() => requestSort("date")}
+                >
+                  <button className="btn--default bold" type="button">
+                    Date <span className={getClassNamesFor("date")} />
+                  </button>
+                </th>
+                <th
+                  className="table_header"
+                  onClick={() => requestSort("symbol")}
+                >
+                  <button className="btn--default bold" type="button">
+                    Symbol <span className={getClassNamesFor("symbol")} />
+                  </button>
+                </th>
+                <th
+                  className="table_header"
+                  onClick={() => requestSort("type")}
+                >
+                  <button className="btn--default bold" type="button">
+                    Type <span className={getClassNamesFor("type")} />
+                  </button>
+                </th>
+                <th
+                  className="table_header"
+                  onClick={() => requestSort("side")}
+                >
+                  <button className="btn--default bold" type="button">
+                    Side <span className={getClassNamesFor("side")} />
+                  </button>
+                </th>
+                <th
+                  className="table_header"
+                  onClick={() => requestSort("quantity")}
+                >
+                  <button className="btn--default bold" type="button">
+                    Qty <span className={getClassNamesFor("quantity")} />
+                  </button>
+                </th>
+                <th
+                  className="table_header"
+                  onClick={() => requestSort("entryPrice")}
+                >
+                  <button className="btn--default bold" type="button">
+                    Entry Price{" "}
+                    <span className={getClassNamesFor("entryPrice")} />
+                  </button>
+                </th>
+                <th
+                  className="table_header"
+                  onClick={() => requestSort("stopLoss")}
+                >
+                  <button className="btn--default bold" type="button">
+                    Stop Loss <span className={getClassNamesFor("stopLoss")} />
+                  </button>
+                </th>
                 <th className="table_header">Notes</th>
                 <th className="table_header">Tags</th>
-                <th className="table_header">Profit</th>
+                <th className="table_header" onClick={() => requestSort("net")}>
+                  <button className="btn--default bold" type="button">
+                    Profit <span className={getClassNamesFor("net")} />
+                  </button>
+                </th>
                 <th className="table_header">Options</th>
               </tr>
             </thead>
             <tbody>
-              {trades.map((trade) => (
+              {items.map((trade) => (
                 <Trade trade={trade} handler={() => handleModal(trade)} />
               ))}
             </tbody>

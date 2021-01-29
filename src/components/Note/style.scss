@@ -3,6 +3,7 @@
   top: 0;
   left: 0;
   transform: translate(-110%, -20%);
+  z-index: 1000;
 
   .note_header {
     background: var(--text-light);
@@ -17,7 +18,6 @@
     flex-wrap: wrap;
     max-width: 250px;
     min-width: 200px;
-    min-height: 50px;
     background: var(--text);
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -33,6 +33,9 @@
       border-top: 10px solid transparent;
       border-bottom: 10px solid transparent;
       border-left: 10px solid var(--text);
+    }
+    .tag:last-child {
+      margin-bottom: 5px;
     }
   }
 }
