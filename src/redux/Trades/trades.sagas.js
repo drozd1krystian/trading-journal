@@ -6,15 +6,23 @@ import {
   fetchTradesFromDb,
   getCurrentUser,
   getUserId,
+  removeTradeFromDb,
   updateUserBalance,
 } from "../../firebase/utils";
 import {
   addTradeSuccess,
   fetchBalanceSuccess,
   fetchTradesSuccess,
+  removeTradeSuccess,
 } from "./trades.actions";
 import { isLoading } from "../User/user.actions";
 import { postError, postLoading, showPopup } from "../Posts/posts.actions";
+import {
+  clearModalState,
+  modalError,
+  triggerDone,
+  triggerLoading,
+} from "../Modal/modal.actions";
 
 export function* addTrade({ payload: { trade } }) {
   try {
@@ -83,11 +91,31 @@ export function* onFetchTradesStart() {
   yield takeLatest(tradesTypes.FETCH_TRADES_START, fetchTrades);
 }
 
+export function* removeTrade({ payload: trade }) {
+  try {
+    const { uid } = yield getUserId();
+    yield put(triggerLoading());
+    yield removeTradeFromDb(uid, trade.id);
+    yield put(removeTradeSuccess(trade));
+    yield put(triggerDone());
+    yield put(clearModalState());
+  } catch (err) {
+    yield put(modalError());
+    yield put(triggerDone());
+    yield put(clearModalState());
+  }
+}
+
+export function* onRemoveTradeStart() {
+  yield takeLatest(tradesTypes.REMOVE_TRADE_START, removeTrade);
+}
+
 export default function* tradesSagas() {
   yield all([
     call(onAddTradeStart),
     call(onFetchBalanceStart),
     call(onUpdateBalanceStart),
     call(onFetchTradesStart),
+    call(onRemoveTradeStart),
   ]);
 }

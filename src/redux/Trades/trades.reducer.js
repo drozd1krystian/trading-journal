@@ -9,36 +9,11 @@ const INITIAL_STATE = {
     balance: [],
     wins: 0,
     loses: 0,
-    pairs: {
-      // EURUSD: {
-      //   gain: 5000,
-      //   quanitity: 10000,
-      // },
-      // GBPUSD: {
-      //   gain: -1000,
-      //   quanitity: 1000,
-      // },
-      // AUDUSD: {
-      //   gain: -500,
-      //   quanitity: 1000,
-      // },
-      // GBPJPY: {
-      //   gain: 7000,
-      //   quanitity: 100000,
-      // },
-      // GBPAUD: {
-      //   gain: 3000,
-      //   quanitity: 100,
-      // },
-      // GBPCAD: {
-      //   gain: -100,
-      //   quanitity: 1,
-      // },
-    },
+    pairs: {},
   },
 };
 
-const newBalance = (values, initialBalance) => {
+const calculateNewBalance = (values, initialBalance) => {
   const arr = [initialBalance];
   values.forEach((el, i) => {
     if (i === 0) return;
@@ -93,7 +68,7 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
                   ...balance.balance,
                   parseFloat(lastBalance) + parseFloat(trade.net),
                 ]
-              : newBalance(
+              : calculateNewBalance(
                   [
                     ...balance.values.slice(0, middleIndex),
                     trade.net,
@@ -120,15 +95,17 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
               ? parseInt(state.balance.loses) + 1
               : state.balance.loses,
           pairs: {
-            ...state.pairs,
+            ...balance.pairs,
             [trade.symbol]: {
-              ...state.pairs[trade.symbol],
-              gain:
-                parseFloat(state.pairs[trade.symbol]?.gain) ||
-                0 + parseFloat(trade.net),
-              quanitity:
-                parseFloat(state.pairs[trade.symbol]?.quanitity) ||
-                0 + parseFloat(trade.quantity),
+              ...balance.pairs[trade.symbol],
+              gain: balance.pairs[trade.symbol]
+                ? parseFloat(balance.pairs[trade.symbol]?.gain) +
+                  parseFloat(trade.net)
+                : parseFloat(trade.net),
+              quantity: balance.pairs[trade.symbol]
+                ? parseFloat(balance.pairs[trade.symbol].quantity) +
+                  parseFloat(trade.quantity)
+                : parseFloat(trade.quantity),
             },
           },
         },
@@ -174,6 +151,61 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
         balance: {
           ...state.balance,
           ...action.payload,
+        },
+      };
+    }
+
+    case tradesTypes.REMOVE_TRADE_SUCCESS: {
+      const trade = action.payload;
+      const balance = state.balance;
+      const formattedDate = `${trade.date.getFullYear()}-${
+        trade.date.getMonth() + 1
+      }-${trade.date.getDate()}`;
+      const dateId = balance.dates.findIndex((el) => el === formattedDate);
+      const newValues = balance.values
+        .map((el, i) => {
+          if (i === dateId && el - trade.net === 0) return undefined;
+          else if (i === dateId) return el - trade.net;
+          else return el;
+        })
+        .filter((el) => el !== undefined);
+      const newDates = balance.dates
+        .map((el, i) => {
+          if (i === dateId && balance.values[i] - trade.net === 0)
+            return undefined;
+          else return el;
+        })
+        .filter((el) => el !== undefined);
+
+      return {
+        ...state,
+        trades: state.trades.filter((el) => el.id !== trade.id),
+        filteredTrades: state.filteredTrades.filter((el) => el.id !== trade.id),
+        balance: {
+          ...balance,
+          values: newValues,
+          dates: newDates,
+          balance: calculateNewBalance(newValues, balance.balance[0]),
+          wins:
+            trade.net > 0
+              ? parseInt(state.balance.wins) - 1
+              : state.balance.wins,
+          loses:
+            trade.net < 0
+              ? parseInt(state.balance.loses) - 1
+              : state.balance.loses,
+          pairs: {
+            ...state.balance.pairs,
+            [trade.symbol]: {
+              ...state.balance.pairs[trade.symbol],
+              gain:
+                parseFloat(state.balance.pairs[trade.symbol]?.gain) ||
+                0 - parseFloat(trade.net),
+              quantity:
+                parseFloat(state.balance.pairs[trade.symbol]?.quanitity) ||
+                0 - parseFloat(trade.quantity),
+            },
+          },
         },
       };
     }

@@ -76,7 +76,7 @@ const AddTrade = () => {
       net: validateProfit(net),
       imgUrl,
       notes,
-      type,
+      type: type.value,
     };
     dispatch(addTradeStart({ trade }));
     setSide("Buy");

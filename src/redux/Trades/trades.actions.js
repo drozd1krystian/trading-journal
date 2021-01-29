@@ -38,3 +38,13 @@ export const filterTrades = (filters) => ({
   type: tradesTypes.FILTER_TRADES,
   payload: filters,
 });
+
+export const removeTradeStart = (tradeId) => ({
+  type: tradesTypes.REMOVE_TRADE_START,
+  payload: tradeId,
+});
+
+export const removeTradeSuccess = (tradeId) => ({
+  type: tradesTypes.REMOVE_TRADE_SUCCESS,
+  payload: tradeId,
+});

@@ -11,13 +11,19 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchTradesStart,
   filterTrades,
+  removeTradeStart,
+  updateBalanceStart,
 } from "../../redux/Trades/trades.actions";
 import Trade from "../../components/Trade";
+import Modal from "../../components/Modal";
+import { showModal } from "../../redux/Modal/modal.actions";
+import useModal from "../../hooks/useModal";
 
 const list = ["Type", "Forex", "Crypto"];
 
 const mapState = ({ trades }) => ({
   trades: trades.filteredTrades,
+  balance: trades.balance,
 });
 
 const MyTrades = (props) => {
@@ -26,7 +32,9 @@ const MyTrades = (props) => {
   const [type, setType] = useState("");
   const [symbol, setSymbol] = useState("");
   const [side, setSide] = useState("");
-  const { trades } = useSelector(mapState);
+  const [trade, setTrade] = useState(null);
+  const { trades, balance } = useSelector(mapState);
+  const { show, loading, done, error } = useModal();
   const dispatch = useDispatch();
 
   const onTypeChange = (newType) => setType(newType);
@@ -48,6 +56,16 @@ const MyTrades = (props) => {
   const handleFiltersClear = () => {
     onChange([new Date(), new Date()]);
     setTags([]);
+    setType("");
+    setSymbol("");
+    setSide("");
+  };
+
+  const handleTradeRemove = () => dispatch(removeTradeStart(trade));
+
+  const handleModal = (trade) => {
+    dispatch(showModal());
+    setTrade(trade);
   };
 
   useEffect(() => {
@@ -61,8 +79,20 @@ const MyTrades = (props) => {
     if (trades.length === 0) dispatch(fetchTradesStart(filters));
   }, []);
 
+  useEffect(() => {
+    dispatch(updateBalanceStart(balance));
+  }, [balance]);
+
   return (
     <MainLayout title="Trades">
+      <Modal
+        show={show}
+        loading={loading}
+        confirm={handleTradeRemove}
+        done={done}
+        error={error}
+        cancel={() => dispatch(showModal())}
+      />
       <section className="section">
         <h4 className="section_title">
           <CalendarIcon className="icon-small" />
@@ -103,7 +133,7 @@ const MyTrades = (props) => {
               value={symbol}
             />
           </div>
-          <div className="col-2 mt-2 row">
+          <div className="col-3 mt-2 row">
             <Button handler={handleFilterSubmit}>Filter </Button>
             <Button btnStyle="btn--unstyled" handler={handleFiltersClear}>
               Clear
@@ -135,7 +165,7 @@ const MyTrades = (props) => {
             </thead>
             <tbody>
               {trades.map((trade) => (
-                <Trade trade={trade} />
+                <Trade trade={trade} handler={() => handleModal(trade)} />
               ))}
             </tbody>
           </table>

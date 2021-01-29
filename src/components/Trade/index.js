@@ -4,7 +4,7 @@ import { ReactComponent as EditIcon } from "../../assets/edit.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
 import Note from "../Note";
 
-const Trade = ({ trade, ...otherProps }) => {
+const Trade = ({ trade, handler, ...otherProps }) => {
   const [showTags, setShowTags] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
   return (
@@ -59,7 +59,7 @@ const Trade = ({ trade, ...otherProps }) => {
       </td>
       <td className="table_cell">
         <EditIcon className="icon-small icon-btn" />
-        <DeleteIcon className="icon-small icon-btn" />
+        <DeleteIcon className="icon-small icon-btn" onClick={handler} />
       </td>
     </tr>
   );

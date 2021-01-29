@@ -167,3 +167,11 @@ export const fetchTradesFromDb = async (uid) => {
   );
   return trades;
 };
+
+export const removeTradeFromDb = (uid, tradeId) =>
+  firestore
+    .collection("users")
+    .doc(uid)
+    .collection("trades")
+    .doc(tradeId)
+    .delete();
