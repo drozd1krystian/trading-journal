@@ -22,6 +22,7 @@ const InputTag = ({ defaultTags, onChange, label, limit = 10, error }) => {
 
   useEffect(() => {
     if (defaultTags.length === 0) setTags([]);
+    else if (defaultTags) setTags(defaultTags);
   }, [defaultTags]);
 
   const handleInput = (e) => {

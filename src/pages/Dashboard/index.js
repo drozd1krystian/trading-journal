@@ -390,7 +390,7 @@ const Dashboard = (props) => {
                     <tr className="table_row" role="row">
                       <th className="table_header">Symbol</th>
                       <th className="table_header">$</th>
-                      <th className="table_header">Quanitity</th>
+                      <th className="table_header">Quantity</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -398,7 +398,7 @@ const Dashboard = (props) => {
                       <tr className="table_row" key={el.pair}>
                         <td className="table_cell">{el.pair}</td>
                         <td className="table_cell">{el.gain}</td>
-                        <td className="table_cell">{el.quanitity}</td>
+                        <td className="table_cell">{el.quantity}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -415,7 +415,7 @@ const Dashboard = (props) => {
                     <tr className="table_row" role="row">
                       <th className="table_header">Symbol</th>
                       <th className="table_header">$</th>
-                      <th className="table_header">Quanitity</th>
+                      <th className="table_header">Quantity</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -423,7 +423,7 @@ const Dashboard = (props) => {
                       <tr className="table_row" key={el.pair}>
                         <td className="table_cell">{el.pair}</td>
                         <td className="table_cell">{el.gain}</td>
-                        <td className="table_cell">{el.quanitity}</td>
+                        <td className="table_cell">{el.quantity}</td>
                       </tr>
                     ))}
                   </tbody>

@@ -24,11 +24,11 @@ import {
   triggerLoading,
 } from "../Modal/modal.actions";
 
-export function* addTrade({ payload: { trade } }) {
+export function* addTrade({ payload: { trade, id } }) {
   try {
     yield put(postLoading());
     const { uid } = yield getUserId();
-    const docRef = yield addTradeToDb(uid, trade);
+    const docRef = yield addTradeToDb(uid, trade, id);
     yield put(
       addTradeSuccess({
         id: docRef.id,

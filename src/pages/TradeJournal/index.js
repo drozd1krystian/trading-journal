@@ -29,11 +29,14 @@ const mapState = ({ trades }) => ({
 });
 
 const MyTrades = (props) => {
-  const [value, onChange] = useState([new Date(), new Date()]);
+  const [value, onChange] = useState({
+    date: [new Date(), new Date()],
+    showDate: false,
+  });
   const [tags, setTags] = useState([]);
-  const [type, setType] = useState("");
+  const [type, setType] = useState("Type");
   const [symbol, setSymbol] = useState("");
-  const [side, setSide] = useState("");
+  const [side, setSide] = useState("Side");
   const [trade, setTrade] = useState(null);
   const { trades, balance } = useSelector(mapState);
   const { items, requestSort, sortConfig } = useSortableData(trades);
@@ -42,23 +45,41 @@ const MyTrades = (props) => {
 
   const onTypeChange = (newType) => setType(newType);
   const onSideChange = (newSide) => setSide(newSide);
+  const handleDatePick = (value) => {
+    onChange((prev) => ({
+      ...prev,
+      date: value,
+      showDate: true,
+    }));
+  };
   const handleTagsInput = (arr) => setTags(arr);
   const handleFilterSubmit = () => {
     const filters = {
-      date: value,
+      date: value.showDate ? value.date : [,],
       tags,
-      type: type === "Type" ? "" : type.value,
+      type: type === "Type" ? "" : type,
       side: side === "Side" ? "" : side,
       symbol,
     };
     dispatch(filterTrades(filters));
   };
   const handleFiltersClear = () => {
-    onChange([new Date(), new Date()]);
+    onChange({
+      date: [new Date(), new Date()],
+      showDate: false,
+    });
     setTags([]);
-    setType("");
     setSymbol("");
-    setSide("");
+    setType("Type");
+    setSide("Side");
+    const filters = {
+      date: [,],
+      tags,
+      type: "",
+      side: "",
+      symbol,
+    };
+    dispatch(filterTrades(filters));
   };
   const handleTradeRemove = () => dispatch(removeTradeStart(trade));
   const handleModal = (trade) => {
@@ -107,29 +128,26 @@ const MyTrades = (props) => {
         <div className="row">
           <div className="col-2">
             <CalendarInput
-              value={value}
-              onChange={onChange}
+              value={value.date}
+              showDate={value.showDate}
+              onChange={(value) => handleDatePick(value)}
               selectRange={true}
               returnValue="range"
             />
           </div>
           <div className="col-3">
-            <InputTag
-              defaultTags={tags}
-              onChange={handleTagsInput}
-              limit={3}
-              defaultPick="Type"
-            />
+            <InputTag defaultTags={tags} onChange={handleTagsInput} limit={3} />
           </div>
 
           <div className="col-1">
-            <Select list={list} handler={onTypeChange} defaultPick="Type" />
+            <Select list={list} handler={onTypeChange} selected={type} />
           </div>
           <div className="col-1">
             <Select
               list={["Side", "Buy", "Sell"]}
               handler={onSideChange}
-              defaultPick="Side"
+              defaultPick="Type"
+              selected={side}
             />
           </div>
           <div className="col-2">
@@ -227,7 +245,11 @@ const MyTrades = (props) => {
             </thead>
             <tbody>
               {items.map((trade) => (
-                <Trade trade={trade} handler={() => handleModal(trade)} />
+                <Trade
+                  trade={trade}
+                  handler={() => handleModal(trade)}
+                  key={trade.id}
+                />
               ))}
             </tbody>
           </table>

@@ -8,6 +8,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  z-index: 10000;
 
   .calendar_input {
     position: absolute;

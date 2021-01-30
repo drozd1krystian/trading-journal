@@ -3,6 +3,7 @@ import "./style.scss";
 import { ReactComponent as EditIcon } from "../../assets/edit.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
 import Note from "../Note";
+import { Link } from "react-router-dom";
 
 const Trade = ({ trade, handler, ...otherProps }) => {
   const [showTags, setShowTags] = useState(false);
@@ -47,7 +48,9 @@ const Trade = ({ trade, handler, ...otherProps }) => {
           ))}
         </Note>
         {trade.tags.slice(0, 2).map((el) => (
-          <span className="tag">{el}</span>
+          <span className="tag" key={el}>
+            {el}
+          </span>
         ))}
         {trade.tags.length > 2 ? <span>...</span> : null}
       </td>
@@ -59,7 +62,9 @@ const Trade = ({ trade, handler, ...otherProps }) => {
         {trade.net}$
       </td>
       <td className="table_cell">
-        <EditIcon className="icon-small icon-btn" />
+        <Link to={{ pathname: `import/${trade.id}` }}>
+          <EditIcon className="icon-small icon-btn" />
+        </Link>
         <DeleteIcon className="icon-small icon-btn" onClick={handler} />
       </td>
     </tr>

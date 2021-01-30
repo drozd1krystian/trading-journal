@@ -41,6 +41,7 @@ function App() {
           <AuthRoute exact path="/edit-journal/:id" component={EditJournal} />
           <AuthRoute exact path="/mytrades" component={MyTrades} />
           <AuthRoute exact path="/import" component={AddTrade} />
+          <AuthRoute exact path="/import/:id" component={AddTrade} />
 
           <Route exact path="/signup" render={() => <SignUp />} />
           <Route exact path="/signin" render={() => <SignIn />} />

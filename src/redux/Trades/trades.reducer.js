@@ -129,15 +129,16 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
         side,
         symbol,
       } = action.payload;
-      const date = new Date();
-      console.log(action.payload);
-      date.setDate(start.getDate() - 1);
+      let date = new Date();
+      if (start && end) {
+        date.setDate(start.getDate() - 1);
+      }
       return {
         ...state,
         filteredTrades: state.trades.filter((el) => {
           if (tags.length > 0 && !el.tags.some((r) => tags.indexOf(r) >= 0))
             return false;
-          if (el.date < date || el.date > end) return false;
+          if ((start && end && el.date < start) || el.date > end) return false;
           if (type && el.type !== type) return false;
           if (side && el.side !== side) return false;
           if (symbol && el.symbol !== symbol) return false;

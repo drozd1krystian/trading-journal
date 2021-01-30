@@ -35,7 +35,7 @@ const Menu = (props) => {
             Reports
             <DropDownMenu list={reportsLinks} />
           </li>
-          <Link to="import" className="link">
+          <Link to={{ pathname: "/import" }} className="link">
             <Import className="link_icon" />
             Import
           </Link>

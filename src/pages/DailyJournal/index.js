@@ -72,6 +72,7 @@ const DailyJournal = (props) => {
             <CalendarInput
               value={value}
               onChange={onChange}
+              showDate={true}
               selectRange={true}
               returnValue="range"
             />

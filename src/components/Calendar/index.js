@@ -6,7 +6,7 @@ import "react-calendar/dist/Calendar.css";
 import { ReactComponent as CalendarIcon } from "../../assets/calendar.svg";
 import useDetectOutsideClick from "../../hooks/useDetectOutsideClick";
 
-const CalendarInput = ({ value, onChange, ...otherProps }) => {
+const CalendarInput = ({ value, onChange, showDate, ...otherProps }) => {
   const [isOpen, setIsOpen] = useState(false);
   const inputRef = useRef(null);
 
@@ -31,7 +31,7 @@ const CalendarInput = ({ value, onChange, ...otherProps }) => {
     <div className="calendar" ref={inputRef}>
       <div className="calendar_value" onClick={() => setIsOpen(!isOpen)}>
         <CalendarIcon className="icon-small" />
-        {transformDate()}
+        {showDate ? transformDate() : null}
       </div>
       <Calendar
         onChange={onChange}

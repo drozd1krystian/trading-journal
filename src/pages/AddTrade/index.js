@@ -12,9 +12,11 @@ import {
   updateBalanceStart,
 } from "../../redux/Trades/trades.actions";
 import Select from "../../components/Select";
+import { useParams } from "react-router-dom";
 
 const mapState = ({ trades }) => ({
   balance: trades.balance,
+  trades: trades.trades,
 });
 
 const AddTrade = () => {
@@ -36,8 +38,9 @@ const AddTrade = () => {
   const [net, setNet] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [notes, setNotes] = useState("");
-  const { balance } = useSelector(mapState);
+  const { balance, trades } = useSelector(mapState);
   const dispatch = useDispatch();
+  const { id } = useParams();
 
   const handleTagsChange = (newTags) =>
     setTags((prev) => ({ ...prev, arr: [...newTags].sort(), error: false }));
@@ -60,7 +63,7 @@ const AddTrade = () => {
       return;
     }
 
-    if (type.value == "") {
+    if (type.value === "") {
       setType((prev) => ({ ...prev, error: true }));
       return;
     }
@@ -78,7 +81,12 @@ const AddTrade = () => {
       notes,
       type: type.value,
     };
-    dispatch(addTradeStart({ trade }));
+
+    dispatch(addTradeStart({ trade, id }));
+    clearForm();
+  };
+
+  const clearForm = () => {
     setSide("Buy");
     setStopLoss("");
     setSymbol("");
@@ -98,6 +106,29 @@ const AddTrade = () => {
   useEffect(() => {
     dispatch(updateBalanceStart(balance));
   }, [balance]);
+
+  useEffect(() => {
+    if (id) {
+      const trade = trades.find((el) => el.id === id);
+      setSide(trade.side);
+      setStopLoss(trade.stopLoss);
+      setSymbol(trade.symbol);
+      setTags((prev) => ({ ...prev, arr: [...trade.tags] }));
+      setQuantity(trade.quantity);
+      setEntryPrice(trade.entryPrice);
+      setImgUrl(trade.imgUrl);
+      setExitPrice(trade.exitPrice);
+      setStopLoss(trade.stopLoss);
+      setNotes(trade.notes);
+      setNet(trade.net);
+      setType((prev) => ({
+        ...prev,
+        value: trade.type,
+      }));
+    } else {
+      clearForm();
+    }
+  }, [id]);
 
   return (
     <MainLayout title="Add Trade">
@@ -153,7 +184,11 @@ const AddTrade = () => {
             </div>
             <div className="col-10">
               <label className="label">Type *:</label>
-              <Select list={["Forex", "Crypto"]} handler={onTypeChange} />
+              <Select
+                list={["Forex", "Crypto"]}
+                selected={type.value}
+                handler={onTypeChange}
+              />
             </div>
             <div className="col-10">
               <Input
@@ -165,7 +200,11 @@ const AddTrade = () => {
             </div>
             <div className="col-10">
               <label className="label">Date *:</label>
-              <CalendarInput value={value} onChange={onChange} />
+              <CalendarInput
+                value={value}
+                onChange={onChange}
+                showDate={true}
+              />
               required
             </div>
             <div className="col-10">

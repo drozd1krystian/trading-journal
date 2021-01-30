@@ -102,6 +102,7 @@ export const deletePostInDb = (uid, doc) =>
   firestore.collection("users").doc(uid).collection("posts").doc(doc).delete();
 
 export const addTradeToDb = (uid, trade) =>
+  // If trade in db update : to do
   firestore
     .collection("users")
     .doc(uid)
