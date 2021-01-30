@@ -23,14 +23,19 @@ const calculateNewBalance = (values, initialBalance) => {
   return arr;
 };
 
+const formatTradeDate = (trade) => {
+  const formattedDate = `${trade.date.getFullYear()}-${
+    trade.date.getMonth() + 1
+  }-${trade.date.getDate()}`;
+  return formattedDate;
+};
+
 const tradesReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case tradesTypes.ADD_TRADE_SUCCESS: {
       const balance = state.balance;
       const trade = action.payload;
-      const formattedDate = `${trade.date.getFullYear()}-${
-        trade.date.getMonth() + 1
-      }-${trade.date.getDate()}`;
+      const formattedDate = formatTradeDate(trade);
       const dateIndex = balance.dates.findIndex(
         (date) => date === formattedDate
       );
@@ -159,9 +164,7 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
     case tradesTypes.REMOVE_TRADE_SUCCESS: {
       const trade = action.payload;
       const balance = state.balance;
-      const formattedDate = `${trade.date.getFullYear()}-${
-        trade.date.getMonth() + 1
-      }-${trade.date.getDate()}`;
+      const formattedDate = formatTradeDate(trade);
       const dateId = balance.dates.findIndex((el) => el === formattedDate);
       const newValues = balance.values
         .map((el, i) => {
@@ -205,6 +208,49 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
               quantity:
                 parseFloat(state.balance.pairs[trade.symbol]?.quanitity) ||
                 0 - parseFloat(trade.quantity),
+            },
+          },
+        },
+      };
+    }
+    case tradesTypes.EDIT_TRADE_SUCCESS: {
+      const { trade, id } = action.payload;
+      const balance = state.balance;
+
+      const formattedDate = formatTradeDate(trade);
+      const tradeIndex = balance.dates.findIndex((el) => el === formattedDate);
+      const oldTrade = state.trades.find((el) => el.id === id);
+      const valueDiff = trade.net - oldTrade.net;
+      const newValues = balance.values.map((el, i) =>
+        i === tradeIndex ? el + valueDiff : el
+      );
+
+      const newTrades = state.trades.map((el) =>
+        el.id === id ? { ...trade, id } : el
+      );
+
+      return {
+        ...state,
+        trades: newTrades,
+        filteredTrades: newTrades,
+        balance: {
+          ...balance,
+          values: newValues,
+          balance: calculateNewBalance(newValues, balance.balance[0]),
+          wins:
+            trade.net > 0
+              ? parseInt(state.balance.wins) - 1
+              : state.balance.wins,
+          loses:
+            trade.net < 0
+              ? parseInt(state.balance.loses) - 1
+              : state.balance.loses,
+          pairs: {
+            ...state.balance.pairs,
+            [trade.symbol]: {
+              ...state.balance.pairs[trade.symbol],
+              gain: parseFloat(trade.net),
+              quantity: parseFloat(trade.quantity),
             },
           },
         },

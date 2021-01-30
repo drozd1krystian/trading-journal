@@ -176,3 +176,11 @@ export const removeTradeFromDb = (uid, tradeId) =>
     .collection("trades")
     .doc(tradeId)
     .delete();
+
+export const editTradeInDb = (uid, trade, id) =>
+  firestore
+    .collection("users")
+    .doc(uid)
+    .collection("trades")
+    .doc(id)
+    .set(trade);

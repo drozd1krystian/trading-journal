@@ -97,9 +97,9 @@ const MyTrades = (props) => {
     if (trades.length === 0) dispatch(fetchTradesStart(filters));
   }, []);
 
-  // useEffect(() => {
-  //   dispatch(updateBalanceStart(balance));
-  // }, [balance]);
+  useEffect(() => {
+    dispatch(updateBalanceStart(balance));
+  }, [balance]);
 
   const getClassNamesFor = (name) => {
     if (!sortConfig) {

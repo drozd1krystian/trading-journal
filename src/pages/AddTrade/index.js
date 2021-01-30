@@ -9,14 +9,16 @@ import Button from "../../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addTradeStart,
+  editTradeStart,
   updateBalanceStart,
 } from "../../redux/Trades/trades.actions";
 import Select from "../../components/Select";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
-const mapState = ({ trades }) => ({
+const mapState = ({ trades, posts }) => ({
   balance: trades.balance,
   trades: trades.trades,
+  loading: posts.isLoading,
 });
 
 const AddTrade = () => {
@@ -38,10 +40,10 @@ const AddTrade = () => {
   const [net, setNet] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [notes, setNotes] = useState("");
-  const { balance, trades } = useSelector(mapState);
+  const { balance, trades, loading } = useSelector(mapState);
   const dispatch = useDispatch();
   const { id } = useParams();
-
+  const history = useHistory();
   const handleTagsChange = (newTags) =>
     setTags((prev) => ({ ...prev, arr: [...newTags].sort(), error: false }));
 
@@ -82,7 +84,10 @@ const AddTrade = () => {
       type: type.value,
     };
 
-    dispatch(addTradeStart({ trade, id }));
+    if (id) {
+      dispatch(editTradeStart({ trade, id }));
+      if (!loading) setTimeout(() => history.push("/mytrades"), 1000);
+    } else dispatch(addTradeStart({ trade }));
     clearForm();
   };
 
@@ -110,6 +115,7 @@ const AddTrade = () => {
   useEffect(() => {
     if (id) {
       const trade = trades.find((el) => el.id === id);
+      onChange(trade.date);
       setSide(trade.side);
       setStopLoss(trade.stopLoss);
       setSymbol(trade.symbol);

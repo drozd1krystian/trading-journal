@@ -2,6 +2,7 @@ import { takeLatest, put, call, all, delay } from "redux-saga/effects";
 import tradesTypes from "../Trades/trades.types";
 import {
   addTradeToDb,
+  editTradeInDb,
   fetchBalanceFromDb,
   fetchTradesFromDb,
   getCurrentUser,
@@ -11,6 +12,7 @@ import {
 } from "../../firebase/utils";
 import {
   addTradeSuccess,
+  editTradeSuccess,
   fetchBalanceSuccess,
   fetchTradesSuccess,
   removeTradeSuccess,
@@ -110,6 +112,26 @@ export function* onRemoveTradeStart() {
   yield takeLatest(tradesTypes.REMOVE_TRADE_START, removeTrade);
 }
 
+export function* editTrade({ payload: { trade, id } }) {
+  try {
+    yield put(postLoading());
+    const { uid } = yield getUserId();
+    yield editTradeInDb(uid, trade, id);
+    yield put(editTradeSuccess({ trade, id }));
+    yield put(postLoading());
+    yield put(showPopup("Trade edited successfully"));
+    yield delay(2000);
+    yield put(showPopup(""));
+  } catch (err) {
+    yield put(postError(err.message));
+    console.log(err.message);
+  }
+}
+
+export function* onEditTradeStart() {
+  yield takeLatest(tradesTypes.EDIT_TRADE_START, editTrade);
+}
+
 export default function* tradesSagas() {
   yield all([
     call(onAddTradeStart),
@@ -117,5 +139,6 @@ export default function* tradesSagas() {
     call(onUpdateBalanceStart),
     call(onFetchTradesStart),
     call(onRemoveTradeStart),
+    call(onEditTradeStart),
   ]);
 }

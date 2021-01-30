@@ -6,7 +6,7 @@
   padding: 20px;
   border: 1px solid var(--border);
   background: var(--primary);
-
+  z-index: 200000;
   .popup_content {
     display: flex;
     align-items: center;

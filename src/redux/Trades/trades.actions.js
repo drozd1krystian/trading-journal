@@ -48,3 +48,13 @@ export const removeTradeSuccess = (tradeId) => ({
   type: tradesTypes.REMOVE_TRADE_SUCCESS,
   payload: tradeId,
 });
+
+export const editTradeStart = (trade) => ({
+  type: tradesTypes.EDIT_TRADE_START,
+  payload: trade,
+});
+
+export const editTradeSuccess = (trade) => ({
+  type: tradesTypes.EDIT_TRADE_SUCCESS,
+  payload: trade,
+});
