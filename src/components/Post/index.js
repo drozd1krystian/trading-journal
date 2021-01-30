@@ -7,6 +7,7 @@ import { ReactComponent as EditIcon } from "../../assets/edit.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import ReactTooltip from "react-tooltip";
 
 const Post = ({ data, removePost, ...otherProps }) => {
   return (
@@ -17,6 +18,7 @@ const Post = ({ data, removePost, ...otherProps }) => {
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: -300, opacity: 0 }}
     >
+      <ReactTooltip />
       <p className="section_title">
         <span>
           {data.postDate.toLocaleDateString() + " - " + data.postTitle}
@@ -28,17 +30,19 @@ const Post = ({ data, removePost, ...otherProps }) => {
         <Link
           to={{ pathname: `/edit-journal/${data.id}` }}
           className="icon-small"
+          data-tip="Edit Post"
         >
           <EditIcon className="icon-small icon-btn" />
         </Link>
         <DeleteIcon
           className="icon-small icon-btn"
           onClick={() => removePost(data.id)}
+          data-tip="Delete Post"
         />
         <ul className="post_tags list-unstyled tags">
           {data.tags.map((el, id) => (
             <li className="tag" key={id}>
-              <span className="tag_value">#{el}</span>
+              <span className="tag_value">{el}</span>
             </li>
           ))}
         </ul>

@@ -17,6 +17,7 @@ import { useHistory, useParams } from "react-router-dom";
 
 const mapState = ({ trades, posts }) => ({
   balance: trades.balance,
+  balanceChanged: trades.balanceChanged,
   trades: trades.trades,
   loading: posts.isLoading,
 });
@@ -40,10 +41,12 @@ const AddTrade = () => {
   const [net, setNet] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [notes, setNotes] = useState("");
-  const { balance, trades, loading } = useSelector(mapState);
+
+  const { balance, trades, loading, balanceChanged } = useSelector(mapState);
   const dispatch = useDispatch();
   const { id } = useParams();
   const history = useHistory();
+
   const handleTagsChange = (newTags) =>
     setTags((prev) => ({ ...prev, arr: [...newTags].sort(), error: false }));
 
@@ -109,8 +112,8 @@ const AddTrade = () => {
   };
 
   useEffect(() => {
-    dispatch(updateBalanceStart(balance));
-  }, [balance]);
+    if (balanceChanged) dispatch(updateBalanceStart(balance));
+  }, [balanceChanged]);
 
   useEffect(() => {
     if (id) {

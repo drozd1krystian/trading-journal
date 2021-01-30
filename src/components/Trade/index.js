@@ -55,17 +55,19 @@ const Trade = ({ trade, handler, ...otherProps }) => {
         {trade.tags.length > 2 ? <span>...</span> : null}
       </td>
       <td
-        className={
-          "table_cell " + `${trade.net > 0 ? "text-green" : "text-red"}`
-        }
+        className={"table_cell " + (trade.net > 0 ? "text-green" : "text-red")}
       >
         {trade.net}$
       </td>
       <td className="table_cell">
-        <Link to={{ pathname: `import/${trade.id}` }}>
+        <Link to={{ pathname: `import/${trade.id}` }} data-tip="Edit Trade">
           <EditIcon className="icon-small icon-btn" />
         </Link>
-        <DeleteIcon className="icon-small icon-btn" onClick={handler} />
+        <DeleteIcon
+          className="icon-small icon-btn"
+          onClick={handler}
+          data-tip="Delete Trade"
+        />
       </td>
     </tr>
   );

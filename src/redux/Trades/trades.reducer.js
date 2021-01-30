@@ -3,6 +3,7 @@ import tradesTypes from "./trades.types";
 const INITIAL_STATE = {
   trades: [],
   filteredTrades: [],
+  balanceChanged: false,
   balance: {
     dates: [],
     values: [],
@@ -45,6 +46,7 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
       let lastBalance = balance.balance[balance.balance.length - 1];
       return {
         ...state,
+        balanceChanged: true,
         balance: {
           ...balance,
           values:
@@ -154,6 +156,7 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
     case tradesTypes.FETCH_BALANCE_SUCCESS: {
       return {
         ...state,
+        balanceChanged: false,
         balance: {
           ...state.balance,
           ...action.payload,
@@ -183,6 +186,7 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
 
       return {
         ...state,
+        balanceChanged: true,
         trades: state.trades.filter((el) => el.id !== trade.id),
         filteredTrades: state.filteredTrades.filter((el) => el.id !== trade.id),
         balance: {
@@ -233,6 +237,7 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
         ...state,
         trades: newTrades,
         filteredTrades: newTrades,
+        balanceChanged: true,
         balance: {
           ...balance,
           values: newValues,

@@ -20,12 +20,13 @@ import Modal from "../../components/Modal";
 import { showModal } from "../../redux/Modal/modal.actions";
 import useModal from "../../hooks/useModal";
 import useSortableData from "../../hooks/useSortableData";
-
+import ReactTooltip from "react-tooltip";
 const list = ["Type", "Forex", "Crypto"];
 
 const mapState = ({ trades }) => ({
   trades: trades.filteredTrades,
   balance: trades.balance,
+  balanceChanged: trades.balanceChanged,
 });
 
 const MyTrades = (props) => {
@@ -38,7 +39,7 @@ const MyTrades = (props) => {
   const [symbol, setSymbol] = useState("");
   const [side, setSide] = useState("Side");
   const [trade, setTrade] = useState(null);
-  const { trades, balance } = useSelector(mapState);
+  const { trades, balance, balanceChanged } = useSelector(mapState);
   const { items, requestSort, sortConfig } = useSortableData(trades);
   const { show, loading, done, error } = useModal();
   const dispatch = useDispatch();
@@ -98,8 +99,8 @@ const MyTrades = (props) => {
   }, []);
 
   useEffect(() => {
-    dispatch(updateBalanceStart(balance));
-  }, [balance]);
+    if (balanceChanged) dispatch(updateBalanceStart(balance));
+  }, [balanceChanged]);
 
   const getClassNamesFor = (name) => {
     if (!sortConfig) {
@@ -120,6 +121,7 @@ const MyTrades = (props) => {
         error={error}
         cancel={() => dispatch(showModal())}
       />
+      <ReactTooltip />
       <section className="section">
         <h4 className="section_title">
           <CalendarIcon className="icon-small" />
