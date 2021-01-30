@@ -51,11 +51,11 @@ const AddTrade = () => {
     setType((prev) => ({ ...prev, value: newType, error: false }));
 
   const validateNumber = (value) => {
-    return isNaN(value) || value < 0 ? 0 : value;
+    return isNaN(value) || value < 0 ? 0 : parseFloat(value);
   };
 
   const validateProfit = (value) => {
-    return isNaN(value) ? 0 : value;
+    return isNaN(value) ? 0 : parseFloat(value);
   };
 
   const handleSubmit = (e) => {
@@ -137,15 +137,15 @@ const AddTrade = () => {
   }, [id]);
 
   return (
-    <MainLayout title="Add Trade">
+    <MainLayout title={id ? "Edit Trade" : "Add Trade"}>
       <section className="section">
         <h4 className="section_title">
           <ExportIcon className="icon-small" />
           <span>Manual Entry</span>
         </h4>
         <p>
-          Use this form to insert your trades manually. Mandatory fields are
-          marked with *.
+          Use this form to {id ? "edit" : "insert"} your trades manually.
+          Mandatory fields are marked with *.
         </p>
         <div className="col-12 mt-1">
           <form className="add_form" onSubmit={handleSubmit}>
