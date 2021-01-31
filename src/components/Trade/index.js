@@ -4,12 +4,25 @@ import { ReactComponent as EditIcon } from "../../assets/edit.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/delete.svg";
 import Note from "../Note";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
+const spring = {
+  type: "spring",
+  damping: 25,
+  stiffness: 120,
+};
 
 const Trade = ({ trade, handler, ...otherProps }) => {
   const [showTags, setShowTags] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
   return (
-    <tr className="table_row" key={trade.id} {...otherProps}>
+    <motion.tr
+      className="table_row"
+      key={trade.id}
+      {...otherProps}
+      layout
+      transition={spring}
+    >
       <td className="table_cell">{trade.date.toLocaleDateString()}</td>
       <td className="table_cell">{trade.symbol}</td>
       <td className="table_cell">{trade.type}</td>
@@ -69,7 +82,7 @@ const Trade = ({ trade, handler, ...otherProps }) => {
           data-tip="Delete Trade"
         />
       </td>
-    </tr>
+    </motion.tr>
   );
 };
 export default Trade;
