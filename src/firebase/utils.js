@@ -138,7 +138,11 @@ export const fetchBalanceFromDb = async (uid) => {
 
 export const fetchTradesFromDb = async (uid) => {
   const trades = [];
-  let tradesRef = firestore.collection("users").doc(uid).collection("trades");
+  let tradesRef = firestore
+    .collection("users")
+    .doc(uid)
+    .collection("trades")
+    .orderBy("date");
   // if (tags.length > 0)
   //   tradesRef = tradesRef.where("tags", "array-contains-any", tags);
   // if (start && end) {

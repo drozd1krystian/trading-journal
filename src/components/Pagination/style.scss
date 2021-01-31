@@ -1,0 +1,26 @@
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+}
+.pagination_body {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  align-items: center;
+
+  .pagination_btn {
+    background: var(--secondary);
+    padding: 8px;
+    border-right: 1px solid var(--border);
+    transition: opacity 0.3s ease;
+    &:hover {
+      opacity: 0.9;
+      color: var(--text-light);
+    }
+  }
+  .page_current {
+    background: var(--button);
+    color: var(--text-light);
+    padding: 8px 16px;
+  }
+}

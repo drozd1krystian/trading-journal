@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
 import MainLayout from "../../layouts/main";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import defaultImg from "../../assets/image-not-found.png";
 import { ReactComponent as EditIcon } from "../../assets/edit.svg";
 import { Link } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
+import Pagination from "../../components/Pagination";
 
 const mapState = ({ trades }) => ({
   trades: trades.trades,
@@ -15,14 +16,33 @@ const mapState = ({ trades }) => ({
 const InvidualTrade = (props) => {
   const { trades } = useSelector(mapState);
   const dispatch = useDispatch();
+  const [paginatedTrades, setPaginatedTrades] = useState([]);
+  const [processing, setProccesing] = useState(false);
 
   useEffect(() => {
     if (trades.length === 0) dispatch(fetchTradesStart({}));
   }, [trades.length]);
 
+  const handlePageChange = (arr) => {
+    setPaginatedTrades(arr);
+    setProccesing(true);
+    setTimeout(() => {
+      setProccesing(false);
+    }, 1000);
+    window.scrollTo(0, 0);
+  };
+
   return (
     <MainLayout title="Invidual Trade Journal">
-      {trades.map((trade) => (
+      {processing ? (
+        <div className="processing">
+          <div className="processing_body">
+            <p>Processing...</p>
+            <div class="processing_loader mt-2"></div>
+          </div>
+        </div>
+      ) : null}
+      {paginatedTrades.map((trade) => (
         <section className="trade mt-3" key={trade.id}>
           <ReactTooltip />
           <div className={"trade_img " + (trade.imgUrl ? "" : "flex-center")}>
@@ -71,6 +91,7 @@ const InvidualTrade = (props) => {
           </div>
         </section>
       ))}
+      <Pagination list={trades} limit={4} handler={handlePageChange} />
     </MainLayout>
   );
 };
