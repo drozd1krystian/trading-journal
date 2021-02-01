@@ -71,7 +71,10 @@ const Dashboard = (props) => {
       }));
 
       const today = new Date();
-      const firstDay = `${today.getFullYear()}-${today.getMonth() + 1}-1`;
+      //const firstDay = `${today.getFullYear()}-${today.getMonth() + 1}-1`;
+      const lastMonthTrade = balance.dates[balance.dates.length - 1].split("-");
+      lastMonthTrade[2] = "1";
+      const firstDay = lastMonthTrade.join("-");
       const firstDayIndex = balance.dates.findIndex((date) => date >= firstDay);
       const monthlyPln =
         balance.balance[balance.balance.length - 1] -
@@ -102,12 +105,16 @@ const Dashboard = (props) => {
       );
 
       const yearlyPln =
-        balance.balance[balance.balance.length - 1] -
-        balance.balance[firstYearTrade - 1];
+        firstYearTrade !== 0
+          ? balance.balance[balance.balance.length - 1] -
+            balance.balance[firstYearTrade - 1]
+          : balance.balance[balance.balance.length - 1] - balance.balance[0];
 
       const yearlyPercentage = (
-        (balance.balance[balance.balance.length - 1] /
-          balance.balance[firstYearTrade - 1]) *
+        (firstYearTrade !== 0
+          ? balance.balance[balance.balance.length - 1] /
+            balance.balance[firstYearTrade - 1]
+          : balance.balance[balance.balance.length - 1] / balance.balance[0]) *
           100 -
         100
       ).toFixed(2);
@@ -125,7 +132,7 @@ const Dashboard = (props) => {
         percentage: yearlyPercentage,
       }));
     }
-  }, []);
+  }, [balance]);
 
   const data = {
     options: {
