@@ -244,12 +244,16 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
           balance: calculateNewBalance(newValues, balance.balance[0]),
           wins:
             trade.net > 0
-              ? parseInt(state.balance.wins) - 1
-              : state.balance.wins,
+              ? oldTrade.net > 0
+                ? state.balance.wins
+                : parseInt(state.balance.wins) + 1
+              : state.balance.wins - 1,
           loses:
             trade.net < 0
-              ? parseInt(state.balance.loses) - 1
-              : state.balance.loses,
+              ? oldTrade.net < 0
+                ? state.balance.loses
+                : parseInt(state.balance.loses) + 1
+              : state.balance.loses - 1,
           pairs: {
             ...state.balance.pairs,
             [trade.symbol]: {
@@ -270,6 +274,13 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
           ...state.balance,
           balance: calculateNewBalance(state.balance.values, newBalance),
         },
+      };
+    }
+
+    case tradesTypes.UPDATE_BALANCE_SUCCESS: {
+      return {
+        ...state,
+        balanceChanged: false,
       };
     }
     default:

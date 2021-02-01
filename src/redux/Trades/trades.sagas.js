@@ -16,6 +16,7 @@ import {
   fetchBalanceSuccess,
   fetchTradesSuccess,
   removeTradeSuccess,
+  updateBalanceSuccess,
 } from "./trades.actions";
 import { isLoading } from "../User/user.actions";
 import { postError, postLoading, showPopup } from "../Posts/posts.actions";
@@ -69,6 +70,7 @@ export function* updateBalance({ payload: balance }) {
   try {
     const { uid } = yield getUserId();
     yield updateUserBalance(uid, balance);
+    yield put(updateBalanceSuccess());
   } catch (err) {
     console.log(err);
   }

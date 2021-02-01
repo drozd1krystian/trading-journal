@@ -24,9 +24,8 @@ export const updateBalanceStart = (balance) => ({
   payload: balance,
 });
 
-export const updateBalanceSuccess = (balance) => ({
+export const updateBalanceSuccess = () => ({
   type: tradesTypes.UPDATE_BALANCE_SUCCESS,
-  payload: balance,
 });
 
 export const fetchTradesStart = (filters) => ({
