@@ -4,7 +4,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  background: var(--primary-dark);
+  background: var(--secondary);
   margin: 0 12px;
 
   &_header {
@@ -26,7 +26,7 @@
   padding: 0 12px;
   width: 100%;
   &_body {
-    background: var(--primary-dark);
+    background: var(--secondary);
     padding: 0 20px 20px;
     .ticket_header {
       color: var(--text);
@@ -35,5 +35,18 @@
       width: 100%;
       border-top: 1px solid var(--border);
     }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .balance,
+  .ticket {
+    padding: 0;
+    margin: 0 0 20px 0;
+  }
+
+  .ticket .ticket_header,
+  .balance .balance_header {
+    font-size: 0.875rem;
   }
 }

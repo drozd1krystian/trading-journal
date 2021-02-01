@@ -4,11 +4,19 @@ import postsReducer from "./Posts/posts.reducer";
 import modalReducer from "./Modal/modal.reducer";
 import tradesReducer from "./Trades/trades.reducer";
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   user: userReducer,
   posts: postsReducer,
   modal: modalReducer,
   trades: tradesReducer,
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === "RESET_STORE") {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};
 
 export default rootReducer;

@@ -43,69 +43,77 @@ const InvidualTrade = (props) => {
           </div>
         </div>
       ) : null}
-      <AnimatePresence>
-        {paginatedTrades.map((trade) => (
-          <motion.section
-            className="trade mt-3"
-            key={trade.id}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <ReactTooltip />
-            <div className={"trade_img " + (trade.imgUrl ? "" : "flex-center")}>
-              {trade.imgUrl ? (
-                <a target="_blank" href={trade.imgUrl} rel="noreferrer">
+      {paginatedTrades.length === 0 ? (
+        <section className="section">
+          <p>Your journal is empty. Add something!</p>
+        </section>
+      ) : (
+        <AnimatePresence>
+          {paginatedTrades.map((trade) => (
+            <motion.section
+              className="trade mt-3"
+              key={trade.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <ReactTooltip />
+              <div
+                className={"trade_img " + (trade.imgUrl ? "" : "flex-center")}
+              >
+                {trade.imgUrl ? (
+                  <a target="_blank" href={trade.imgUrl} rel="noreferrer">
+                    <img
+                      src={trade.imgUrl}
+                      alt={trade.id}
+                      className={trade.imgUrl ? "" : "img-default"}
+                    />
+                  </a>
+                ) : (
                   <img
-                    src={trade.imgUrl}
+                    src={defaultImg}
                     alt={trade.id}
-                    className={trade.imgUrl ? "" : "img-default"}
+                    className={"img-default"}
                   />
-                </a>
-              ) : (
-                <img
-                  src={defaultImg}
-                  alt={trade.id}
-                  className={"img-default"}
-                />
-              )}
-            </div>
-            <div className="trade_body">
-              <h4 className="trade_header text-grey">{trade.symbol}</h4>
-              <p className="trade_notes">{trade.notes}</p>
-              <div className="trade_tags mt-2">
-                {trade.tags.map((tag) => (
-                  <span className="tag" key={tag}>
-                    {tag}
+                )}
+              </div>
+              <div className="trade_body">
+                <h4 className="trade_header text-grey">{trade.symbol}</h4>
+                <p className="trade_notes">{trade.notes}</p>
+                <div className="trade_tags mt-2">
+                  {trade.tags.map((tag) => (
+                    <span className="tag" key={tag}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <p className="trade_text mt-2">
+                  Entry Price: ${trade.entryPrice}
+                </p>
+                <p className="trade_text">Exit Price: ${trade.entryPrice}</p>
+                <p className="trade_text">
+                  Date: {trade.date.toLocaleDateString()}
+                </p>
+                <p className="trade_text ">
+                  Pln:
+                  <span className={trade.net > 0 ? "text-green" : "text-red"}>
+                    ${trade.net}
                   </span>
-                ))}
+                </p>
+                <div className="controls mt-2">
+                  <Link
+                    to={{ pathname: `/import/${trade.id}` }}
+                    className="icon-small"
+                    data-tip="Edit Trade"
+                  >
+                    <EditIcon className="icon-small icon-btn" />
+                  </Link>
+                </div>
               </div>
-              <p className="trade_text mt-2">
-                Entry Price: ${trade.entryPrice}
-              </p>
-              <p className="trade_text">Exit Price: ${trade.entryPrice}</p>
-              <p className="trade_text">
-                Date: {trade.date.toLocaleDateString()}
-              </p>
-              <p className="trade_text ">
-                Pln:
-                <span className={trade.net > 0 ? "text-green" : "text-red"}>
-                  ${trade.net}
-                </span>
-              </p>
-              <div className="controls mt-2">
-                <Link
-                  to={{ pathname: `/import/${trade.id}` }}
-                  className="icon-small"
-                  data-tip="Edit Trade"
-                >
-                  <EditIcon className="icon-small icon-btn" />
-                </Link>
-              </div>
-            </div>
-          </motion.section>
-        ))}
-      </AnimatePresence>
+            </motion.section>
+          ))}
+        </AnimatePresence>
+      )}
       <Pagination list={trades} limit={4} handler={handlePageChange} />
     </MainLayout>
   );

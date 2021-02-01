@@ -12,11 +12,10 @@ export const handleUserProfile = async ({ userAuth, additionalData }) => {
   if (!userAuth) return;
   const { uid } = userAuth;
   const userRef = firestore.doc(`users/${uid}`);
-  const balanceRef = userRef.collection("balance");
   const snapshot = await userRef.get();
 
   if (!snapshot.exists) {
-    const { name, email } = userAuth;
+    const { email } = userAuth;
     const timestamp = new Date();
 
     const date = new Date();
@@ -28,19 +27,23 @@ export const handleUserProfile = async ({ userAuth, additionalData }) => {
     try {
       await userRef.set({
         email,
-        name,
         createdDate: timestamp,
         ...additionalData,
       });
-      await balanceRef.set({
-        balance: 2000,
-        dates: [formattedDate],
-        values: [0],
-        loses: 0,
-        wins: 0,
-      });
+      await firestore
+        .collection("users")
+        .doc(uid)
+        .collection("balance")
+        .doc()
+        .set({
+          balance: 2000,
+          dates: [formattedDate],
+          values: [0],
+          loses: 0,
+          wins: 0,
+        });
     } catch (err) {
-      // console.log(err);
+      console.log(err);
     }
   }
 

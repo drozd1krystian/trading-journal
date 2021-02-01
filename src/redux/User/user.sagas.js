@@ -2,6 +2,7 @@ import { takeLatest, put, call, all, delay } from "redux-saga/effects";
 import userTypes from "./user.types";
 import {
   isLoading,
+  resetStore,
   signInSuccess,
   signOutSuccess,
   updateUserProfileSuccess,
@@ -43,6 +44,7 @@ export function* emailSignIn({ payload: { email, password } }) {
         return auth.signInWithEmailAndPassword(email, password);
       });
     yield getSnapshotFromUserAuth(user);
+    yield put(fetchBalanceStart());
   } catch (err) {
     console.log(err);
   }
@@ -69,10 +71,12 @@ export function* onCheckUserSession() {
   yield takeLatest(userTypes.CHECK_USER_SESSION, isUserAuthenticated);
 }
 
-export function* emailSignUp({ payload: { email, password, name } }) {
+export function* emailSignUp({
+  payload: { email, password, firstName, lastName },
+}) {
   try {
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
-    const additionaldata = { name };
+    const additionaldata = { firstName, lastName };
     yield getSnapshotFromUserAuth(user, additionaldata);
   } catch (err) {
     console.log(err);
@@ -86,6 +90,7 @@ export function* onSignUpUserStart() {
 export function* signOut() {
   yield auth.signOut();
   yield put(signOutSuccess());
+  yield put(resetStore());
 }
 
 export function* onSignOutStart() {

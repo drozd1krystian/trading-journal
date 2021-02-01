@@ -45,3 +45,7 @@ export const userError = (err) => ({
   type: userTypes.USER_ERROR,
   payload: err,
 });
+
+export const resetStore = () => ({
+  type: "RESET_STORE",
+});

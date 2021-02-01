@@ -22,3 +22,9 @@
     cursor: pointer;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .add_form {
+    padding: 0 5px;
+  }
+}

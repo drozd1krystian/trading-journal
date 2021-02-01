@@ -141,7 +141,7 @@ ol {
   flex: 0 0 33%;
   padding: 0 10px;
 
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width: 1023px) {
     max-width: 100%;
     padding: 0;
     flex: unset;
@@ -157,6 +157,7 @@ ol {
     flex: unset;
     width: 100%;
     max-width: 100%;
+    padding: 0 12px;
   }
 }
 
@@ -176,6 +177,12 @@ ol {
 .col-7 {
   flex: 0 0 66.7%;
   max-width: 0 0 66.7%;
+  @media screen and (max-width: 1023px) {
+    flex: 1 auto;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 12px;
+  }
 }
 
 .col-8 {

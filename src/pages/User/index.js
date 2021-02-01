@@ -58,8 +58,8 @@ const User = (props) => {
 
   return (
     <MainLayout title="User Settings">
-      <div className="row">
-        <div className="col-3">
+      <div className="row row-user">
+        <div className="col-3 ms-12">
           <div className="section avatar">
             <div className="avatar_body">
               <DefaultUser className="avatar_photo" />
@@ -70,8 +70,8 @@ const User = (props) => {
             </div>
           </div>
         </div>
-        <section className="section col-7">
-          <form onSubmit={handleSubmit}>
+        <section className="section col-7 ms-12">
+          <form onSubmit={handleSubmit} className=" user_form">
             <h4 className="section_title">
               <DefaultUser className="icon-small" />
               <span>Personal Info</span>
@@ -128,10 +128,10 @@ const User = (props) => {
                 />
               </div>
             </div>
-            <div className="row mt-2">
+            <div className="row ">
               {formErr ? <p className="text-red">{formErr}</p> : null}
               {err ? <p className="text-red">{err}</p> : null}
-              <Button btnStyle="btn--submit" type="submit">
+              <Button btnStyle="btn--submit btn--success" type="submit">
                 <EditIcon className="icon-small" /> Save Changes
               </Button>
             </div>

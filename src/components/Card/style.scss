@@ -1,12 +1,10 @@
 .card {
-  background: var(--primary-dark);
   border-radius: 5px;
   margin-bottom: 20px;
   position: relative;
   .card_body {
-    display: flex;
-    flex: 1 1 auto;
     padding: 0 1.5rem;
+    background: var(--secondary);
 
     .card_value {
       display: flex;
@@ -26,4 +24,12 @@
 
 .row-align-center {
   align-items: center;
+}
+
+@media screen and (max-width: 767px) {
+  .card_body .col-5 {
+    flex: 0 0 50%;
+    max-width: 50%;
+    width: 50%;
+  }
 }

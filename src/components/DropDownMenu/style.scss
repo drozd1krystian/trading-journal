@@ -30,3 +30,29 @@
     }
   }
 }
+
+.list--open {
+  height: auto !important;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 767px) {
+  .list {
+    position: relative;
+    width: 100%;
+    display: block;
+    transform: translateY(0);
+    background: none;
+    box-shadow: none;
+    border: none;
+    height: 0;
+    overflow: hidden;
+    .list_item {
+      padding-left: 10px;
+      .list_link {
+        text-align: left;
+        padding: 0 15px 10px 15px;
+      }
+    }
+  }
+}

@@ -11,6 +11,10 @@
   align-items: center;
   justify-content: center;
 
+  .avatar_body {
+    padding: 0 12px;
+  }
+
   .avatar_photo {
     fill: var(--text-light);
     border-radius: 50%;
@@ -18,5 +22,11 @@
   }
   .avatar_text {
     padding: 0;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .row-user {
+    margin: 0;
   }
 }

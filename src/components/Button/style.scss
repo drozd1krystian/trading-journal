@@ -21,6 +21,10 @@
       opacity: 1;
     }
   }
+
+  @media screen and(max-width: 767px) {
+    margin: 0;
+  }
 }
 
 .btn--unstyled {

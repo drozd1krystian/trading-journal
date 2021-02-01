@@ -1,5 +1,67 @@
 //main menu style is in Navbar component
 
-.menu-sub .link {
-  margin-right: 25px;
+.menu-sub .links {
+  padding: 0 12px;
+  user-select: none;
+  .link {
+    margin-right: 25px;
+    .link_header {
+      width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.mobile-arrow {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  .menu-sub {
+    min-height: 58px;
+    .burger {
+      padding: 10px 0;
+      margin-right: 20px;
+      .line {
+        width: 30px;
+        height: 3px;
+        background: var(--text-light);
+        margin: 5px 0;
+        transition: all 0.3s ease;
+      }
+    }
+
+    .links {
+      flex-direction: column;
+      align-items: flex-start;
+      transition: all 0.4s ease;
+      background: var(--secondary);
+      z-index: 1000;
+      width: calc(100% - 50px);
+      height: 0;
+      overflow: hidden;
+      .link {
+        width: 100%;
+        padding: 20px 0 20px 10px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        flex-wrap: wrap;
+        outline: none;
+      }
+    }
+  }
+  .menu-sub .active {
+    height: 236px;
+  }
+  .menu-sub .auto {
+    height: auto !important;
+  }
+  .mobile-arrow {
+    margin-left: 20px;
+    position: absolute;
+    right: 5px;
+    display: block;
+  }
 }
