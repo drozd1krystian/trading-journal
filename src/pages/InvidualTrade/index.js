@@ -39,7 +39,7 @@ const InvidualTrade = (props) => {
         <div className="processing">
           <div className="processing_body">
             <p>Processing...</p>
-            <div class="processing_loader mt-2"></div>
+            <div className="processing_loader mt-2"></div>
           </div>
         </div>
       ) : null}

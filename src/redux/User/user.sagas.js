@@ -1,9 +1,21 @@
-import { takeLatest, put, call, all } from "redux-saga/effects";
+import { takeLatest, put, call, all, delay } from "redux-saga/effects";
 import userTypes from "./user.types";
-import { isLoading, signInSuccess, signOutSuccess } from "./user.actions";
-import { auth, handleUserProfile, getCurrentUser } from "../../firebase/utils";
+import {
+  isLoading,
+  signInSuccess,
+  signOutSuccess,
+  updateUserProfileSuccess,
+  userError,
+} from "./user.actions";
+import {
+  auth,
+  handleUserProfile,
+  getCurrentUser,
+  updateUserInDb,
+} from "../../firebase/utils";
 import firebase from "firebase/app";
 import { fetchBalanceStart } from "../Trades/trades.actions";
+import { postError, postLoading, showPopup } from "../Posts/posts.actions";
 
 export function* getSnapshotFromUserAuth(user, additionalData = {}) {
   try {
@@ -80,11 +92,32 @@ export function* onSignOutStart() {
   yield takeLatest(userTypes.SIGN_OUT_START, signOut);
 }
 
+export function* updateUser({ payload: { user, id, oldPassword } }) {
+  try {
+    yield put(postLoading());
+    yield updateUserInDb(user, id, oldPassword);
+    yield put(updateUserProfileSuccess({ ...user, id }));
+    yield put(postLoading());
+    yield put(showPopup("User updated successfully"));
+    yield delay(2000);
+    yield put(showPopup(""));
+  } catch (err) {
+    yield put(postError(err.message));
+    yield put(userError(err.message));
+    console.log(err);
+  }
+}
+
+export function* onUpdateUserProfileStart() {
+  yield takeLatest(userTypes.UPDATE_USER_PROFILE_START, updateUser);
+}
+
 export default function* userSagas() {
   yield all([
     call(onEmailSignInStart),
     call(onCheckUserSession),
     call(onSignUpUserStart),
     call(onSignOutStart),
+    call(onUpdateUserProfileStart),
   ]);
 }

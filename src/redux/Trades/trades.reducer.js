@@ -261,6 +261,17 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
         },
       };
     }
+
+    case tradesTypes.UPDATE_INITIAL_BALANCE: {
+      const newBalance = action.payload;
+      return {
+        ...state,
+        balance: {
+          ...state.balance,
+          balance: calculateNewBalance(state.balance.values, newBalance),
+        },
+      };
+    }
     default:
       return {
         ...state,

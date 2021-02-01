@@ -6,7 +6,7 @@ const Avatar = ({ data }) => {
   return (
     <div className="user">
       <DefaultUser className="user_photo" />
-      <p className="user_name">{data.name}</p>
+      <p className="user_name">{data.firstName}</p>
     </div>
   );
 };

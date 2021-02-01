@@ -63,3 +63,8 @@ export const editTradeSuccess = (trade) => ({
   type: tradesTypes.EDIT_TRADE_SUCCESS,
   payload: trade,
 });
+
+export const updateInitialBalance = (value) => ({
+  type: tradesTypes.UPDATE_INITIAL_BALANCE,
+  payload: value,
+});

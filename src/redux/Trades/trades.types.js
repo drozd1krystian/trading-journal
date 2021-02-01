@@ -18,6 +18,8 @@ const tradesTypes = {
 
   EDIT_TRADE_START: "EDIT_TRADE_START",
   EDIT_TRADE_SUCCESS: "EDIT_TRADE_SUCCESS",
+
+  UPDATE_INITIAL_BALANCE: "UPDATE_INITIAL_BALANCE",
 };
 
 export default tradesTypes;
