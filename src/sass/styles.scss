@@ -173,6 +173,11 @@ ol {
   }
 }
 
+.col-7 {
+  flex: 0 0 66.7%;
+  max-width: 0 0 66.7%;
+}
+
 .col-8 {
   flex: 0 0 70%;
   max-width: 70%;
@@ -200,7 +205,6 @@ ol {
   flex-wrap: wrap;
   margin-left: -12px;
   margin-right: -12px;
-  width: 100%;
 
   @media screen and (max-width: 767px) {
     margin: 0;

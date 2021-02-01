@@ -1,0 +1,22 @@
+.warning {
+  padding: 5px 12px;
+  margin: 0 12px;
+  width: 100%;
+  border: 1px solid rgb(255, 166, 166);
+  background: rgb(250, 227, 227);
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .avatar_photo {
+    fill: var(--text-light);
+    border-radius: 50%;
+    background: var(--text);
+  }
+  .avatar_text {
+    padding: 0;
+  }
+}

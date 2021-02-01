@@ -18,7 +18,7 @@ const Modal = ({ show, loading, done, confirm, cancel, error }) => {
         >
           <div className="modal_content">
             <div className="modal_header">
-              <h3>Delete Post</h3>
+              <h3>Delete </h3>
               <Button
                 className="modal_exit"
                 onClick={cancel}

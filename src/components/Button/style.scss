@@ -29,6 +29,9 @@
 
 .btn--submit {
   background: var(--success);
+  .icon-small {
+    fill: var(--text-light);
+  }
 }
 
 .btn--remove {
