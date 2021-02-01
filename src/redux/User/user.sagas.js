@@ -76,8 +76,9 @@ export function* emailSignUp({
 }) {
   try {
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
-    const additionaldata = { firstName, lastName };
+    const additionaldata = { firstName, lastName, password };
     yield getSnapshotFromUserAuth(user, additionaldata);
+    yield put(fetchBalanceStart());
   } catch (err) {
     console.log(err);
   }

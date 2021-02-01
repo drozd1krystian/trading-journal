@@ -131,7 +131,7 @@ const User = (props) => {
             <div className="row ">
               {formErr ? <p className="text-red">{formErr}</p> : null}
               {err ? <p className="text-red">{err}</p> : null}
-              <Button btnStyle="btn--submit btn--success" type="submit">
+              <Button btnStyle="btn--submit btn--success mt-2" type="submit">
                 <EditIcon className="icon-small" /> Save Changes
               </Button>
             </div>

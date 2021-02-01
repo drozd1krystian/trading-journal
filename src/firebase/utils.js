@@ -29,6 +29,7 @@ export const handleUserProfile = async ({ userAuth, additionalData }) => {
         email,
         createdDate: timestamp,
         ...additionalData,
+        initialBalance: 2000,
       });
       await firestore
         .collection("users")
@@ -36,7 +37,7 @@ export const handleUserProfile = async ({ userAuth, additionalData }) => {
         .collection("balance")
         .doc()
         .set({
-          balance: 2000,
+          balance: [2000],
           dates: [formattedDate],
           values: [0],
           loses: 0,
