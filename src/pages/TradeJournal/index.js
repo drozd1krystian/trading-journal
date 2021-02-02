@@ -95,7 +95,7 @@ const MyTrades = (props) => {
       side,
       symbol,
     };
-    if (trades.length === 0) dispatch(fetchTradesStart(filters));
+    dispatch(fetchTradesStart(filters));
   }, []);
 
   useEffect(() => {

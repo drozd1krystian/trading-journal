@@ -16,6 +16,7 @@ const INITIAL_STATE = {
 
 const calculateNewBalance = (values, initialBalance) => {
   const arr = [initialBalance];
+  console.log(values, initialBalance);
   values.forEach((el, i) => {
     if (i === 0) return;
     const newBalance = parseFloat(arr[i - 1]) + parseFloat(el);
@@ -44,6 +45,30 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
       if (dateIndex === -1)
         middleIndex = balance.dates.findIndex((date) => formattedDate < date);
       let lastBalance = balance.balance[balance.balance.length - 1];
+      let newValues = [];
+      let newDates = [];
+      if (middleIndex === 0) {
+        newValues = [0, trade.net, ...balance.values.slice(1)];
+        const date = new Date(trade.date.getTime());
+        date.setDate(trade.date.getDate() - 1);
+        newDates = [
+          `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
+          formattedDate,
+          ...balance.dates.slice(1),
+        ];
+      } else if (middleIndex !== -1) {
+        newValues = [
+          ...balance.values.slice(0, middleIndex),
+          trade.net,
+          ...balance.values.slice(middleIndex),
+        ];
+        newDates = [
+          ...balance.dates.slice(0, middleIndex),
+          formattedDate,
+          ...balance.dates.slice(middleIndex),
+        ];
+      }
+
       return {
         ...state,
         balanceChanged: true,
@@ -58,11 +83,7 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
                 })
               : middleIndex === -1
               ? [...balance.values, trade.net]
-              : [
-                  ...balance.values.slice(0, middleIndex),
-                  trade.net,
-                  ...balance.values.slice(middleIndex),
-                ],
+              : newValues,
           balance:
             dateIndex !== -1
               ? balance.balance.map((el, i) => {
@@ -75,24 +96,13 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
                   ...balance.balance,
                   parseFloat(lastBalance) + parseFloat(trade.net),
                 ]
-              : calculateNewBalance(
-                  [
-                    ...balance.values.slice(0, middleIndex),
-                    trade.net,
-                    ...balance.values.slice(middleIndex),
-                  ],
-                  balance.balance[0]
-                ),
+              : calculateNewBalance(newValues, balance.balance[0]),
           dates:
             dateIndex !== -1
               ? [...balance.dates]
               : middleIndex === -1
               ? [...balance.dates, formattedDate]
-              : [
-                  ...balance.dates.slice(0, middleIndex),
-                  formattedDate,
-                  ...balance.dates.slice(middleIndex),
-                ],
+              : newDates,
           wins:
             trade.net > 0
               ? parseInt(state.balance.wins) + 1
@@ -221,13 +231,50 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
       const { trade, id } = action.payload;
       const balance = state.balance;
 
-      const formattedDate = formatTradeDate(trade);
-      const tradeIndex = balance.dates.findIndex((el) => el === formattedDate);
       const oldTrade = state.trades.find((el) => el.id === id);
-      const valueDiff = trade.net - oldTrade.net;
-      const newValues = balance.values.map((el, i) =>
-        i === tradeIndex ? el + valueDiff : el
+      const formattedDate = formatTradeDate(trade);
+      const oldTradeDate = formatTradeDate(oldTrade);
+      const oldTradeIndex = balance.dates.findIndex(
+        (el) => el === oldTradeDate
       );
+      const valueDiff = trade.net - oldTrade.net;
+      let newValues = [];
+      let newDates = [];
+      newValues = balance.values
+        .map((el, i) => {
+          if (i === oldTradeIndex && balance.values[i] - trade.net === 0)
+            return undefined;
+          else if (i === oldTradeIndex) return el + valueDiff;
+          else return el;
+        })
+        .filter((el) => el !== undefined);
+      newDates = balance.dates
+        .map((el, i) => {
+          if (i === oldTradeIndex && balance.values[i] - trade.net === 0)
+            return undefined;
+          else return el;
+        })
+        .filter((el) => el !== undefined);
+
+      const tradeIndex = newDates.findIndex((el) => el >= formattedDate);
+      if (tradeIndex === 0) {
+        newValues = [0, trade.net, ...newValues.slice(1)];
+        const date = new Date(trade.date.getTime());
+        date.setDate(trade.date.getDate() - 1);
+        newDates = [
+          `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
+          formattedDate,
+          ...newDates.slice(1),
+        ];
+      } else if (tradeIndex === -1) {
+        newValues.push(trade.net);
+        newDates.push(formattedDate);
+      } else if (tradeIndex > 0) {
+        newValues = newValues.map((el, i) => {
+          if (i === tradeIndex) return el + trade.net;
+          else return el;
+        });
+      }
 
       const newTrades = state.trades.map((el) =>
         el.id === id ? { ...trade, id } : el
@@ -241,25 +288,29 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
         balance: {
           ...balance,
           values: newValues,
+          dates: newDates,
           balance: calculateNewBalance(newValues, balance.balance[0]),
           wins:
             trade.net > 0
               ? oldTrade.net > 0
                 ? state.balance.wins
                 : parseInt(state.balance.wins) + 1
-              : state.balance.wins - 1,
+              : state.balance.wins,
           loses:
             trade.net < 0
               ? oldTrade.net < 0
                 ? state.balance.loses
                 : parseInt(state.balance.loses) + 1
-              : state.balance.loses - 1,
+              : state.balance.loses,
           pairs: {
             ...state.balance.pairs,
             [trade.symbol]: {
               ...state.balance.pairs[trade.symbol],
-              gain: parseFloat(trade.net),
-              quantity: parseFloat(trade.quantity),
+              gain:
+                parseFloat(pairs[trade.symbol].gain) - parseFloat(trade.net),
+              quantity:
+                parseFloat(pairs[trade.symbol].quantity) -
+                parseFloat(trade.quantity),
             },
           },
         },

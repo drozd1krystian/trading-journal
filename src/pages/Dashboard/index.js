@@ -71,18 +71,21 @@ const Dashboard = (props) => {
       }));
 
       const today = new Date();
-      //const firstDay = `${today.getFullYear()}-${today.getMonth() + 1}-1`;
       const lastMonthTrade = balance.dates[balance.dates.length - 1].split("-");
       lastMonthTrade[2] = "1";
       const firstDay = lastMonthTrade.join("-");
       const firstDayIndex = balance.dates.findIndex((date) => date >= firstDay);
       const monthlyPln =
-        balance.balance[balance.balance.length - 1] -
-        balance.balance[firstDayIndex - 1];
+        firstDayIndex !== 0
+          ? balance.balance[balance.balance.length - 1] -
+            balance.balance[firstDayIndex - 1]
+          : balance.balance[balance.balance.length - 1] - balance.balance[0];
 
       const monthlyPercentage = (
-        (balance.balance[balance.balance.length - 1] /
-          balance.balance[firstDayIndex - 1]) *
+        (firstDayIndex !== 0
+          ? balance.balance[balance.balance.length - 1] /
+            balance.balance[firstDayIndex - 1]
+          : balance.balance[balance.balance.length - 1] / balance.balance[0]) *
           100 -
         100
       ).toFixed(2);

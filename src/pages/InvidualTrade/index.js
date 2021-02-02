@@ -21,8 +21,8 @@ const InvidualTrade = (props) => {
   const [processing, setProccesing] = useState(false);
 
   useEffect(() => {
-    if (trades.length === 0) dispatch(fetchTradesStart({}));
-  }, [trades.length]);
+    dispatch(fetchTradesStart({}));
+  }, []);
 
   const handlePageChange = (arr) => {
     setPaginatedTrades(arr);
