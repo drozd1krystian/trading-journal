@@ -16,7 +16,6 @@ const INITIAL_STATE = {
 
 const calculateNewBalance = (values, initialBalance) => {
   const arr = [initialBalance];
-  console.log(values, initialBalance);
   values.forEach((el, i) => {
     if (i === 0) return;
     const newBalance = parseFloat(arr[i - 1]) + parseFloat(el);
@@ -194,6 +193,23 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
         })
         .filter((el) => el !== undefined);
 
+      const newPairs = Object.assign({}, state.balance.pairs);
+      newPairs[trade.symbol] = Object.assign(
+        {},
+        state.balance.pairs[trade.symbol]
+      );
+
+      const tradeRef = newPairs[trade.symbol];
+      if (tradeRef.gain - trade.net === 0) {
+        delete newPairs[trade.symbol];
+      } else {
+        tradeRef.gain = parseFloat(tradeRef.gain) - parseFloat(trade.net);
+        tradeRef.quantity =
+          parseFloat(tradeRef.quantity) - parseFloat(trade.quantity) < 0
+            ? 0
+            : parseFloat(tradeRef.quantity) - parseFloat(trade.quantity);
+      }
+
       return {
         ...state,
         balanceChanged: true,
@@ -212,18 +228,7 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
             trade.net < 0
               ? parseInt(state.balance.loses) - 1
               : state.balance.loses,
-          pairs: {
-            ...state.balance.pairs,
-            [trade.symbol]: {
-              ...state.balance.pairs[trade.symbol],
-              gain:
-                parseFloat(state.balance.pairs[trade.symbol]?.gain) ||
-                0 - parseFloat(trade.net),
-              quantity:
-                parseFloat(state.balance.pairs[trade.symbol]?.quanitity) ||
-                0 - parseFloat(trade.quantity),
-            },
-          },
+          pairs: { ...newPairs },
         },
       };
     }
@@ -238,6 +243,7 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
         (el) => el === oldTradeDate
       );
       const valueDiff = trade.net - oldTrade.net;
+      const quantityDiff = trade.quantity - oldTrade.quantity;
       let newValues = [];
       let newDates = [];
       newValues = balance.values
@@ -280,6 +286,19 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
         el.id === id ? { ...trade, id } : el
       );
 
+      const newPairs = Object.assign({}, state.balance.pairs);
+      newPairs[trade.symbol] = Object.assign(
+        {},
+        state.balance.pairs[trade.symbol]
+      );
+
+      const tradeRef = newPairs[trade.symbol];
+      tradeRef.gain = parseFloat(tradeRef.gain) + valueDiff;
+      tradeRef.quantity =
+        parseFloat(tradeRef.quantity) + parseFloat(quantityDiff) < 0
+          ? 0
+          : parseFloat(tradeRef.quantity) + parseFloat(quantityDiff);
+
       return {
         ...state,
         trades: newTrades,
@@ -302,17 +321,7 @@ const tradesReducer = (state = INITIAL_STATE, action) => {
                 ? state.balance.loses
                 : parseInt(state.balance.loses) + 1
               : state.balance.loses,
-          pairs: {
-            ...state.balance.pairs,
-            [trade.symbol]: {
-              ...state.balance.pairs[trade.symbol],
-              gain:
-                parseFloat(pairs[trade.symbol].gain) - parseFloat(trade.net),
-              quantity:
-                parseFloat(pairs[trade.symbol].quantity) -
-                parseFloat(trade.quantity),
-            },
-          },
+          pairs: { ...newPairs },
         },
       };
     }

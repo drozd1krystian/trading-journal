@@ -11,7 +11,6 @@ const Pagination = ({ list, limit, handler, ...otherProps }) => {
     const endIndex = Math.min(startIndex + limit - 1, totalItems - 1);
     const arr = list.slice(startIndex, endIndex + 1);
     handler(arr);
-    console.log(numPages);
   };
 
   const getNextPage = (nr) => {
