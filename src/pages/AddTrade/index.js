@@ -275,7 +275,7 @@ const AddTrade = () => {
             {type.error ? (
               <p className="text-red mt-1">Please pick trade type!</p>
             ) : null}
-            <div className="row ">
+            <div className="col-10 ">
               <Button type="submit" btnStyle="mt-2">
                 Save
               </Button>

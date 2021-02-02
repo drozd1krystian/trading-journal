@@ -377,21 +377,19 @@ const Dashboard = (props) => {
               </Card>
             </div>
           </div>
-          <div className="row">
-            <div className="balance">
-              <h4 className="balance_header">PLN EVOLUTION FOR ACCOUNT</h4>
-              <div className="chart">
-                <Chart
-                  options={lineChart.options}
-                  series={lineChart.series}
-                  type="area"
-                  width="100%"
-                  height="100%"
-                />
-              </div>
+          <div className="balance">
+            <h4 className="balance_header">PLN EVOLUTION FOR ACCOUNT</h4>
+            <div className="chart">
+              <Chart
+                options={lineChart.options}
+                series={lineChart.series}
+                type="area"
+                width="100%"
+                height="100%"
+              />
             </div>
           </div>
-          <div className="row mt-2">
+          <div className="mt-2">
             <div className="ticket">
               <div className="ticket_body">
                 <h4 className="ticket_header">TOP PERFORMING INSTRUMENTS</h4>
@@ -416,7 +414,7 @@ const Dashboard = (props) => {
               </div>
             </div>
           </div>
-          <div className="row mt-2">
+          <div className="mt-2">
             <div className="ticket">
               <div className="ticket_body">
                 <h4 className="ticket_header">BOTTOM PERFORMING INSTRUMENTS</h4>

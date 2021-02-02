@@ -125,14 +125,12 @@ const User = (props) => {
                       Password
                     </label>
 
-                    <div className="row">
-                      <Button
-                        handler={() => setChangePassword(true)}
-                        type="button"
-                      >
-                        Change Password
-                      </Button>
-                    </div>
+                    <Button
+                      handler={() => setChangePassword(true)}
+                      type="button"
+                    >
+                      Change Password
+                    </Button>
                   </div>
                 </div>
 
@@ -150,7 +148,7 @@ const User = (props) => {
                     />
                   </div>
                 </div>
-                <div className="row ">
+                <div className="col-12 ">
                   {err ? <p className="text-red text-error">{err}</p> : null}
                   <Button
                     btnStyle="btn--submit btn--success mt-2"
@@ -191,7 +189,7 @@ const User = (props) => {
                     />
                   </div>
                 </div>
-                <div className="row ">
+                <div className="col-12 flex ">
                   {err ? <p className="text-red text-error">{err}</p> : null}
                   <Button
                     btnStyle="btn--submit btn--success mt-2"

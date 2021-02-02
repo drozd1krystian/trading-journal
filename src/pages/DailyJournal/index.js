@@ -84,10 +84,12 @@ const DailyJournal = (props) => {
               limit={3}
             />
           </div>
-          <Button handler={handleFilterSubmit}>Filter </Button>
-          <Button btnStyle="btn--unstyled" handler={handleFiltersClear}>
-            Clear
-          </Button>
+          <div className="col-3 flex">
+            <Button handler={handleFilterSubmit}>Filter </Button>
+            <Button btnStyle="btn--unstyled" handler={handleFiltersClear}>
+              Clear
+            </Button>
+          </div>
         </div>
       </section>
 

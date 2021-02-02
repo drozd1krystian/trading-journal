@@ -71,7 +71,7 @@ const PostForm = ({ handler, post, ...otherProps }) => {
           showDate={true}
         />
       </div>
-      <div className="row mt-2">{children}</div>
+      <div className=" mt-2">{children}</div>
     </form>
   );
 };

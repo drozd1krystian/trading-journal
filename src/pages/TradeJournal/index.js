@@ -159,7 +159,7 @@ const MyTrades = (props) => {
               value={symbol}
             />
           </div>
-          <div className="col-3 mt-2 row">
+          <div className="col-3 mt-2 flex">
             <Button handler={handleFilterSubmit}>Filter </Button>
             <Button btnStyle="btn--unstyled" handler={handleFiltersClear}>
               Clear

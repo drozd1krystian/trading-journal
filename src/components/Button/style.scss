@@ -1,7 +1,7 @@
 .btn {
   border: none;
   padding: 10px 20px;
-  margin: 0 12px;
+  margin: 0;
   background: var(--button);
   color: var(--text-white);
   border-radius: 5px;
@@ -20,10 +20,6 @@
     &:hover {
       opacity: 1;
     }
-  }
-
-  @media screen and(max-width: 767px) {
-    margin: 0;
   }
 }
 
