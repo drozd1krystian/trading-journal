@@ -65,7 +65,7 @@ const Trade = ({ trade, handler, ...otherProps }) => {
             {el}
           </span>
         ))}
-        {trade.tags.length > 2 ? <span>...</span> : null}
+        {trade.tags.length > 2 ? <span className="tag_dots">...</span> : null}
       </td>
       <td
         className={"table_cell " + (trade.net > 0 ? "text-green" : "text-red")}

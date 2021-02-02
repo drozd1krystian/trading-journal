@@ -21,6 +21,49 @@
   }
 }
 
+html {
+  $base-font-size: 14px;
+  $base-line-height: 1.5;
+  $header-line-height: 1.25;
+  font-size: $base-font-size;
+  line-height: $base-line-height;
+  $bp-small: 769px;
+  $ipad: 767px;
+  $bp-medium: 1025px;
+  $bp-large: 1367px;
+  $bp-xlarge: 1921px;
+  $bp-xxlarge: 2561px;
+  $mq-small: "(min-width: #{$bp-small})";
+  $mq-medium: "(min-width: #{$bp-medium})";
+  $mqs-ipad: "(max-width: #{$ipad})";
+  $mq-ipad: "(min-width: #{$ipad})";
+  $mq-large: "(min-width: #{$bp-large})";
+  $mq-xlarge: "(min-width: #{$bp-xlarge})";
+  $mq-xxlarge: "(min-width: #{$bp-xxlarge})";
+  $mqs-small: "(max-width: #{$bp-small})";
+  $mqs-medium: "(max-width: #{$bp-medium})";
+  $mqs-large: "(max-width: #{$bp-large})";
+  $mqs-xlarge: "(max-width: #{$bp-xlarge})";
+  $mqs-xxlarge: "(max-width: #{$bp-xxlarge})";
+
+  @media #{$mq-medium} {
+    font-size: $base-font-size * 1.2;
+    line-height: $base-line-height * 1.2;
+  }
+
+  @media #{$mq-large} {
+    font-size: $base-font-size * 1.3;
+  }
+
+  @media #{$mq-xlarge} {
+    font-size: $base-font-size * 1.75;
+  }
+
+  @media #{$mq-xxlarge} {
+    font-size: $base-font-size * 2.6;
+  }
+}
+
 body {
   background: var(--primary);
 }
@@ -64,7 +107,6 @@ ol {
 }
 
 .container {
-  max-width: 1600px;
   padding: 0 60px;
   position: relative;
   margin: 0 auto;
