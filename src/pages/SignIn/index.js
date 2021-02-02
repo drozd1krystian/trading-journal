@@ -10,15 +10,15 @@ import { emailSignInStart } from "../../redux/User/user.actions";
 
 const mapState = ({ user }) => ({
   currentUser: user.currentUser,
+  err: user.userError,
 });
 
 const SignIn = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { currentUser } = useSelector(mapState);
+  const { currentUser, err } = useSelector(mapState);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState([]);
 
   useEffect(() => {
     if (currentUser) {
@@ -66,6 +66,7 @@ const SignIn = (props) => {
             />
           </div>
           <div className="row row-center mt-2">
+            {err ? <p className="text-red text-error">{err}</p> : null}
             <Button>Sign In</Button>
           </div>
         </form>

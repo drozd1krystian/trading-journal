@@ -13,6 +13,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         currentUser: action.payload,
         isLoading: false,
+        userError: "",
       };
     }
     case userTypes.IS_LOADING: {

@@ -46,6 +46,7 @@ export function* emailSignIn({ payload: { email, password } }) {
     yield getSnapshotFromUserAuth(user);
     yield put(fetchBalanceStart());
   } catch (err) {
+    yield put(userError(err.message));
     console.log(err);
   }
 }
@@ -63,7 +64,7 @@ export function* isUserAuthenticated() {
     yield put(fetchBalanceStart());
     yield getSnapshotFromUserAuth(userAuth);
   } catch (err) {
-    // console.log(err)
+    console.log(err);
   }
 }
 
@@ -81,6 +82,7 @@ export function* emailSignUp({
     yield put(fetchBalanceStart());
   } catch (err) {
     console.log(err);
+    yield put(userError(err.message));
   }
 }
 
