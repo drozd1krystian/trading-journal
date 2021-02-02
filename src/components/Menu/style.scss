@@ -1,4 +1,40 @@
-//main menu style is in Navbar component
+.menu {
+  .links {
+    display: flex;
+    align-items: center;
+    .link {
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: 20px 0;
+      cursor: pointer;
+      color: var(--text);
+      &:hover {
+        .list {
+          display: block;
+        }
+        color: var(--text-light);
+
+        .link_icon {
+          fill: var(--text-light);
+        }
+      }
+      .link_icon {
+        width: 15px;
+        height: 15px;
+        margin-right: 10px;
+
+        fill: var(--text);
+        transition: all 0.3s ease;
+      }
+      .link_icon-big {
+        @extend .link_icon;
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
+}
 
 .menu-sub .links {
   padding: 0 12px;

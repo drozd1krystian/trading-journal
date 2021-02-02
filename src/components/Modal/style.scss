@@ -63,3 +63,9 @@
     }
   }
 }
+
+@media screen and (max-width: 767px) {
+  .modal .modal_content {
+    width: 350px;
+  }
+}
