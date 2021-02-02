@@ -61,13 +61,8 @@ export const getCurrentUser = () => {
 
 export const getUserId = () => auth.currentUser;
 
-export const updateUserInDb = async (user, id, oldPassword) => {
-  const currentUser = auth.currentUser;
-  if (oldPassword !== user.password) {
-    await currentUser.updatePassword(user.password);
-  }
+export const updateUserInDb = async (user, id) =>
   await firestore.collection("users").doc(id).update(user);
-};
 
 export const addPostToDb = async (post, uid) =>
   firestore

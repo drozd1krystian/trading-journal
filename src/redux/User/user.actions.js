@@ -46,6 +46,11 @@ export const userError = (err) => ({
   payload: err,
 });
 
+export const changeUserPassword = (userCredentials) => ({
+  type: userTypes.CHANGE_USER_PASSWORD_START,
+  payload: userCredentials,
+});
+
 export const resetStore = () => ({
   type: "RESET_STORE",
 });

@@ -5,7 +5,6 @@ import {
   editTradeInDb,
   fetchBalanceFromDb,
   fetchTradesFromDb,
-  getCurrentUser,
   getUserId,
   removeTradeFromDb,
   updateUserBalance,
@@ -18,7 +17,6 @@ import {
   removeTradeSuccess,
   updateBalanceSuccess,
 } from "./trades.actions";
-import { isLoading } from "../User/user.actions";
 import { postError, postLoading, showPopup } from "../Posts/posts.actions";
 import {
   clearModalState,

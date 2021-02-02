@@ -7,8 +7,12 @@ import { ReactComponent as EditIcon } from "../../assets/edit.svg";
 import { useDispatch, useSelector } from "react-redux";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import { updateUserProfileStart } from "../../redux/User/user.actions";
+import {
+  changeUserPassword,
+  updateUserProfileStart,
+} from "../../redux/User/user.actions";
 import { updateInitialBalance } from "../../redux/Trades/trades.actions";
+import { motion, AnimatePresence } from "framer-motion";
 
 const mapState = ({ user }) => ({
   user: user.currentUser,
@@ -22,10 +26,11 @@ const validateNumber = (value) => {
 const User = (props) => {
   const { user, err } = useSelector(mapState);
   const [email, setEmail] = useState(user.email);
-  const [password, setPassword] = useState(user.password);
-  const [formErr, setFormErr] = useState();
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName || "");
+  const [changePassword, setChangePassword] = useState(false);
+  const [oldPass, setOldPass] = useState("");
+  const [newPass, setNewPass] = useState("");
   const [initialBalance, setInitialBalance] = useState(
     user.initialBalance || ""
   );
@@ -33,29 +38,33 @@ const User = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password.length < 5) {
-      setFormErr("Password is too short!");
-      return;
-    }
     const userCredentials = {
       email,
       firstName,
       lastName,
-      password,
       initialBalance: validateNumber(initialBalance),
     };
-    setFormErr("");
     dispatch(
       updateUserProfileStart({
         user: userCredentials,
         id: user.id,
-        oldPassword: user.password,
       })
     );
     if (parseFloat(initialBalance) !== parseFloat(user.initialBalance))
       dispatch(updateInitialBalance(parseFloat(initialBalance)));
   };
 
+  const handlePasswordChange = (e) => {
+    e.preventDefault();
+    const userCredentials = {
+      oldPass,
+      newPass,
+    };
+    dispatch(changeUserPassword(userCredentials));
+    setOldPass("");
+    setNewPass("");
+    setTimeout(() => setChangePassword(false), 1000);
+  };
   return (
     <MainLayout title="User Settings">
       <div className="row row-user">
@@ -70,73 +79,138 @@ const User = (props) => {
             </div>
           </div>
         </div>
-        <section className="section col-7 ms-12">
-          <form onSubmit={handleSubmit} className=" user_form">
-            <h4 className="section_title">
-              <DefaultUser className="icon-small" />
-              <span>Personal Info</span>
-            </h4>
-            <div className="row mt-2">
-              <div className="col-5">
-                <Input
-                  label="First Name"
-                  value={firstName}
-                  handler={(e) => setFirstName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="col-5">
-                <Input
-                  label="Last Name"
-                  value={lastName}
-                  handler={(e) => setLastName(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-5">
-                <Input
-                  label="Email"
-                  value={email}
-                  handler={(e) => setEmail(e.target.value)}
-                  type="email"
-                  required
-                />
-              </div>
-              <div className="col-5">
-                <Input
-                  label="Password"
-                  value={password}
-                  handler={(e) => setPassword(e.target.value)}
-                  type="password"
-                  required
-                />
-              </div>
-            </div>
+        <AnimatePresence exitBeforeEnter>
+          {!changePassword ? (
+            <motion.section
+              className="section col-7 ms-12"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              key={"modal"}
+            >
+              <form onSubmit={handleSubmit} className=" user_form">
+                <h4 className="section_title">
+                  <DefaultUser className="icon-small" />
+                  <span>Personal Info</span>
+                </h4>
+                <div className="row mt-2">
+                  <div className="col-5">
+                    <Input
+                      label="First Name"
+                      value={firstName}
+                      handler={(e) => setFirstName(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="col-5">
+                    <Input
+                      label="Last Name"
+                      value={lastName}
+                      handler={(e) => setLastName(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-5">
+                    <Input
+                      label="Email"
+                      value={email}
+                      handler={(e) => setEmail(e.target.value)}
+                      type="email"
+                      required
+                    />
+                  </div>
+                  <div className="col-5">
+                    <label htmlFor="" className="label">
+                      Password
+                    </label>
 
-            <h4 className="section_title mt-2">
-              <SettingsIcon className="icon-small" />
-              <span>Account Settings</span>
-            </h4>
-            <div className="row mt-2">
-              <div className="col-5">
-                <Input
-                  label="Initial Balance"
-                  value={initialBalance}
-                  handler={(e) => setInitialBalance(e.target.value)}
-                  type="number"
-                />
-              </div>
-            </div>
-            <div className="row ">
-              {formErr ? <p className="text-red">{formErr}</p> : null}
-              {err ? <p className="text-red">{err}</p> : null}
-              <Button btnStyle="btn--submit btn--success mt-2" type="submit">
-                <EditIcon className="icon-small" /> Save Changes
-              </Button>
-            </div>
-          </form>
-        </section>
+                    <div className="row">
+                      <Button
+                        handler={() => setChangePassword(true)}
+                        type="button"
+                      >
+                        Change Password
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
+                <h4 className="section_title mt-2">
+                  <SettingsIcon className="icon-small" />
+                  <span>Account Settings</span>
+                </h4>
+                <div className="row mt-2">
+                  <div className="col-5">
+                    <Input
+                      label="Initial Balance"
+                      value={initialBalance}
+                      handler={(e) => setInitialBalance(e.target.value)}
+                      type="number"
+                    />
+                  </div>
+                </div>
+                <div className="row ">
+                  {err ? <p className="text-red text-error">{err}</p> : null}
+                  <Button
+                    btnStyle="btn--submit btn--success mt-2"
+                    type="submit"
+                  >
+                    <EditIcon className="icon-small" /> Save Changes
+                  </Button>
+                </div>
+              </form>
+            </motion.section>
+          ) : (
+            <motion.section
+              className="section col-7 ms-12"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              key="modal2"
+            >
+              <h4 className="section_title">
+                <DefaultUser className="icon-small" />
+                <span>Change Password</span>
+              </h4>
+              <form className=" user_form" onSubmit={handlePasswordChange}>
+                <div className="row mt-2">
+                  <div className="col-5">
+                    <Input
+                      label="Old Password"
+                      value={oldPass}
+                      handler={(e) => setOldPass(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="col-5">
+                    <Input
+                      label="New Password"
+                      value={newPass}
+                      handler={(e) => setNewPass(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="row ">
+                  {err ? <p className="text-red text-error">{err}</p> : null}
+                  <Button
+                    btnStyle="btn--submit btn--success mt-2"
+                    type="submit"
+                  >
+                    <EditIcon className="icon-small" /> Save Changes
+                  </Button>
+                  <Button
+                    btnStyle="btn--unstyled mt-2"
+                    handler={() => setChangePassword(false)}
+                    type="button"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </motion.section>
+          )}
+        </AnimatePresence>
       </div>
     </MainLayout>
   );

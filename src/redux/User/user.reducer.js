@@ -36,6 +36,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
         userError: "",
       };
     }
+    case userTypes.CHANGE_USER_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        userError: "",
+      };
+    }
     case userTypes.SIGN_OUT_SUCCESS: {
       return {
         state: { ...INITIAL_STATE },

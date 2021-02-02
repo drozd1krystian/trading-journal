@@ -76,7 +76,7 @@ export function* emailSignUp({
 }) {
   try {
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
-    const additionaldata = { firstName, lastName, password };
+    const additionaldata = { firstName, lastName };
     yield getSnapshotFromUserAuth(user, additionaldata);
     yield put(fetchBalanceStart());
   } catch (err) {
@@ -98,10 +98,10 @@ export function* onSignOutStart() {
   yield takeLatest(userTypes.SIGN_OUT_START, signOut);
 }
 
-export function* updateUser({ payload: { user, id, oldPassword } }) {
+export function* updateUser({ payload: { user, id } }) {
   try {
     yield put(postLoading());
-    yield updateUserInDb(user, id, oldPassword);
+    yield updateUserInDb(user, id);
     yield put(updateUserProfileSuccess({ ...user, id }));
     yield put(postLoading());
     yield put(showPopup("User updated successfully"));
@@ -118,6 +118,29 @@ export function* onUpdateUserProfileStart() {
   yield takeLatest(userTypes.UPDATE_USER_PROFILE_START, updateUser);
 }
 
+export function* changePassword({ payload: userCredentials }) {
+  try {
+    const { oldPass, newPass } = userCredentials;
+    yield put(postLoading());
+    const userAuth = yield getCurrentUser();
+    if (!userAuth) return;
+    yield auth.signInWithEmailAndPassword(userAuth.email, oldPass);
+    yield userAuth.updatePassword(newPass);
+    yield put(postLoading());
+    yield put(showPopup("Password changed successfully"));
+    yield delay(2000);
+    yield put(showPopup(""));
+  } catch (err) {
+    yield put(postError(err.message));
+    yield put(userError(err.message));
+    console.log(err);
+  }
+}
+
+export function* onChangePasswordStart() {
+  yield takeLatest(userTypes.CHANGE_USER_PASSWORD_START, changePassword);
+}
+
 export default function* userSagas() {
   yield all([
     call(onEmailSignInStart),
@@ -125,5 +148,6 @@ export default function* userSagas() {
     call(onSignUpUserStart),
     call(onSignOutStart),
     call(onUpdateUserProfileStart),
+    call(onChangePasswordStart),
   ]);
 }
