@@ -28,8 +28,8 @@ const SignUp = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const userName = name.trim().split(" ");
-    const firstName = userName[0];
-    const lastName = userName[1];
+    const firstName = userName[0] || "";
+    const lastName = userName[1] || "";
     dispatch(emailSignUpStart({ email, password, firstName, lastName }));
   };
 
