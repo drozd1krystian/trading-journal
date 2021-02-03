@@ -198,7 +198,7 @@ ol {
 .col-4 {
   flex: 0 0 41%;
   max-width: 41%;
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width: 1023px) {
     flex: unset;
     width: 100%;
     max-width: 100%;

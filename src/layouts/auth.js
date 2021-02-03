@@ -22,22 +22,25 @@ const AuthLayout = (props) => {
 
   return (
     <>
-      <motion.div
-        className="container"
-        animate="in"
-        initial="initial"
-        exit="out"
-        variants={pageVariants}
-      >
-        <div className="row row-center mt-5 ">
-          <div className="col-4">
-            <div className="form">
-              <h3 className="form_logo text-center">TradeJournal</h3>
-              {children}
+      <div className="account_pages">
+        <motion.div
+          className="container"
+          animate="in"
+          initial="initial"
+          exit="out"
+          variants={pageVariants}
+        >
+          <div className="row row-center mt-5 ">
+            <div className="col-4">
+              <div className="form">
+                <h3 className="form_logo text-center">TradeJournal</h3>
+                {children}
+              </div>
             </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
+
       <Footer />
     </>
   );
