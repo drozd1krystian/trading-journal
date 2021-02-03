@@ -7,7 +7,7 @@ Trading Journal project made with React, Redux, Apex Charts and Firestore for se
 ## Demo
 
 You have to log in as an user:
-Login: user123@user.com
+Login: user@user.com
 Password: user123
 
 demo: https://trading-journal.netlify.app/dashboard
