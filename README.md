@@ -41,3 +41,5 @@ Frontend: (hosted by www.netlify.com)
 - Filtering posts,
 - Editing posts,
 - Responsive Web Design
+
+Icons from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
