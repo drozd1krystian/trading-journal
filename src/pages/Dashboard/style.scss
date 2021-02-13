@@ -14,6 +14,9 @@
     height: 400px;
     width: 100%;
     padding: 10px 0;
+    @media screen and (min-width: 1980px) {
+      height: 800px;
+    }
 
     .arrow_box {
       padding: 10px;

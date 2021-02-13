@@ -6,10 +6,12 @@
   color: var(--text-white);
   padding: 10px;
   width: 100%;
-  height: 41px;
+  height: 43px;
   display: block;
   border: 1px solid var(--border);
-  &::placeholder {
+
+  @media screen and (min-width: 1025px) {
+    height: 52px;
   }
 }
 
